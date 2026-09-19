@@ -60,6 +60,14 @@ jobs:
           cp -a noor/dist/. noor/android/app/src/main/assets/www/
           test -f noor/android/app/src/main/assets/www/index.html
           test -f noor/android/app/src/main/assets/www/data/quran.json
+          python3 - <<'PY'
+          import json
+          p="noor/android/app/src/main/assets/www/data/quran.json"
+          d=json.load(open(p,encoding="utf-8"))
+          assert len(d["surahs"]) == 114
+          assert sum(len(s["ayahs"]) for s in d["surahs"]) == 6236
+          print("✓ Quran JSON is physically bundled inside the APK assets")
+          PY
 
       - name: Setup Java 17
         uses: actions/setup-java@v4
