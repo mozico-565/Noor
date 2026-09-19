@@ -19,7 +19,7 @@ jobs:
   apk:
     name: Build installable APK
     runs-on: ubuntu-latest
-    timeout-minutes: 50
+    timeout-minutes: 90
 
     steps:
       - name: Checkout
@@ -82,7 +82,7 @@ jobs:
         with:
           gradle-version: "8.9"
 
-      - name: Install Android SDK 35
+      - name: Install Android SDK, NDK and CMake
         shell: bash
         run: |
           SDKMANAGER="$(command -v sdkmanager || true)"
@@ -91,7 +91,14 @@ jobs:
           fi
           test -n "$SDKMANAGER"
           yes | "$SDKMANAGER" --licenses >/dev/null || true
-          "$SDKMANAGER" "platforms;android-35" "build-tools;35.0.0"
+          "$SDKMANAGER"             "platforms;android-35"             "build-tools;35.0.0"             "ndk;29.0.13113456"             "cmake;3.31.6"
+
+      - name: Fetch llama.cpp native runtime
+        shell: bash
+        run: |
+          rm -rf noor/android/app/src/main/cpp/llama.cpp
+          git clone --depth 1 https://github.com/ggml-org/llama.cpp.git             noor/android/app/src/main/cpp/llama.cpp
+          test -f noor/android/app/src/main/cpp/llama.cpp/include/llama.h
 
       - name: Build debug APK
         working-directory: noor/android
@@ -114,4 +121,3 @@ jobs:
             output/Noor-debug.apk.sha256
           if-no-files-found: error
           retention-days: 30
-
