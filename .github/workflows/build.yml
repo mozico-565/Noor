@@ -100,6 +100,13 @@ jobs:
           git clone --depth 1 https://github.com/ggml-org/llama.cpp.git             noor/android/app/src/main/cpp/llama.cpp
           test -f noor/android/app/src/main/cpp/llama.cpp/include/llama.h
 
+      - name: Enable AndroidX
+        shell: bash
+        run: |
+          touch noor/android/gradle.properties
+          echo "android.useAndroidX=true" >> noor/android/gradle.properties
+          echo "android.enableJetifier=true" >> noor/android/gradle.properties
+
       - name: Build debug APK
         working-directory: noor/android
         run: gradle :app:assembleDebug --stacktrace --no-daemon
