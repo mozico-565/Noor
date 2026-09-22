@@ -5,7 +5,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "Noor-GitHub-Pages-Ready.zip"
+      - "Noor-GitHub-Pages-Ready.zip.part-*"
       - ".github/workflows/build.yml"
 
 permissions:
@@ -30,7 +30,12 @@ jobs:
         run: |
           rm -rf noor
           mkdir noor
-          unzip -q Noor-GitHub-Pages-Ready.zip -d noor
+          ARCHIVE="Noor-GitHub-Pages-Ready.zip"
+          mapfile -t PARTS < <(find . -maxdepth 1 -type f -name 'Noor-GitHub-Pages-Ready.zip.part-*' -print | LC_ALL=C sort)
+          test "${#PARTS[@]}" -eq 2
+          cat "${PARTS[0]}" "${PARTS[1]}" > "$ARCHIVE"
+          unzip -tq "$ARCHIVE"
+          unzip -q "$ARCHIVE" -d noor
 
       - name: Download and validate Quran sources
         working-directory: noor
@@ -46,7 +51,13 @@ jobs:
 
       - name: Install web dependencies
         working-directory: noor
-        run: npm install --no-audit --no-fund
+        run: npm ci --no-audit --no-fund
+
+      - name: Run web integration tests
+        working-directory: noor
+        run: |
+          npm run qa:quran
+          npm test
 
       - name: Build web app
         working-directory: noor
@@ -96,16 +107,12 @@ jobs:
       - name: Fetch llama.cpp native runtime
         shell: bash
         run: |
-          rm -rf noor/android/app/src/main/cpp/llama.cpp
-          git clone --depth 1 https://github.com/ggml-org/llama.cpp.git             noor/android/app/src/main/cpp/llama.cpp
+          test ! -e noor/android/app/src/main/cpp/llama.cpp
+          git init noor/android/app/src/main/cpp/llama.cpp
+          git -C noor/android/app/src/main/cpp/llama.cpp remote add origin https://github.com/ggml-org/llama.cpp.git
+          git -C noor/android/app/src/main/cpp/llama.cpp fetch --depth 1 origin fb34fc262c1b43f1832c7472429fb2247d650493
+          git -C noor/android/app/src/main/cpp/llama.cpp checkout --detach FETCH_HEAD
           test -f noor/android/app/src/main/cpp/llama.cpp/include/llama.h
-
-      - name: Enable AndroidX
-        shell: bash
-        run: |
-          touch noor/android/gradle.properties
-          echo "android.useAndroidX=true" >> noor/android/gradle.properties
-          echo "android.enableJetifier=true" >> noor/android/gradle.properties
 
       - name: Build debug APK
         working-directory: noor/android
