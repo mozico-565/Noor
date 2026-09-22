@@ -5,7 +5,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "Noor-GitHub-Pages-Ready.zip.part-*"
+      - "Noor-GitHub-Pages-Ready-25.zip-1.part-*"
       - ".github/workflows/build.yml"
 
 permissions:
@@ -31,7 +31,9 @@ jobs:
           rm -rf noor
           mkdir noor
           ARCHIVE="Noor-GitHub-Pages-Ready.zip"
-          mapfile -t PARTS < <(find . -maxdepth 1 -type f -name 'Noor-GitHub-Pages-Ready.zip.part-*' -print | LC_ALL=C sort)
+          mapfile -t PARTS < <(find . -maxdepth 1 -type f -name 'Noor-GitHub-Pages-Ready-25.zip-1.part-*' -print | LC_ALL=C sort)
+          printf 'Found %s parts:\n' "${#PARTS[@]}"
+          printf '%s\n' "${PARTS[@]}"
           test "${#PARTS[@]}" -eq 2
           cat "${PARTS[0]}" "${PARTS[1]}" > "$ARCHIVE"
           unzip -tq "$ARCHIVE"
