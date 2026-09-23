@@ -131,6 +131,16 @@ jobs:
           git -C noor/android/app/src/main/cpp/llama.cpp checkout --detach FETCH_HEAD
           test -f noor/android/app/src/main/cpp/llama.cpp/include/llama.h
 
+      - name: Fetch whisper.cpp native runtime
+        shell: bash
+        run: |
+          test ! -e noor/android/app/src/main/cpp/whisper.cpp
+          git init noor/android/app/src/main/cpp/whisper.cpp
+          git -C noor/android/app/src/main/cpp/whisper.cpp remote add origin https://github.com/ggml-org/whisper.cpp.git
+          git -C noor/android/app/src/main/cpp/whisper.cpp fetch --depth 1 origin v1.9.4
+          git -C noor/android/app/src/main/cpp/whisper.cpp checkout --detach FETCH_HEAD
+          test -f noor/android/app/src/main/cpp/whisper.cpp/include/whisper.h
+
       - name: Enable AndroidX
         shell: bash
         run: |
