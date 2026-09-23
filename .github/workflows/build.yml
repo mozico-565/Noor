@@ -5,7 +5,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "Noor-GitHub-Pages-Ready.zip.part-*"
+      - "Noor-GitHub-Pages-Ready-25.zip-1.part-*"
       - ".github/workflows/build.yml"
 
 permissions:
@@ -31,7 +31,9 @@ jobs:
           rm -rf noor
           mkdir noor
           ARCHIVE="Noor-GitHub-Pages-Ready.zip"
-          mapfile -t PARTS < <(find . -maxdepth 1 -type f -name 'Noor-GitHub-Pages-Ready.zip.part-*' -print | LC_ALL=C sort)
+          mapfile -t PARTS < <(find . -maxdepth 1 -type f -name 'Noor-GitHub-Pages-Ready-25.zip-1.part-*' -print | LC_ALL=C sort)
+          printf 'Found %s parts:\n' "${#PARTS[@]}"
+          printf '%s\n' "${PARTS[@]}"
           test "${#PARTS[@]}" -eq 2
           cat "${PARTS[0]}" "${PARTS[1]}" > "$ARCHIVE"
           unzip -tq "$ARCHIVE"
@@ -113,6 +115,14 @@ jobs:
           git -C noor/android/app/src/main/cpp/llama.cpp fetch --depth 1 origin fb34fc262c1b43f1832c7472429fb2247d650493
           git -C noor/android/app/src/main/cpp/llama.cpp checkout --detach FETCH_HEAD
           test -f noor/android/app/src/main/cpp/llama.cpp/include/llama.h
+
+      - name: Enable AndroidX
+        shell: bash
+        run: |
+          touch noor/android/gradle.properties
+          echo 'android.useAndroidX=true' >> noor/android/gradle.properties
+          echo 'android.enableJetifier=true' >> noor/android/gradle.properties
+          grep -Fx 'android.useAndroidX=true' noor/android/gradle.properties
 
       - name: Build debug APK
         working-directory: noor/android
