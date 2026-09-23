@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - "Noor-GitHub-Pages-Ready-25.zip-1.part-*"
+      - "Noor-GitHub-Pages-Ready-25.zip.part-*"
       - ".github/workflows/build.yml"
 
 permissions:
@@ -31,11 +32,25 @@ jobs:
           rm -rf noor
           mkdir noor
           ARCHIVE="Noor-GitHub-Pages-Ready.zip"
-          mapfile -t PARTS < <(find . -maxdepth 1 -type f -name 'Noor-GitHub-Pages-Ready-25.zip-1.part-*' -print | LC_ALL=C sort)
-          printf 'Found %s parts:\n' "${#PARTS[@]}"
-          printf '%s\n' "${PARTS[@]}"
-          test "${#PARTS[@]}" -eq 2
-          cat "${PARTS[0]}" "${PARTS[1]}" > "$ARCHIVE"
+          # Prefer the current release; accept the two filenames already on main.
+          if [[ -f Noor-GitHub-Pages-Ready-25.zip-1.part-00 || -f Noor-GitHub-Pages-Ready-25.zip-1.part-01 ]]; then
+            if [[ ! -f Noor-GitHub-Pages-Ready-25.zip-1.part-00 || ! -f Noor-GitHub-Pages-Ready-25.zip-1.part-01 ]]; then
+              echo 'Upload both parts of the new release before running this workflow.' >&2
+              exit 1
+            fi
+          fi
+          for BASE in Noor-GitHub-Pages-Ready-25.zip-1 Noor-GitHub-Pages-Ready-25.zip; do
+            if [[ -f "${BASE}.part-00" && -f "${BASE}.part-01" ]]; then
+              echo "Extracting ${BASE}.part-00 and ${BASE}.part-01"
+              cat "${BASE}.part-00" "${BASE}.part-01" > "$ARCHIVE"
+              break
+            fi
+          done
+          if [[ ! -s "$ARCHIVE" ]]; then
+            echo 'Missing matching .part-00 and .part-01 files at the repository root.' >&2
+            ls -lh *.part-* 2>/dev/null || true
+            exit 1
+          fi
           unzip -tq "$ARCHIVE"
           unzip -q "$ARCHIVE" -d noor
 
