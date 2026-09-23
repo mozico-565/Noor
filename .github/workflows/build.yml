@@ -149,6 +149,15 @@ jobs:
           echo 'android.enableJetifier=true' >> noor/android/gradle.properties
           grep -Fx 'android.useAndroidX=true' noor/android/gradle.properties
 
+      - name: Prevent Ninja manifest regeneration loop
+        shell: bash
+        run: |
+          CMAKE_FILE=noor/android/app/src/main/cpp/CMakeLists.txt
+          if ! grep -q '^set(CMAKE_SUPPRESS_REGENERATION ON)' "$CMAKE_FILE"; then
+            sed -i '/^project(noor_qwen LANGUAGES C CXX)$/a set(CMAKE_SUPPRESS_REGENERATION ON)' "$CMAKE_FILE"
+          fi
+          grep -Fx 'set(CMAKE_SUPPRESS_REGENERATION ON)' "$CMAKE_FILE"
+
       - name: Build debug APK
         working-directory: noor/android
         run: gradle :app:assembleDebug --stacktrace --no-daemon
