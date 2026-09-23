@@ -5,6 +5,7 @@ on:
   push:
     branches: [main]
     paths:
+      - "Noor-GitHub-Pages-Ready-26.zip-1.part-*"
       - "Noor-GitHub-Pages-Ready-25.zip-1.part-*"
       - "Noor-GitHub-Pages-Ready-25.zip.part-*"
       - ".github/workflows/build.yml"
@@ -32,14 +33,20 @@ jobs:
           rm -rf noor
           mkdir noor
           ARCHIVE="Noor-GitHub-Pages-Ready.zip"
-          # Prefer the current release; accept the two filenames already on main.
+          # Prefer the newest release while retaining the previous archive as fallback.
+          if [[ -f Noor-GitHub-Pages-Ready-26.zip-1.part-00 || -f Noor-GitHub-Pages-Ready-26.zip-1.part-01 ]]; then
+            if [[ ! -f Noor-GitHub-Pages-Ready-26.zip-1.part-00 || ! -f Noor-GitHub-Pages-Ready-26.zip-1.part-01 ]]; then
+              echo 'Upload both parts of release 26 before running this workflow.' >&2
+              exit 1
+            fi
+          fi
           if [[ -f Noor-GitHub-Pages-Ready-25.zip-1.part-00 || -f Noor-GitHub-Pages-Ready-25.zip-1.part-01 ]]; then
             if [[ ! -f Noor-GitHub-Pages-Ready-25.zip-1.part-00 || ! -f Noor-GitHub-Pages-Ready-25.zip-1.part-01 ]]; then
               echo 'Upload both parts of the new release before running this workflow.' >&2
               exit 1
             fi
           fi
-          for BASE in Noor-GitHub-Pages-Ready-25.zip-1 Noor-GitHub-Pages-Ready-25.zip; do
+          for BASE in Noor-GitHub-Pages-Ready-26.zip-1 Noor-GitHub-Pages-Ready-25.zip-1 Noor-GitHub-Pages-Ready-25.zip; do
             if [[ -f "${BASE}.part-00" && -f "${BASE}.part-01" ]]; then
               echo "Extracting ${BASE}.part-00 and ${BASE}.part-01"
               cat "${BASE}.part-00" "${BASE}.part-01" > "$ARCHIVE"
