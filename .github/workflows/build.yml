@@ -5,6 +5,7 @@ on:
   push:
     branches: [main]
     paths:
+      - "Noor-GitHub-Pages-Ready-37.zip-1.part-*"
       - "Noor-GitHub-Pages-Ready-36.zip-1.part-*"
       - "Noor-GitHub-Pages-Ready-35.zip-1.part-*"
       - "Noor-GitHub-Pages-Ready-33.zip-1.part-*"
@@ -41,6 +42,12 @@ jobs:
           mkdir noor
           ARCHIVE="Noor-GitHub-Pages-Ready.zip"
           # Prefer the newest release while retaining previous archives as fallback.
+          if [[ -f Noor-GitHub-Pages-Ready-37.zip-1.part-00 || -f Noor-GitHub-Pages-Ready-37.zip-1.part-01 ]]; then
+            if [[ ! -f Noor-GitHub-Pages-Ready-37.zip-1.part-00 || ! -f Noor-GitHub-Pages-Ready-37.zip-1.part-01 ]]; then
+              echo 'Upload both parts of release 37 before running this workflow.' >&2
+              exit 1
+            fi
+          fi
           if [[ -f Noor-GitHub-Pages-Ready-36.zip-1.part-00 || -f Noor-GitHub-Pages-Ready-36.zip-1.part-01 ]]; then
             if [[ ! -f Noor-GitHub-Pages-Ready-36.zip-1.part-00 || ! -f Noor-GitHub-Pages-Ready-36.zip-1.part-01 ]]; then
               echo 'Upload both parts of release 36 before running this workflow.' >&2
@@ -95,7 +102,7 @@ jobs:
               exit 1
             fi
           fi
-          for BASE in Noor-GitHub-Pages-Ready-36.zip-1 Noor-GitHub-Pages-Ready-35.zip-1 Noor-GitHub-Pages-Ready-33.zip-1 Noor-GitHub-Pages-Ready-30.zip-1 Noor-GitHub-Pages-Ready-29.zip-1 Noor-GitHub-Pages-Ready-28.zip-1 Noor-GitHub-Pages-Ready-27.zip-1 Noor-GitHub-Pages-Ready-26.zip-1 Noor-GitHub-Pages-Ready-25.zip-1 Noor-GitHub-Pages-Ready-25.zip; do
+          for BASE in Noor-GitHub-Pages-Ready-37.zip-1 Noor-GitHub-Pages-Ready-36.zip-1 Noor-GitHub-Pages-Ready-35.zip-1 Noor-GitHub-Pages-Ready-33.zip-1 Noor-GitHub-Pages-Ready-30.zip-1 Noor-GitHub-Pages-Ready-29.zip-1 Noor-GitHub-Pages-Ready-28.zip-1 Noor-GitHub-Pages-Ready-27.zip-1 Noor-GitHub-Pages-Ready-26.zip-1 Noor-GitHub-Pages-Ready-25.zip-1 Noor-GitHub-Pages-Ready-25.zip; do
             if [[ -f "${BASE}.part-00" && -f "${BASE}.part-01" ]]; then
               echo "Extracting ${BASE}.part-00 and ${BASE}.part-01"
               cat "${BASE}.part-00" "${BASE}.part-01" > "$ARCHIVE"
