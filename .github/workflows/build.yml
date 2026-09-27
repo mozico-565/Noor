@@ -5,6 +5,7 @@ on:
   push:
     branches: [main]
     paths:
+      - "Noor-GitHub-Pages-Ready-42.zip-1.part-*"
       - "Noor-GitHub-Pages-Ready-41.zip-1.part-*"
       - "Noor-GitHub-Pages-Ready-40.zip-1.part-*"
       - "Noor-GitHub-Pages-Ready-38.zip-1.part-*"
@@ -45,9 +46,15 @@ jobs:
           mkdir noor
           ARCHIVE="Noor-GitHub-Pages-Ready.zip"
           # Prefer the newest release while retaining previous archives as fallback.
+          if [[ -f Noor-GitHub-Pages-Ready-42.zip-1.part-00 || -f Noor-GitHub-Pages-Ready-42.zip-1.part-01 ]]; then
+            if [[ ! -f Noor-GitHub-Pages-Ready-42.zip-1.part-00 || ! -f Noor-GitHub-Pages-Ready-42.zip-1.part-01 ]]; then
+              echo 'Upload both parts of release 42 before running this workflow.' >&2
+              exit 1
+            fi
+          fi
           if [[ -f Noor-GitHub-Pages-Ready-41.zip-1.part-00 || -f Noor-GitHub-Pages-Ready-41.zip-1.part-01 ]]; then
             if [[ ! -f Noor-GitHub-Pages-Ready-41.zip-1.part-00 || ! -f Noor-GitHub-Pages-Ready-41.zip-1.part-01 ]]; then
-              echo 'Upload both parts of release 41 before running this workflow.' >&2
+              echo 'Upload both parts of release 40 before running this workflow.' >&2
               exit 1
             fi
           fi
@@ -123,7 +130,7 @@ jobs:
               exit 1
             fi
           fi
-          for BASE in Noor-GitHub-Pages-Ready-41.zip-1 Noor-GitHub-Pages-Ready-40.zip-1 Noor-GitHub-Pages-Ready-38.zip-1 Noor-GitHub-Pages-Ready-37.zip-1 Noor-GitHub-Pages-Ready-36.zip-1 Noor-GitHub-Pages-Ready-35.zip-1 Noor-GitHub-Pages-Ready-33.zip-1 Noor-GitHub-Pages-Ready-30.zip-1 Noor-GitHub-Pages-Ready-29.zip-1 Noor-GitHub-Pages-Ready-28.zip-1 Noor-GitHub-Pages-Ready-27.zip-1 Noor-GitHub-Pages-Ready-26.zip-1 Noor-GitHub-Pages-Ready-25.zip-1 Noor-GitHub-Pages-Ready-25.zip; do
+          for BASE in Noor-GitHub-Pages-Ready-42.zip-1 Noor-GitHub-Pages-Ready-41.zip-1 Noor-GitHub-Pages-Ready-40.zip-1 Noor-GitHub-Pages-Ready-38.zip-1 Noor-GitHub-Pages-Ready-37.zip-1 Noor-GitHub-Pages-Ready-36.zip-1 Noor-GitHub-Pages-Ready-35.zip-1 Noor-GitHub-Pages-Ready-33.zip-1 Noor-GitHub-Pages-Ready-30.zip-1 Noor-GitHub-Pages-Ready-29.zip-1 Noor-GitHub-Pages-Ready-28.zip-1 Noor-GitHub-Pages-Ready-27.zip-1 Noor-GitHub-Pages-Ready-26.zip-1 Noor-GitHub-Pages-Ready-25.zip-1 Noor-GitHub-Pages-Ready-25.zip; do
             if [[ -f "${BASE}.part-00" && -f "${BASE}.part-01" ]]; then
               echo "Extracting ${BASE}.part-00 and ${BASE}.part-01"
               cat "${BASE}.part-00" "${BASE}.part-01" > "$ARCHIVE"
@@ -158,6 +165,7 @@ jobs:
         working-directory: noor
         run: |
           npm run qa:quran
+          npm run qa:release42
           npm test
 
       - name: Build web app
@@ -194,7 +202,7 @@ jobs:
         with:
           gradle-version: "8.9"
 
-      - name: Install Android SDK, NDK and CMake
+      - name: Install Android SDK
         shell: bash
         run: |
           SDKMANAGER="$(command -v sdkmanager || true)"
@@ -203,17 +211,9 @@ jobs:
           fi
           test -n "$SDKMANAGER"
           yes | "$SDKMANAGER" --licenses >/dev/null || true
-          "$SDKMANAGER"             "platforms;android-36"             "build-tools;36.0.0"             "ndk;29.0.13113456"             "cmake;3.31.6"
-
-      - name: Fetch llama.cpp native runtime
-        shell: bash
-        run: |
-          test ! -e noor/android/app/src/main/cpp/llama.cpp
-          git init noor/android/app/src/main/cpp/llama.cpp
-          git -C noor/android/app/src/main/cpp/llama.cpp remote add origin https://github.com/ggml-org/llama.cpp.git
-          git -C noor/android/app/src/main/cpp/llama.cpp fetch --depth 1 origin fb34fc262c1b43f1832c7472429fb2247d650493
-          git -C noor/android/app/src/main/cpp/llama.cpp checkout --detach FETCH_HEAD
-          test -f noor/android/app/src/main/cpp/llama.cpp/include/llama.h
+          "$SDKMANAGER" \
+            "platforms;android-36" \
+            "build-tools;36.0.0"
 
       - name: Enable AndroidX
         shell: bash
@@ -222,15 +222,6 @@ jobs:
           echo 'android.useAndroidX=true' >> noor/android/gradle.properties
           echo 'android.enableJetifier=true' >> noor/android/gradle.properties
           grep -Fx 'android.useAndroidX=true' noor/android/gradle.properties
-
-      - name: Prevent Ninja manifest regeneration loop
-        shell: bash
-        run: |
-          CMAKE_FILE=noor/android/app/src/main/cpp/CMakeLists.txt
-          if ! grep -q '^set(CMAKE_SUPPRESS_REGENERATION ON)' "$CMAKE_FILE"; then
-            sed -i '/^project(noor_qwen LANGUAGES C CXX)$/a set(CMAKE_SUPPRESS_REGENERATION ON)' "$CMAKE_FILE"
-          fi
-          grep -Fx 'set(CMAKE_SUPPRESS_REGENERATION ON)' "$CMAKE_FILE"
 
       - name: Build debug APK
         working-directory: noor/android
