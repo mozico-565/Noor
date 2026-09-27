@@ -5,6 +5,7 @@ on:
   push:
     branches: [main]
     paths:
+      - "Noor-GitHub-Pages-Ready-43.zip-1.part-*"
       - "Noor-GitHub-Pages-Ready-42.zip-1.part-*"
       - "Noor-GitHub-Pages-Ready-41.zip-1.part-*"
       - "Noor-GitHub-Pages-Ready-40.zip-1.part-*"
@@ -46,7 +47,13 @@ jobs:
           mkdir noor
           ARCHIVE="Noor-GitHub-Pages-Ready.zip"
           # Prefer the newest release while retaining previous archives as fallback.
-          if [[ -f Noor-GitHub-Pages-Ready-42.zip-1.part-00 || -f Noor-GitHub-Pages-Ready-42.zip-1.part-01 ]]; then
+          if [[ -f Noor-GitHub-Pages-Ready-43.zip-1.part-00 || -f Noor-GitHub-Pages-Ready-43.zip-1.part-01 ]]; then
+            if [[ ! -f Noor-GitHub-Pages-Ready-43.zip-1.part-00 || ! -f Noor-GitHub-Pages-Ready-43.zip-1.part-01 ]]; then
+              echo 'Upload both parts of release 43 before running this workflow.' >&2
+              exit 1
+            fi
+            BASE=Noor-GitHub-Pages-Ready-43.zip-1
+          elif [[ -f Noor-GitHub-Pages-Ready-42.zip-1.part-00 || -f Noor-GitHub-Pages-Ready-42.zip-1.part-01 ]]; then
             if [[ ! -f Noor-GitHub-Pages-Ready-42.zip-1.part-00 || ! -f Noor-GitHub-Pages-Ready-42.zip-1.part-01 ]]; then
               echo 'Upload both parts of release 42 before running this workflow.' >&2
               exit 1
@@ -156,6 +163,20 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
+
+      - name: Fetch licensed optional Quran font and iqama sound
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p noor/public/fonts noor/android/app/src/main/res/raw
+          curl --fail --location --retry 4 --retry-delay 2 \
+            https://raw.githubusercontent.com/Youssif-Salama/amiri-font/master/AmiriQuran.ttf \
+            -o noor/public/fonts/AmiriQuran.ttf
+          curl --fail --location --retry 4 --retry-delay 2 \
+            'https://commons.wikimedia.org/wiki/Special:Redirect/file/Allahuakbar.opus' \
+            -o noor/android/app/src/main/res/raw/iqama_takbir.opus
+          test -s noor/public/fonts/AmiriQuran.ttf
+          test -s noor/android/app/src/main/res/raw/iqama_takbir.opus
 
       - name: Install web dependencies
         working-directory: noor
