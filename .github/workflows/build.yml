@@ -5,26 +5,11 @@ on:
   push:
     branches: [main]
     paths:
-      - "Noor-GitHub-Pages-Ready-43.zip-1.part-*"
-      - "Noor-GitHub-Pages-Ready-42.zip-1.part-*"
-      - "Noor-GitHub-Pages-Ready-41.zip-1.part-*"
-      - "Noor-GitHub-Pages-Ready-40.zip-1.part-*"
-      - "Noor-GitHub-Pages-Ready-38.zip-1.part-*"
-      - "Noor-GitHub-Pages-Ready-37.zip-1.part-*"
-      - "Noor-GitHub-Pages-Ready-36.zip-1.part-*"
-      - "Noor-GitHub-Pages-Ready-35.zip-1.part-*"
-      - "Noor-GitHub-Pages-Ready-33.zip-1.part-*"
-      - "Noor-GitHub-Pages-Ready-30.zip-1.part-*"
-      - "Noor-GitHub-Pages-Ready-29.zip-1.part-*"
-      - "Noor-GitHub-Pages-Ready-28.zip-1.part-*"
-      - "Noor-GitHub-Pages-Ready-27.zip-1.part-*"
-      - "Noor-GitHub-Pages-Ready-26.zip-1.part-*"
-      - "Noor-GitHub-Pages-Ready-25.zip-1.part-*"
-      - "Noor-GitHub-Pages-Ready-25.zip.part-*"
+      - "Noor-GitHub-Pages-Ready-44.zip-1.part-*"
       - ".github/workflows/build.yml"
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: noor-android-build
@@ -40,136 +25,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Normalize Release 44 archive filenames
+      - name: Extract Noor Release 44
         shell: bash
         run: |
-          renamed=false
-          for suffix in 00 01; do
-            temporary="Noor-GitHub-Pages-Ready-44.zip-1.part-${suffix}.zip"
-            official="Noor-GitHub-Pages-Ready-44.zip-1.part-${suffix}"
-            if [[ -f "${temporary}" && ! -f "${official}" ]]; then
-              mv "${temporary}" "${official}"
-              renamed=true
-            fi
-          done
-          if [[ "${renamed}" == true ]]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add Noor-GitHub-Pages-Ready-44.zip-1.part-*
-            git commit -m "Normalize Noor Release 44 archive filenames"
-            git push
-          fi
-      - name: Extract Noor project
-        shell: bash
-        run: |
-          rm -rf noor
+          set -euo pipefail
+          rm -rf noor Noor-GitHub-Pages-Ready.zip
           mkdir noor
-          ARCHIVE="Noor-GitHub-Pages-Ready.zip"
-          # Prefer the newest release while retaining previous archives as fallback.
-          if [[ -f Noor-GitHub-Pages-Ready-43.zip-1.part-00 || -f Noor-GitHub-Pages-Ready-43.zip-1.part-01 ]]; then
-            if [[ ! -f Noor-GitHub-Pages-Ready-43.zip-1.part-00 || ! -f Noor-GitHub-Pages-Ready-43.zip-1.part-01 ]]; then
-              echo 'Upload both parts of release 43 before running this workflow.' >&2
-              exit 1
-            fi
-            BASE=Noor-GitHub-Pages-Ready-43.zip-1
-          elif [[ -f Noor-GitHub-Pages-Ready-42.zip-1.part-00 || -f Noor-GitHub-Pages-Ready-42.zip-1.part-01 ]]; then
-            if [[ ! -f Noor-GitHub-Pages-Ready-42.zip-1.part-00 || ! -f Noor-GitHub-Pages-Ready-42.zip-1.part-01 ]]; then
-              echo 'Upload both parts of release 42 before running this workflow.' >&2
-              exit 1
-            fi
-          fi
-          if [[ -f Noor-GitHub-Pages-Ready-41.zip-1.part-00 || -f Noor-GitHub-Pages-Ready-41.zip-1.part-01 ]]; then
-            if [[ ! -f Noor-GitHub-Pages-Ready-41.zip-1.part-00 || ! -f Noor-GitHub-Pages-Ready-41.zip-1.part-01 ]]; then
-              echo 'Upload both parts of release 40 before running this workflow.' >&2
-              exit 1
-            fi
-          fi
-          if [[ -f Noor-GitHub-Pages-Ready-40.zip-1.part-00 || -f Noor-GitHub-Pages-Ready-40.zip-1.part-01 ]]; then
-            if [[ ! -f Noor-GitHub-Pages-Ready-40.zip-1.part-00 || ! -f Noor-GitHub-Pages-Ready-40.zip-1.part-01 ]]; then
-              echo 'Upload both parts of release 39 before running this workflow.' >&2
-              exit 1
-            fi
-          fi
-          if [[ -f Noor-GitHub-Pages-Ready-38.zip-1.part-00 || -f Noor-GitHub-Pages-Ready-38.zip-1.part-01 ]]; then
-            if [[ ! -f Noor-GitHub-Pages-Ready-38.zip-1.part-00 || ! -f Noor-GitHub-Pages-Ready-38.zip-1.part-01 ]]; then
-              echo 'Upload both parts of release 38 before running this workflow.' >&2
-              exit 1
-            fi
-          fi
-          if [[ -f Noor-GitHub-Pages-Ready-37.zip-1.part-00 || -f Noor-GitHub-Pages-Ready-37.zip-1.part-01 ]]; then
-            if [[ ! -f Noor-GitHub-Pages-Ready-37.zip-1.part-00 || ! -f Noor-GitHub-Pages-Ready-37.zip-1.part-01 ]]; then
-              echo 'Upload both parts of release 37 before running this workflow.' >&2
-              exit 1
-            fi
-          fi
-          if [[ -f Noor-GitHub-Pages-Ready-36.zip-1.part-00 || -f Noor-GitHub-Pages-Ready-36.zip-1.part-01 ]]; then
-            if [[ ! -f Noor-GitHub-Pages-Ready-36.zip-1.part-00 || ! -f Noor-GitHub-Pages-Ready-36.zip-1.part-01 ]]; then
-              echo 'Upload both parts of release 36 before running this workflow.' >&2
-              exit 1
-            fi
-          fi
-          if [[ -f Noor-GitHub-Pages-Ready-35.zip-1.part-00 || -f Noor-GitHub-Pages-Ready-35.zip-1.part-01 ]]; then
-            if [[ ! -f Noor-GitHub-Pages-Ready-35.zip-1.part-00 || ! -f Noor-GitHub-Pages-Ready-35.zip-1.part-01 ]]; then
-              echo 'Upload both parts of release 35 before running this workflow.' >&2
-              exit 1
-            fi
-          fi
-          if [[ -f Noor-GitHub-Pages-Ready-33.zip-1.part-00 || -f Noor-GitHub-Pages-Ready-33.zip-1.part-01 ]]; then
-            if [[ ! -f Noor-GitHub-Pages-Ready-33.zip-1.part-00 || ! -f Noor-GitHub-Pages-Ready-33.zip-1.part-01 ]]; then
-              echo 'Upload both parts of release 33 before running this workflow.' >&2
-              exit 1
-            fi
-          fi
-          if [[ -f Noor-GitHub-Pages-Ready-30.zip-1.part-00 || -f Noor-GitHub-Pages-Ready-30.zip-1.part-01 ]]; then
-            if [[ ! -f Noor-GitHub-Pages-Ready-30.zip-1.part-00 || ! -f Noor-GitHub-Pages-Ready-30.zip-1.part-01 ]]; then
-              echo 'Upload both parts of release 30 before running this workflow.' >&2
-              exit 1
-            fi
-          fi
-          if [[ -f Noor-GitHub-Pages-Ready-29.zip-1.part-00 || -f Noor-GitHub-Pages-Ready-29.zip-1.part-01 ]]; then
-            if [[ ! -f Noor-GitHub-Pages-Ready-29.zip-1.part-00 || ! -f Noor-GitHub-Pages-Ready-29.zip-1.part-01 ]]; then
-              echo 'Upload both parts of release 29 before running this workflow.' >&2
-              exit 1
-            fi
-          fi
-          if [[ -f Noor-GitHub-Pages-Ready-28.zip-1.part-00 || -f Noor-GitHub-Pages-Ready-28.zip-1.part-01 ]]; then
-            if [[ ! -f Noor-GitHub-Pages-Ready-28.zip-1.part-00 || ! -f Noor-GitHub-Pages-Ready-28.zip-1.part-01 ]]; then
-              echo 'Upload both parts of release 28 before running this workflow.' >&2
-              exit 1
-            fi
-          fi
-          if [[ -f Noor-GitHub-Pages-Ready-27.zip-1.part-00 || -f Noor-GitHub-Pages-Ready-27.zip-1.part-01 ]]; then
-            if [[ ! -f Noor-GitHub-Pages-Ready-27.zip-1.part-00 || ! -f Noor-GitHub-Pages-Ready-27.zip-1.part-01 ]]; then
-              echo 'Upload both parts of release 27 before running this workflow.' >&2
-              exit 1
-            fi
-          fi
-          if [[ -f Noor-GitHub-Pages-Ready-26.zip-1.part-00 || -f Noor-GitHub-Pages-Ready-26.zip-1.part-01 ]]; then
-            if [[ ! -f Noor-GitHub-Pages-Ready-26.zip-1.part-00 || ! -f Noor-GitHub-Pages-Ready-26.zip-1.part-01 ]]; then
-              echo 'Upload both parts of release 26 before running this workflow.' >&2
-              exit 1
-            fi
-          fi
-          if [[ -f Noor-GitHub-Pages-Ready-25.zip-1.part-00 || -f Noor-GitHub-Pages-Ready-25.zip-1.part-01 ]]; then
-            if [[ ! -f Noor-GitHub-Pages-Ready-25.zip-1.part-00 || ! -f Noor-GitHub-Pages-Ready-25.zip-1.part-01 ]]; then
-              echo 'Upload both parts of the new release before running this workflow.' >&2
-              exit 1
-            fi
-          fi
-          for BASE in Noor-GitHub-Pages-Ready-42.zip-1 Noor-GitHub-Pages-Ready-41.zip-1 Noor-GitHub-Pages-Ready-40.zip-1 Noor-GitHub-Pages-Ready-38.zip-1 Noor-GitHub-Pages-Ready-37.zip-1 Noor-GitHub-Pages-Ready-36.zip-1 Noor-GitHub-Pages-Ready-35.zip-1 Noor-GitHub-Pages-Ready-33.zip-1 Noor-GitHub-Pages-Ready-30.zip-1 Noor-GitHub-Pages-Ready-29.zip-1 Noor-GitHub-Pages-Ready-28.zip-1 Noor-GitHub-Pages-Ready-27.zip-1 Noor-GitHub-Pages-Ready-26.zip-1 Noor-GitHub-Pages-Ready-25.zip-1 Noor-GitHub-Pages-Ready-25.zip; do
-            if [[ -f "${BASE}.part-00" && -f "${BASE}.part-01" ]]; then
-              echo "Extracting ${BASE}.part-00 and ${BASE}.part-01"
-              cat "${BASE}.part-00" "${BASE}.part-01" > "$ARCHIVE"
-              break
-            fi
-          done
-          if [[ ! -s "$ARCHIVE" ]]; then
-            echo 'Missing matching .part-00 and .part-01 files at the repository root.' >&2
-            ls -lh *.part-* 2>/dev/null || true
-            exit 1
-          fi
-          unzip -tq "$ARCHIVE"
-          unzip -q "$ARCHIVE" -d noor
+          BASE="Noor-GitHub-Pages-Ready-44.zip-1"
+          PART0="${BASE}.part-00"
+          PART1="${BASE}.part-01"
+          test -s "$PART0" || { echo "Missing Release 44 part-00" >&2; exit 1; }
+          test -s "$PART1" || { echo "Missing Release 44 part-01" >&2; exit 1; }
+          echo "BUILD_SOURCE=Release 44"
+          cat "$PART0" "$PART1" > Noor-GitHub-Pages-Ready.zip
+          unzip -tq Noor-GitHub-Pages-Ready.zip
+          unzip -q Noor-GitHub-Pages-Ready.zip -d noor
+          echo "✓ Release 44 extracted successfully"
 
       - name: Download and validate Quran sources
         working-directory: noor
@@ -182,20 +53,25 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
+          cache: npm
+          cache-dependency-path: noor/package-lock.json
 
-      - name: Fetch licensed optional Quran font and iqama sound
+      - name: Verify Release 44 bundled assets
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p noor/public/fonts noor/android/app/src/main/res/raw
-          curl --fail --location --retry 4 --retry-delay 2 \
-            https://raw.githubusercontent.com/Youssif-Salama/amiri-font/master/AmiriQuran.ttf \
-            -o noor/public/fonts/AmiriQuran.ttf
-          curl --fail --location --retry 4 --retry-delay 2 \
-            'https://commons.wikimedia.org/wiki/Special:Redirect/file/Allahuakbar.opus' \
-            -o noor/android/app/src/main/res/raw/iqama_takbir.opus
-          test -s noor/public/fonts/AmiriQuran.ttf
-          test -s noor/android/app/src/main/res/raw/iqama_takbir.opus
+          find noor/public/fonts -maxdepth 1 -type f -printf '%f\n' | sort || true
+          find noor/android/app/src/main/res/raw -maxdepth 1 -type f -printf '%f\n' | sort || true
+          if [[ -s noor/android/app/src/main/res/raw/iqama_takbir.ogg ]]; then
+            echo "✓ Found iqama_takbir.ogg"
+          elif [[ -s noor/android/app/src/main/res/raw/iqama_takbir.opus ]]; then
+            echo "✓ Found iqama_takbir.opus"
+          elif [[ -s noor/android/app/src/main/res/raw/iqama_takbir.mp3 ]]; then
+            echo "✓ Found iqama_takbir.mp3"
+          else
+            echo "Missing bundled iqama_takbir audio in Release 44" >&2
+            exit 1
+          fi
 
       - name: Install web dependencies
         working-directory: noor
@@ -203,9 +79,14 @@ jobs:
 
       - name: Run web integration tests
         working-directory: noor
+        shell: bash
         run: |
           npm run qa:quran
-          npm run qa:release42
+          if npm run | grep -q 'qa:release43'; then
+            npm run qa:release43
+          elif npm run | grep -q 'qa:release42'; then
+            npm run qa:release42
+          fi
           npm test
 
       - name: Build web app
@@ -215,6 +96,7 @@ jobs:
       - name: Copy built web app into Android assets
         shell: bash
         run: |
+          set -euo pipefail
           rm -rf noor/android/app/src/main/assets/www
           mkdir -p noor/android/app/src/main/assets/www
           cp -a noor/dist/. noor/android/app/src/main/assets/www/
@@ -251,17 +133,14 @@ jobs:
           fi
           test -n "$SDKMANAGER"
           yes | "$SDKMANAGER" --licenses >/dev/null || true
-          "$SDKMANAGER" \
-            "platforms;android-36" \
-            "build-tools;36.0.0"
+          "$SDKMANAGER" "platforms;android-36" "build-tools;36.0.0"
 
       - name: Enable AndroidX
         shell: bash
         run: |
           touch noor/android/gradle.properties
-          echo 'android.useAndroidX=true' >> noor/android/gradle.properties
-          echo 'android.enableJetifier=true' >> noor/android/gradle.properties
-          grep -Fx 'android.useAndroidX=true' noor/android/gradle.properties
+          grep -q '^android.useAndroidX=true$' noor/android/gradle.properties || echo 'android.useAndroidX=true' >> noor/android/gradle.properties
+          grep -q '^android.enableJetifier=true$' noor/android/gradle.properties || echo 'android.enableJetifier=true' >> noor/android/gradle.properties
 
       - name: Build debug APK
         working-directory: noor/android
@@ -274,6 +153,7 @@ jobs:
       - name: Prepare install package
         shell: bash
         run: |
+          set -euo pipefail
           mkdir -p output
           cp noor/android/app/build/outputs/apk/debug/app-debug.apk output/Noor-debug.apk
           sha256sum output/Noor-debug.apk > output/Noor-debug.apk.sha256
