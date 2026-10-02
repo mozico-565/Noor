@@ -1,0 +1,1852 @@
+*{box-sizing:border-box}
+:root{
+  font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;
+  color:#10271f;background:#e8eee9;
+  --vh:var(--vvh,100dvh);
+  --nav-bottom:18px;
+  --nav-h:76px;
+  --green:#17664b;
+  --green2:#0d4c38;
+  --muted:#6e7c76;
+}
+html,body,#root{height:100%;margin:0;overflow:hidden;background:#e8eee9}
+html.dark-root,html.dark-root body,html.dark-root #root{background:#06110d}
+button,input{font:inherit;color:inherit}
+button{border:0;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+button:disabled{opacity:.35;cursor:default}
+.app{
+  position:relative;height:var(--vh);min-height:var(--vh);overflow:hidden;
+  padding:env(safe-area-inset-top) 16px calc(112px + env(safe-area-inset-bottom));
+  background:radial-gradient(circle at 50% -10%,#fff 0,#eef3ef 36%,#dfe9e3 100%);
+  transition:background .26s ease,color .26s ease;
+}
+.app.dark{color:#eff7f2;background:radial-gradient(circle at 50% -10%,#173328 0,#0b1e17 42%,#06110d 100%)}
+.aurora{position:fixed;border-radius:50%;pointer-events:none}
+.a1{width:290px;height:290px;right:-100px;top:15%;background:radial-gradient(circle,rgba(182,224,197,.45),transparent 70%)}
+.a2{width:250px;height:250px;left:-110px;bottom:13%;background:radial-gradient(circle,rgba(214,201,163,.32),transparent 72%)}
+.dark .a1{background:radial-gradient(circle,rgba(44,126,89,.22),transparent 70%)}
+.dark .a2{background:radial-gradient(circle,rgba(142,117,72,.14),transparent 72%)}
+
+.glass{
+  position:relative;isolation:isolate;overflow:hidden;
+  background:linear-gradient(145deg,rgba(255,255,255,.38),rgba(255,255,255,.13));
+  border:1px solid rgba(255,255,255,.54);
+  box-shadow:inset 0 1px rgba(255,255,255,.76),0 10px 28px rgba(22,68,50,.08);
+  -webkit-backdrop-filter:blur(13px) saturate(126%);
+  backdrop-filter:blur(13px) saturate(126%);
+}
+.glass::after{
+  content:"";position:absolute;z-index:0;pointer-events:none;inset:0;border-radius:inherit;
+  background:radial-gradient(70% 30% at var(--gx,50%) 0%,rgba(255,255,255,.56),transparent 72%);
+  opacity:.6;
+}
+.glass>*{position:relative;z-index:2}
+.dark .glass{
+  background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.028));
+  border-color:rgba(255,255,255,.14);
+  box-shadow:inset 0 1px rgba(255,255,255,.18),0 12px 30px rgba(0,0,0,.18);
+  -webkit-backdrop-filter:blur(14px) saturate(116%);
+  backdrop-filter:blur(14px) saturate(116%);
+}
+.dark .glass::after{opacity:.28}
+
+header{height:74px;max-width:880px;margin:auto;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:20}
+.brand{display:flex;gap:10px;align-items:center}.brand>div{display:flex;flex-direction:column}.brand small{font-size:10px;opacity:.56}
+.logo{width:42px;height:42px;display:grid;place-items:center;border-radius:14px;background:#174f3a;color:#fff;font-family:"Noto Naskh Arabic","Traditional Arabic",serif,"Traditional Arabic",serif;font-size:25px;box-shadow:0 8px 24px rgba(23,79,58,.18)}
+.icon{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:transparent}
+.icon svg{width:19px}
+
+.content{position:relative;z-index:2;max-width:760px;height:calc(var(--vh) - 74px - 102px - env(safe-area-inset-bottom));margin:auto;overflow:hidden}
+.hero{height:100%;display:flex;flex-direction:column;align-items:center;padding-top:clamp(10px,4vh,36px);padding-bottom:190px}
+.orb{width:78px;height:78px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.35);border:1px solid rgba(255,255,255,.65);color:#17664b;box-shadow:inset 0 1px rgba(255,255,255,.8),0 12px 32px rgba(26,77,57,.11)}
+.dark .orb{background:rgba(255,255,255,.065);border-color:rgba(255,255,255,.14);color:#8ed4b5}
+.orb svg{width:35px;height:35px}.simpleTitle{margin:18px 0 0;font-size:clamp(36px,9vw,54px);line-height:1.3;font-weight:600}.simpleTitle span{color:#1d694d}.dark .simpleTitle span{color:#83d0ac}
+.chips{width:min(100%,650px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin-top:clamp(20px,4vh,38px)}
+.chip{min-height:68px;border-radius:25px;padding:10px 13px;display:flex;gap:9px;align-items:center;text-align:right;background:transparent}
+.chipIcon{width:40px;height:40px;flex:0 0 40px;border-radius:14px;display:grid;place-items:center;background:rgba(255,255,255,.28);color:#17664b}.dark .chipIcon{background:rgba(255,255,255,.07);color:#8ed4b5}
+.chipIcon svg{width:19px}.chip>span:nth-child(2){flex:1;min-width:0}.chip>svg:last-child{width:15px;flex:none}
+
+.composer{
+  position:fixed;z-index:40;left:16px;right:16px;bottom:calc(106px + env(safe-area-inset-bottom));
+  width:auto;max-width:650px;height:76px;margin:auto;border-radius:31px;display:flex;align-items:center;gap:10px;padding:9px 11px 9px 18px
+}
+.composer>svg{width:20px;opacity:.45}.composer input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:inherit;font-size:14px}.composer input::placeholder{color:currentColor;opacity:.47}
+.composer button{width:56px;height:56px;border-radius:21px;background:#17513b;color:#fff;display:grid;place-items:center}.composer button svg{width:19px;transform:rotate(180deg)}
+
+.nav{
+  position:fixed;z-index:50;left:16px;right:16px;bottom:calc(var(--nav-bottom) + env(safe-area-inset-bottom));width:auto;max-width:650px;height:var(--nav-h);margin:auto;border-radius:31px;display:flex;padding:7px
+}
+.nav>button{position:relative;z-index:2;flex:1 1 25%;min-width:0;background:transparent;border-radius:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:9.5px;opacity:.48}
+.nav>button svg{width:19px}.nav>button.active{opacity:1}
+.liquidSelection{position:absolute!important;z-index:1!important;top:7px;bottom:7px;right:7px;left:auto;width:calc((100% - 14px)/4);border-radius:24px;background:linear-gradient(145deg,rgba(255,255,255,.54),rgba(255,255,255,.18));border:1px solid rgba(255,255,255,.44);box-shadow:inset 0 1px rgba(255,255,255,.8),0 5px 16px rgba(25,72,54,.08);pointer-events:none;transition:transform .5s cubic-bezier(.16,1.2,.28,1)}
+.dark .liquidSelection{background:linear-gradient(145deg,rgba(255,255,255,.13),rgba(255,255,255,.04));border-color:rgba(255,255,255,.12)}
+.nav-home .liquidSelection{transform:translate3d(0,0,0)}.nav-quran .liquidSelection{transform:translate3d(-100%,0,0)}.nav-saved .liquidSelection{transform:translate3d(-200%,0,0)}.nav-settings .liquidSelection{transform:translate3d(-300%,0,0)}
+
+.pageEnter{animation:pageIn .28s cubic-bezier(.2,.82,.25,1) both}@keyframes pageIn{from{opacity:0;transform:translate3d(0,5px,0)}to{opacity:1;transform:none}}
+.answer{height:100%;overflow:auto;padding:12px 0 150px;scrollbar-width:none;overscroll-behavior:contain}.answer::-webkit-scrollbar{display:none}.back{border-radius:18px;padding:9px 13px;display:flex;align-items:center;gap:6px;margin-bottom:12px;background:transparent}.back svg{width:15px}
+.answerCard{border-radius:32px;padding:22px}.answerHead{display:flex;gap:11px;align-items:center;border-bottom:1px solid rgba(127,127,127,.14);padding-bottom:16px}.answerHead>svg{width:25px;color:#287357}.answerHead small{opacity:.5;font-size:10px}.answerHead h2{margin:2px 0 0;font-size:20px}.ayah{margin:20px 0;border-radius:24px;padding:20px;background:rgba(38,107,80,.07);text-align:center}.ayah p{font-family:"Noto Naskh Arabic","Traditional Arabic",serif,"Traditional Arabic",serif;font-size:26px;line-height:2;margin:4px}.answerCard section{padding:6px 2px}.answerCard h3{font-size:13px;color:#24664d}.dark .answerCard h3{color:#8ed4b5}.answerCard section p{font-family:"Noto Naskh Arabic","Traditional Arabic",serif,"Traditional Arabic",serif;font-size:18px;line-height:2;margin-top:5px}.source{width:100%;border-radius:18px;padding:13px;background:rgba(39,103,78,.08);display:flex;align-items:center;gap:8px}.source svg{width:17px}.source svg:last-child{margin-right:auto}
+
+.page{height:calc(100% - 10px);margin-top:8px;border-radius:30px;padding:26px;overflow:auto;scrollbar-width:none}.page::-webkit-scrollbar{display:none}.page>svg{width:30px;color:#267052}.page h2{font-size:24px}.page p{opacity:.65;line-height:1.9}
+.setting{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:15px 0;border-bottom:1px solid rgba(127,127,127,.14);font-size:12px}.setting button{border-radius:14px;background:rgba(39,103,78,.09);padding:8px 13px}.credits{padding-top:18px}.credits p{font-size:11px}
+.savedList{display:grid;gap:10px}.savedList button{border-radius:18px;padding:14px;text-align:right;background:rgba(255,255,255,.2);border:1px solid rgba(127,127,127,.12)}.dark .savedList button{background:rgba(255,255,255,.045)}.savedList b,.savedList span{display:block}.savedList span{font-family:"Noto Naskh Arabic","Traditional Arabic",serif,"Traditional Arabic",serif;font-size:18px;line-height:1.8;margin-top:5px}
+
+.readerShell{height:100%;display:grid;grid-template-rows:auto 1fr auto;gap:9px;padding-bottom:4px}
+.readerToolbar{height:50px;border-radius:20px;display:flex;align-items:center;padding:5px 8px;gap:7px;flex:none}.readerToolbar>button{height:38px;border-radius:15px;background:transparent;display:flex;align-items:center;gap:6px;padding:0 10px}.readerToolbar>button:first-child{flex:1;justify-content:flex-start}.readerToolbar svg{width:17px}.pageCounter{font-size:10px;opacity:.58;white-space:nowrap}
+.readerViewport{
+  min-height:0;overflow-y:auto;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;
+  border-radius:28px;background:rgba(255,255,255,.20);border:1px solid rgba(255,255,255,.42);
+  padding:18px 16px 70px;touch-action:pan-y;contain:layout paint style
+}
+.dark .readerViewport{background:rgba(255,255,255,.025);border-color:rgba(255,255,255,.08)}
+.readerViewport::-webkit-scrollbar{display:none}.readerLoading{padding:40px;text-align:center;opacity:.6}
+.surahBanner{margin:4px auto 16px;width:max-content;max-width:100%;display:flex;align-items:center;gap:7px;color:#1d694d}.dark .surahBanner{color:#92d8b8}.surahBanner svg{width:18px}
+.verseBlock{padding:8px 1px 14px;border-bottom:1px solid rgba(127,127,127,.10)}.verseBlock:last-child{border-bottom:0}
+.verseWords{font-family:"Noto Naskh Arabic","Traditional Arabic",serif,"Traditional Arabic",serif;font-size:clamp(26px,7.4vw,35px);line-height:2.05;text-align:justify;direction:rtl}
+.qWord{display:inline;cursor:default;border-radius:7px;padding:1px 2px;transition:background .12s ease}.qWord:active{background:rgba(30,103,76,.10)}
+.ayahNumber{display:inline-flex;vertical-align:middle;align-items:center;justify-content:center;margin:0 4px;background:transparent;color:#17664b;font-family:"Noto Naskh Arabic","Traditional Arabic",serif,"Traditional Arabic",serif;font-size:.62em}.dark .ayahNumber{color:#8dd2b3}.ayahNumber svg{width:18px}
+.readerBottomPad{height:14px}
+.pageStepper{display:flex;gap:9px;height:50px}.pageStepper button{flex:1;border-radius:19px;background:transparent;display:flex;align-items:center;justify-content:center;gap:6px}.pageStepper svg{width:17px}
+
+.modal{position:fixed;z-index:100;inset:0;background:rgba(0,0,0,.24);display:flex;align-items:flex-end;justify-content:center;padding-top:60px;backdrop-filter:blur(4px)}
+.sheet{width:min(100%,660px);max-height:84vh;border-radius:34px 34px 0 0;padding:26px 22px calc(30px + env(safe-area-inset-bottom));overflow:auto;scrollbar-width:none}.sheet::-webkit-scrollbar{display:none}.sheet>button:first-child{float:left;background:transparent}.sheet h2{margin-top:10px}.wordSheet h2{font-family:"Noto Naskh Arabic","Traditional Arabic",serif,"Traditional Arabic",serif;font-size:34px}.rootBadge{display:inline-block;border-radius:999px;padding:6px 11px;background:rgba(30,103,76,.10);font-size:11px}.wordDefinition{font-family:"Noto Naskh Arabic","Traditional Arabic",serif,"Traditional Arabic",serif;font-size:19px;line-height:2}.wordSheet small{opacity:.55}.wordSheet details{margin:12px 0}.wordSheet summary{cursor:pointer}
+.surahList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.surahList button{display:grid;grid-template-columns:auto 1fr;gap:2px 8px;align-items:center;border-radius:17px;padding:10px 12px;background:rgba(255,255,255,.2);text-align:right}.dark .surahList button{background:rgba(255,255,255,.05)}.surahList button>span{grid-row:1/3;width:28px;height:28px;border-radius:10px;display:grid;place-items:center;background:rgba(30,103,76,.10);font-size:10px}.surahList small{opacity:.5;font-size:8px}
+
+button.liquid-press{transform:scale(.97)}button.liquid-release{animation:settle .3s cubic-bezier(.2,1.14,.28,1)}@keyframes settle{0%{transform:scale(.97)}55%{transform:scale(1.006)}100%{transform:scale(1)}}
+button::before{content:"";position:absolute;inset:-10%;border-radius:inherit;pointer-events:none;opacity:0;background:radial-gradient(circle at var(--touch-x,50%) var(--touch-y,50%),rgba(255,255,255,.4),transparent 55%);transition:opacity .12s ease}button.liquid-press::before{opacity:.55}
+
+@media(max-width:390px){.app{padding-left:12px;padding-right:12px}.composer,.nav{left:12px;right:12px}.chips{gap:8px}.chip{padding-inline:9px}.readerViewport{padding-inline:11px}}
+@media(max-height:650px){.hero{padding-top:4px}.orb{width:58px;height:58px}.simpleTitle{font-size:32px}.chips{margin-top:12px}.chip{min-height:54px}.composer{height:64px;bottom:calc(92px + env(safe-area-inset-bottom))}.composer button{width:46px;height:46px}.nav{height:64px;bottom:calc(12px + env(safe-area-inset-bottom))}.content{height:calc(var(--vh) - 74px - 82px - env(safe-area-inset-bottom))}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* Final reader stability refinements */
+.ayahNumber.bookmarked{background:rgba(23,102,75,.10);border-radius:999px;padding:2px 7px}
+.dark .ayahNumber.bookmarked{background:rgba(142,212,181,.12)}
+.readerViewport{scroll-behavior:auto!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;will-change:auto!important}
+.verseBlock{content-visibility:auto;contain-intrinsic-size:110px}
+.qWord{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+
+/* Final reader smoothness pass */
+.readerViewport{
+  scroll-behavior:auto!important;
+  transform:translateZ(0);
+  will-change:scroll-position;
+}
+.readerViewport .verseBlock,.readerViewport .qWord{backface-visibility:hidden}
+.readerViewport *{ -webkit-tap-highlight-color:transparent }
+
+
+/* =========================================================
+   Mushaf typography: continuous page flow like a printed Mushaf.
+   ========================================================= */
+.readerViewport{
+  padding:18px 14px 74px!important;
+  overflow-y:auto!important;
+  overscroll-behavior-y:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;
+  contain:layout paint style!important;
+}
+.mushafSurah{display:block;padding:2px 0 18px}
+.mushafSurah + .mushafSurah{margin-top:18px}
+
+.surahBanner.ornate{
+  width:100%!important;max-width:100%!important;min-height:58px;
+  margin:4px 0 18px!important;padding:8px 12px;border-radius:20px;
+  display:grid!important;grid-template-columns:minmax(52px,auto) 1fr minmax(52px,auto);
+  align-items:center;gap:8px;text-align:center;color:inherit!important;
+  background:
+    radial-gradient(circle at 10% 50%,rgba(83,162,207,.18),transparent 24%),
+    radial-gradient(circle at 90% 50%,rgba(83,162,207,.18),transparent 24%),
+    linear-gradient(145deg,rgba(255,255,255,.36),rgba(255,255,255,.10));
+  border:1px solid rgba(91,154,191,.34);
+  box-shadow:inset 0 1px rgba(255,255,255,.70),0 8px 22px rgba(14,57,43,.06);
+  -webkit-backdrop-filter:blur(10px) saturate(120%);
+  backdrop-filter:blur(10px) saturate(120%);
+}
+.dark .surahBanner.ornate{
+  background:
+    radial-gradient(circle at 10% 50%,rgba(74,151,198,.12),transparent 24%),
+    radial-gradient(circle at 90% 50%,rgba(74,151,198,.12),transparent 24%),
+    linear-gradient(145deg,rgba(255,255,255,.085),rgba(255,255,255,.025));
+  border-color:rgba(104,174,215,.22);
+  box-shadow:inset 0 1px rgba(255,255,255,.13),0 8px 24px rgba(0,0,0,.14);
+}
+.surahBanner.ornate b{
+  font-family:"Noto Naskh Arabic","Amiri","Traditional Arabic","Scheherazade New",serif;
+  font-size:clamp(24px,7vw,34px);line-height:1.15;font-weight:700;
+}
+.surahMeta{
+  display:inline-flex;align-items:center;justify-content:center;min-height:30px;
+  padding:3px 7px;border-radius:999px;font-size:9px;opacity:.64;white-space:nowrap;
+  background:rgba(39,103,78,.06)
+}
+.dark .surahMeta{background:rgba(255,255,255,.045)}
+
+.mushafText{
+  direction:rtl;
+  text-align:right;
+  text-align-last:auto;
+  font-family:"Noor Quran Hafs","Noto Naskh Arabic","Amiri","Traditional Arabic","Scheherazade New",serif!important;
+  font-size:clamp(27px,7.5vw,36px)!important;
+  line-height:2.05!important;
+  font-weight:500;
+  letter-spacing:0!important;
+  word-spacing:.04em!important;
+  font-kerning:normal;
+  font-variant-ligatures:common-ligatures contextual;
+  font-feature-settings:"rlig" 1,"liga" 1,"calt" 1,"kern" 1;
+  text-rendering:optimizeLegibility;
+}
+
+.qWord{
+  display:inline!important;
+  padding:0!important;margin:0!important;
+  border-radius:5px;white-space:normal!important;
+  user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;
+}
+.qWord:active{background:rgba(30,103,76,.10)}
+
+.ayahNumber{
+  display:inline-grid!important;place-items:center;vertical-align:middle;
+  width:1.72em;height:1.72em;margin:0 .10em 0 .05em!important;padding:0!important;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 45%,rgba(255,255,255,.95),rgba(213,235,246,.93) 51%,rgba(102,173,213,.78) 54%,rgba(30,99,137,.95) 70%,rgba(238,248,252,.88) 74%,rgba(52,119,158,.88) 81%,rgba(255,255,255,.50) 84%);
+  border:1px solid rgba(90,159,199,.72);
+  color:#0e2a20!important;
+  font-family:"Noto Naskh Arabic","Amiri","Traditional Arabic",serif!important;
+  font-size:.53em!important;line-height:1!important;
+  box-shadow:0 1px 2px rgba(0,0,0,.08)
+}
+.dark .ayahNumber{
+  color:#f7fbf9!important;
+  background:
+    radial-gradient(circle at 50% 45%,rgba(24,35,42,.98),rgba(19,30,36,.98) 51%,rgba(84,154,197,.82) 54%,rgba(32,92,128,.96) 70%,rgba(224,241,249,.82) 74%,rgba(50,112,149,.90) 81%,rgba(255,255,255,.38) 84%);
+  border-color:rgba(102,175,216,.78)
+}
+.ayahNumber.bookmarked{background:#17664b!important;color:#fff!important;border-color:rgba(255,255,255,.45)!important}
+
+@media(max-width:390px){
+  .readerViewport{padding-inline:10px!important}
+  .mushafText{font-size:clamp(25px,7.2vw,32px)!important;line-height:2!important;word-spacing:.03em!important}
+  .surahBanner.ornate{grid-template-columns:46px 1fr 46px;padding-inline:8px}
+  .surahMeta{font-size:8px;padding-inline:4px}
+}
+
+
+/* Reader bug fixes */
+.readerViewport{
+  contain:none!important;
+  transform:none!important;
+  will-change:auto!important;
+}
+.surahBanner.ornate{
+  position:sticky!important;
+  top:0!important;
+  z-index:8!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  background:linear-gradient(145deg,rgba(236,246,241,.96),rgba(225,240,233,.94))!important;
+}
+.dark .surahBanner.ornate{
+  background:linear-gradient(145deg,rgba(22,52,41,.98),rgba(11,31,24,.97))!important;
+}
+/* Quran text only: use the bundled Hafs/Uthmani font.
+   This is presentation-only: the Quran Unicode text and interaction spans stay unchanged. */
+.mushafText,.mushafText .qWord{
+  font-family:"Noor Quran Hafs","Noto Naskh Arabic","Amiri","Traditional Arabic","Scheherazade New",serif!important;
+  font-synthesis:none;
+}
+.mushafText .qWord{
+  white-space:nowrap!important;
+  display:inline-block!important;
+  vertical-align:baseline;
+}
+
+
+/* Context-first long-press meaning sheet */
+.wordSectionTitle{
+  margin:18px 0 4px;
+  font-size:12px;
+  color:#267052;
+}
+.dark .wordSectionTitle{color:#8ed4b5}
+.lexicalDetails{
+  margin:14px 0!important;
+  padding:10px 12px;
+  border-radius:16px;
+  background:rgba(38,107,80,.06);
+}
+.dark .lexicalDetails{background:rgba(255,255,255,.045)}
+.lexicalDetails summary{font-size:11px;opacity:.72}
+.lexicalDetails p{
+  font-family:"Noto Naskh Arabic","Traditional Arabic","Tahoma","Arial",serif;
+  font-size:17px;
+  line-height:1.9;
+}
+
+
+
+
+/* =========================================================
+   Keyboard stability + no white flash
+   ========================================================= */
+html.dark-root,
+html.dark-root body,
+html.dark-root #root{
+  background:#06110d!important;
+}
+html:not(.dark-root),
+html:not(.dark-root) body,
+html:not(.dark-root) #root{
+  background:#e8eee9!important;
+}
+
+.keyboard-open .nav{display:none!important}
+.keyboard-open .pageStepper{display:none!important}
+.keyboard-open .composer{
+  bottom:10px!important;
+  height:68px!important;
+}
+.keyboard-open .composer button{
+  width:50px!important;
+  height:50px!important;
+}
+.keyboard-open .content{
+  height:calc(var(--vh) - 74px - 12px - env(safe-area-inset-bottom))!important;
+}
+.keyboard-open .hero{
+  padding-top:10px!important;
+  padding-bottom:86px!important;
+  overflow:hidden!important;
+}
+.keyboard-open .orb{
+  width:78px!important;
+  height:78px!important;
+  flex:0 0 78px!important;
+}
+.keyboard-open .orb svg{
+  width:35px!important;
+  height:35px!important;
+}
+.keyboard-open .simpleTitle{
+  font-size:clamp(36px,9vw,54px)!important;
+  margin-top:18px!important;
+  flex:none!important;
+}
+.keyboard-open .chips{
+  margin-top:20px!important;
+}
+.keyboard-open header,
+.keyboard-open .brand,
+.keyboard-open .logo{
+  flex-shrink:0!important;
+}
+
+/* =========================================================
+   Clear, short answers
+   ========================================================= */
+.answerCard{
+  padding:18px!important;
+}
+.answerHead h2{
+  font-size:22px!important;
+  margin:2px 0 0!important;
+}
+.answerSummary{
+  margin:14px 0!important;
+  padding:14px 15px!important;
+  border-radius:20px!important;
+  background:rgba(30,103,76,.075)!important;
+}
+.dark .answerSummary{
+  background:rgba(142,212,181,.07)!important;
+}
+.answerSummary h3{
+  margin:0 0 6px!important;
+}
+.answerSummary p{
+  margin:0!important;
+  font-size:17px!important;
+  line-height:1.95!important;
+  font-weight:600!important;
+}
+.referenceDetails,
+.ayahDetails{
+  margin:11px 0!important;
+  border-radius:18px!important;
+  border:1px solid rgba(127,127,127,.12)!important;
+  padding:11px 13px!important;
+}
+.referenceDetails summary,
+.ayahDetails summary{
+  cursor:pointer!important;
+  font-size:12px!important;
+  opacity:.78!important;
+}
+.referenceDetails p{
+  white-space:pre-line!important;
+  font-size:13px!important;
+  line-height:1.9!important;
+  opacity:.84!important;
+}
+.ayahDetails summary{
+  display:flex!important;
+  align-items:center!important;
+  gap:7px!important;
+}
+.ayahDetails summary svg{
+  width:16px!important;
+}
+.ayahDetails summary small{
+  margin-inline-start:auto!important;
+}
+.ayahDetails p{
+  font-family:"Noto Naskh Arabic","Traditional Arabic","Tahoma","Arial",serif!important;
+  font-size:24px!important;
+  line-height:2!important;
+  text-align:right!important;
+}
+.compactSection{
+  margin:12px 0!important;
+}
+.compactSection p{
+  font-size:13px!important;
+  line-height:1.85!important;
+  opacity:.82!important;
+}
+
+/* =========================================================
+   Waiting screen
+   ========================================================= */
+.thinkingOverlay{
+  position:fixed;
+  z-index:95;
+  inset:0;
+  display:grid;
+  place-items:center;
+  padding:24px;
+  background:rgba(5,18,13,.26);
+  -webkit-backdrop-filter:blur(7px);
+  backdrop-filter:blur(7px);
+}
+.thinkingCard{
+  width:min(88vw,360px);
+  border-radius:30px;
+  padding:26px 22px;
+  text-align:center;
+}
+.thinkingCard h3{
+  margin:13px 0 5px;
+  font-size:20px;
+}
+.thinkingCard p{
+  margin:0;
+  font-size:11px;
+  opacity:.58;
+}
+.thinkingMark{
+  height:34px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+}
+.thinkingMark span{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:currentColor;
+  opacity:.35;
+  animation:noorThinking 1s ease-in-out infinite;
+}
+.thinkingMark span:nth-child(2){animation-delay:.14s}
+.thinkingMark span:nth-child(3){animation-delay:.28s}
+@keyframes noorThinking{
+  0%,100%{transform:translateY(0);opacity:.28}
+  50%{transform:translateY(-7px);opacity:1}
+}
+.miniSpinner{
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,.38);
+  border-top-color:#fff;
+  animation:noorSpin .75s linear infinite;
+}
+@keyframes noorSpin{to{transform:rotate(360deg)}}
+
+/* Do not let the short-screen fallback shrink the logo while the keyboard is open. */
+@media(max-height:650px){
+  .keyboard-open .orb{width:78px!important;height:78px!important}
+  .keyboard-open .simpleTitle{font-size:clamp(36px,9vw,54px)!important}
+  .keyboard-open .composer{height:68px!important;bottom:10px!important}
+}
+
+/* Noor official logo: preserve source artwork, no stretching */
+.noorBrandImage,
+.noorLogoOrb img,
+.noorLogoSmall img,
+.inlineNoorLogo,
+.noorLogoImage{
+  object-fit:contain!important;
+  aspect-ratio:1/1!important;
+  display:block!important;
+}
+.noorBrandImage{
+  width:82px!important;
+  height:82px!important;
+  border-radius:24px!important;
+}
+.noorLogoOrb img{
+  width:100%!important;
+  height:100%!important;
+  border-radius:28%!important;
+}
+.noorLogoSmall img{
+  width:100%!important;
+  height:100%!important;
+  border-radius:28%!important;
+}
+.inlineNoorLogo{
+  width:1em!important;
+  height:1em!important;
+  vertical-align:middle!important;
+}
+
+/* The raster artwork itself stays visually unchanged.
+   Any dynamic glass/refraction belongs to its surrounding UI material. */
+.noorLogoOrb{
+  overflow:hidden!important;
+  padding:0!important;
+  background:transparent!important;
+  border:none!important;
+  box-shadow:none!important;
+}
+
+
+/* Requested logo refinements + Sirah launcher only */
+.sirahLauncher{
+  border-radius:50%!important;
+  width:124px!important;
+  height:124px!important;
+  padding:0!important;
+  overflow:hidden!important;
+  cursor:pointer!important;
+  position:relative!important;
+  border:1px solid rgba(255,255,255,.20)!important;
+  background:rgba(20,110,78,.16)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(135%)!important;
+  backdrop-filter:blur(18px) saturate(135%)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.24),0 12px 28px rgba(0,40,25,.12)!important;
+}
+.sirahLauncher img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  border-radius:50%!important;
+  filter:saturate(.95) contrast(1.03)!important;
+}
+.sirahHint{
+  position:absolute;
+  inset:auto 14px 9px;
+  padding:4px 8px;
+  border-radius:999px;
+  font-size:9px;
+  line-height:1;
+  background:rgba(4,43,30,.42);
+  color:rgba(255,255,255,.92);
+  -webkit-backdrop-filter:blur(8px);
+  backdrop-filter:blur(8px);
+  pointer-events:none;
+}
+.topBrandLogo{
+  width:82px!important;
+  height:82px!important;
+  border-radius:50%!important;
+  object-fit:cover!important;
+  filter:saturate(.88) contrast(1.09) brightness(.92)!important;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.14),0 6px 16px rgba(0,55,38,.10)!important;
+}
+
+/* Four requested fixes only */
+.sirahHint{display:none!important}
+
+.sirahLauncher{
+  width:124px!important;
+  height:124px!important;
+  border-radius:50%!important;
+  overflow:hidden!important;
+  padding:0!important;
+  background:transparent!important;
+  border:1px solid rgba(255,255,255,.22)!important;
+  box-shadow:0 10px 28px rgba(0,60,42,.12)!important;
+}
+.sirahLauncher img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  border-radius:50%!important;
+  filter:none!important;
+}
+
+.topRightNoorLogo{
+  width:82px!important;
+  height:82px!important;
+  border-radius:50%!important;
+  object-fit:cover!important;
+  display:block!important;
+  filter:saturate(.92) contrast(1.05) brightness(.96)!important;
+  box-shadow:0 5px 14px rgba(0,50,35,.09)!important;
+}
+
+.sirahPage{
+  padding-bottom:110px!important;
+}
+.sirahBack{
+  border:0;
+  background:transparent;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  color:inherit;
+  opacity:.72;
+  margin:4px 0 16px;
+}
+.sirahHero{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  gap:8px;
+  margin:12px 0 22px;
+}
+.sirahPageLogo{
+  width:112px;
+  height:112px;
+  border-radius:50%;
+  object-fit:cover;
+}
+.sirahHero h1{
+  margin:4px 0 0;
+  font-size:34px;
+}
+.sirahHero p{
+  margin:0;
+  font-size:12px;
+  opacity:.58;
+}
+.sirahComposer{
+  position:fixed!important;
+  left:24px!important;
+  right:24px!important;
+  bottom:24px!important;
+}
+
+/* Reference screenshot alignment: final home interface */
+.topRightNoorLogo{width:52px!important;height:52px!important;border-radius:16px!important;object-fit:cover!important;background:transparent!important;padding:0!important;box-shadow:0 6px 18px rgba(20,90,62,.12)!important}
+.hero{padding-top:clamp(36px,7vh,74px)!important}
+.sirahLauncher{width:118px!important;height:118px!important;border-radius:30px!important;border:0!important;box-shadow:0 12px 30px rgba(23,105,73,.12)!important;background:transparent!important}
+.sirahLauncher img{width:100%!important;height:100%!important;object-fit:cover!important;border-radius:30px!important}
+.simpleTitle{margin-top:12px!important;font-size:clamp(42px,10vw,58px)!important;font-weight:700!important}
+.chips{margin-top:clamp(24px,4vh,36px)!important}
+.chip{min-height:74px!important;border-radius:28px!important}
+.sirahStandalone{overflow:hidden}
+.sirahBack{margin:8px 0 8px;padding:9px 13px;border-radius:18px;display:flex;align-items:center;gap:5px;background:transparent}
+.sirahBack svg{width:16px}
+.sirahHero{height:calc(100% - 100px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-bottom:120px}
+.sirahPageLogo{width:118px;height:118px;border-radius:30px;object-fit:cover;box-shadow:0 12px 30px rgba(23,105,73,.12)}
+.sirahHero h1{font-size:clamp(38px,9vw,54px);color:#1d694d;margin:18px 0 4px}.dark .sirahHero h1{color:#83d0ac}.sirahHero p{margin:0;opacity:.55}
+
+/* 2026-09-19 exact reference logo geometry.
+   Keep native button semantics/click behavior while removing UA button chrome. */
+.topRightNoorLogo{
+  width:52px!important;
+  height:52px!important;
+  border-radius:14px!important;
+  object-fit:contain!important;
+  background:transparent!important;
+  padding:0!important;
+  border:0!important;
+  box-shadow:none!important;
+  filter:none!important;
+}
+.sirahLauncher{
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  width:118px!important;
+  height:118px!important;
+  min-width:118px!important;
+  min-height:118px!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:30px!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+  cursor:pointer!important;
+  line-height:0!important;
+  font:inherit!important;
+  color:inherit!important;
+  -webkit-tap-highlight-color:transparent!important;
+}
+.sirahLauncher img{
+  display:block!important;
+  width:118px!important;
+  height:118px!important;
+  max-width:none!important;
+  object-fit:contain!important;
+  border-radius:30px!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  filter:none!important;
+  pointer-events:none!important;
+}
+.sirahLauncher:focus,.sirahLauncher:focus-visible,.sirahLauncher:active{
+  outline:none!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  transform:none!important;
+}
+
+
+/* Final exact square logo treatment: clickable without visual button chrome */
+.topRightNoorLogo{
+  width:52px!important;height:52px!important;
+  border-radius:0!important;object-fit:contain!important;
+  background:transparent!important;padding:0!important;border:0!important;
+  box-shadow:none!important;filter:none!important;
+}
+.sirahLauncher{
+  appearance:none!important;-webkit-appearance:none!important;
+  width:118px!important;height:118px!important;min-width:118px!important;min-height:118px!important;
+  padding:0!important;margin:0!important;border:0!important;border-radius:0!important;
+  background:transparent!important;box-shadow:none!important;overflow:visible!important;line-height:0!important;
+}
+.sirahLauncher::before{display:none!important}
+.sirahLauncher img{
+  display:block!important;width:118px!important;height:118px!important;max-width:none!important;
+  object-fit:contain!important;border-radius:0!important;background:transparent!important;
+  box-shadow:none!important;filter:none!important;pointer-events:none!important;
+}
+.sirahLauncher.liquid-press,.sirahLauncher.liquid-release,.sirahLauncher:active,.sirahLauncher:focus,.sirahLauncher:focus-visible{
+  transform:none!important;outline:none!important;background:transparent!important;box-shadow:none!important;
+}
+.settingsEditor{margin:14px 0;padding:16px;border-radius:22px;background:rgba(38,107,80,.06);display:flex;flex-direction:column;gap:9px}.dark .settingsEditor{background:rgba(255,255,255,.035)}.settingsEditor small{opacity:.58;line-height:1.7}.settingsEditor textarea,.settingsEditor input{width:100%;box-sizing:border-box;border:1px solid rgba(90,120,105,.22);border-radius:16px;padding:12px;background:rgba(255,255,255,.42);color:inherit;font:inherit;resize:vertical;outline:none}.dark .settingsEditor textarea,.dark .settingsEditor input{background:rgba(0,0,0,.12);border-color:rgba(255,255,255,.1)}.editorActions{display:flex;gap:8px;flex-wrap:wrap}.customSourceList{display:flex;flex-direction:column;gap:7px;margin-top:4px}.customSourceList>div{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 11px;border-radius:14px;background:rgba(127,127,127,.08)}.customSourceList button{font-size:12px}
+
+/* Continuous Quran reader */
+.app[data-tab="quran"] header{display:none!important}
+.app[data-tab="quran"] .content{height:calc(var(--vh) - 102px - env(safe-area-inset-bottom));padding-top:calc(8px + env(safe-area-inset-top))}
+.continuousReader{grid-template-rows:auto 1fr!important;gap:9px!important;height:100%}
+.continuousToolbar{height:58px!important;justify-content:space-between;position:relative;z-index:3}
+.continuousToolbar .surahPickerButton{flex:1!important;justify-content:flex-start!important;font-size:15px;font-weight:700}
+.autoScrollControls{display:flex;align-items:center;gap:3px;direction:ltr}
+.autoScrollControls button{height:38px;min-width:36px;border-radius:14px;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;gap:4px;padding:0 8px}
+.autoScrollControls button svg{width:16px}.autoScrollControls button span{font-size:9px}.autoScrollControls small{width:14px;text-align:center;opacity:.58;font-size:9px}
+.autoScrollControls .autoActive{background:rgba(24,103,74,.18);color:#17664b}.dark .autoScrollControls .autoActive{color:#9de0c1}
+.continuousViewport{padding-bottom:90px!important;scroll-behavior:auto!important}
+.continuousSurah{scroll-margin-top:8px;padding-bottom:28px;margin-bottom:22px;border-bottom:1px solid rgba(127,127,127,.13)}
+.continuousSurah:last-of-type{border-bottom:0}
+.continuousSurah .mushafText{font-family:"Noor Quran Hafs","Noto Naskh Arabic","Traditional Arabic",serif;font-size:clamp(26px,7.4vw,35px);line-height:2.05;text-align:right;direction:rtl}
+@media(max-width:390px){.continuousToolbar{height:56px!important}.autoScrollControls button{min-width:31px;padding:0 6px}.autoScrollControls button span{display:none}}
+.prayerTimeRow{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 2px;border-bottom:1px solid rgba(120,140,130,.12)}.prayerTimeRow>span{display:flex;flex-direction:column;gap:2px;font-weight:700}.prayerTimeRow small{font-weight:400;opacity:.55}.prayerTimeRow input[type=time]{width:128px!important;text-align:center;direction:ltr}.dark .prayerTimeRow{border-color:rgba(255,255,255,.07)}
+/* 2026-09-21 polish */
+.waterNun{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;font:700 26px "Noto Naskh Arabic",serif;color:rgba(245,255,250,.96);background:linear-gradient(145deg,rgba(40,154,105,.58),rgba(9,84,59,.42));border:1px solid rgba(255,255,255,.38);box-shadow:inset 0 1px 1px rgba(255,255,255,.72),inset 0 -8px 18px rgba(0,80,52,.18),0 5px 15px rgba(12,75,53,.12);backdrop-filter:blur(12px) saturate(145%);-webkit-backdrop-filter:blur(12px) saturate(145%)}
+.brandLogo{display:block;width:42px;height:42px;flex:none;object-fit:contain;border-radius:12px}
+.basmalaLine{font-family:"Noto Naskh Arabic","Traditional Arabic",serif;text-align:center;font-size:clamp(27px,6vw,39px);line-height:1.8;padding:10px 8px 18px;margin:0 auto 12px;border-bottom:1px solid rgba(127,127,127,.12);width:min(92%,620px)}
+.autoScrollControls>svg{display:none}.speedSlider{appearance:none;-webkit-appearance:none;width:112px;height:30px;background:transparent;direction:ltr}.speedSlider::-webkit-slider-runnable-track{height:5px;border-radius:99px;background:rgba(75,110,95,.24)}.speedSlider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;margin-top:-8px;background:#1b6b4e;border:1px solid rgba(255,255,255,.7);box-shadow:0 2px 8px rgba(0,0,0,.15)}.dark .speedSlider::-webkit-slider-runnable-track{background:rgba(255,255,255,.18)}.dark .speedSlider::-webkit-slider-thumb{background:#8dd6b4}
+.quranLoadingOverlay{position:fixed;inset:0;z-index:180;display:grid;place-items:center;background:rgba(235,244,239,.3);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}.dark .quranLoadingOverlay{background:rgba(2,24,17,.35)}.quranLoadingCard{padding:18px 24px;border-radius:24px;display:flex;align-items:center;gap:12px}.appToast{position:fixed;z-index:250;left:50%;bottom:calc(var(--nav-h) + 36px + env(safe-area-inset-bottom));transform:translateX(-50%);background:rgba(18,87,62,.92);color:#fff;padding:11px 17px;border-radius:18px;box-shadow:0 8px 28px rgba(0,0,0,.18);white-space:nowrap;max-width:90vw}
+.wordChoiceActions{display:grid;gap:10px;margin-top:18px}.wordChoiceActions button{min-height:58px;border-radius:20px;background:rgba(30,103,76,.11);display:flex;align-items:center;justify-content:center;gap:9px;font-weight:700}.wordChoiceActions svg{width:20px}
+.settingsPage button,.settingsEditor button,.editorActions button{border-radius:16px!important;background:linear-gradient(145deg,rgba(255,255,255,.46),rgba(255,255,255,.18))!important;border:1px solid rgba(255,255,255,.45)!important;box-shadow:inset 0 1px rgba(255,255,255,.65),0 4px 12px rgba(24,80,59,.07)!important;color:inherit!important}.dark .settingsPage button,.dark .settingsEditor button,.dark .editorActions button{background:linear-gradient(145deg,rgba(255,255,255,.10),rgba(255,255,255,.035))!important;border-color:rgba(255,255,255,.14)!important}.dangerSoft{color:#c85b5b!important}
+
+.themeToggle{display:inline-flex!important;align-items:center;justify-content:center;gap:8px;padding:10px 14px!important;border-radius:16px!important;background:rgba(30,103,76,.10)!important;color:inherit!important}.themeToggle svg{width:18px;height:18px}.dark .themeToggle{background:rgba(255,255,255,.07)!important}
+.speedSlider{touch-action:none;cursor:grab}.speedSlider:active{cursor:grabbing}.speedSlider::-webkit-slider-thumb{transition:transform .08s ease}.speedSlider:active::-webkit-slider-thumb{transform:scale(1.08)}
+.focusButton{width:42px;height:42px;border-radius:14px}.focusReader .readerToolbar,.focusReader .quranInlineSearch{display:none}.focusReader{padding-top:0}.quranInlineSearch{display:flex;align-items:center;gap:8px;margin:8px 12px;padding:8px 12px;border-radius:16px}.quranInlineSearch input{flex:1;background:transparent;border:0;outline:0;color:inherit}.quranSearchResults{position:absolute;z-index:30;top:112px;left:12px;right:12px;max-height:45vh;overflow:auto;padding:8px;border-radius:18px}.quranSearchResults button{display:flex;flex-direction:column;width:100%;text-align:right;padding:10px;border:0;background:transparent;color:inherit}.verseUnit.reviewHidden{filter:blur(8px);opacity:.38;cursor:pointer}.continueCard,.khatmaCard,.reviewCard{display:flex;flex-direction:column;gap:8px;padding:16px;margin:12px 0;border-radius:20px;background:var(--glass-bg,rgba(255,255,255,.1));border:1px solid rgba(127,127,127,.18)}.khatmaCard>div,.reviewCard>div{display:flex;gap:8px;align-items:center}.khatmaCard input,.reviewCard input{min-width:0;flex:1}.pickerTabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:10px 0}.pickerTabs button.active{font-weight:800;background:rgba(30,120,80,.16)}.keyField{display:flex;gap:6px}.keyField input{flex:1}.keyField button{width:44px}.settingsLink{display:inline-block;margin-top:8px}.shareTop{position:absolute;left:52px;top:14px}.wordChoiceActions{display:grid;gap:8px}.wordChoiceActions button{min-height:46px}.qWord{touch-action:manipulation}
+.homeContinue{width:min(92vw,520px);display:flex;align-items:center;justify-content:space-between;text-align:right;padding:14px 16px;margin:0 auto 16px;border-radius:20px}.homeContinue div{display:flex;flex-direction:column;gap:3px}.homeContinue strong{font-size:1.2rem}.settingsEditor button svg{width:18px;height:18px;vertical-align:middle}
+
+/* Noor unified Liquid Glass controls */
+.headerContinue{margin-inline-start:auto;min-height:44px;max-width:min(48vw,280px);border-radius:999px;padding:9px 13px;display:flex;align-items:center;gap:8px;background:transparent;font-size:11px;font-weight:700;line-height:1.35;text-align:right}
+.headerContinue svg{width:17px;flex:none;color:var(--green)}.dark .headerContinue svg{color:#8ed4b5}
+.continuousReader{display:flex!important;flex-direction:column;gap:9px!important;position:relative}
+.continuousViewport{flex:1;min-height:0}
+.quranInlineSearch{min-height:52px!important;margin:0 2px!important;padding:7px 12px!important;border-radius:22px!important;flex:none;direction:rtl;transition:border-color .2s ease,box-shadow .2s ease,background .2s ease}
+.quranInlineSearch:focus-within{border-color:rgba(36,122,89,.44);box-shadow:inset 0 1px rgba(255,255,255,.78),0 0 0 3px rgba(31,112,80,.09),0 8px 22px rgba(22,68,50,.07)}
+.quranInlineSearch>svg{width:21px;height:21px;flex:none;opacity:.72}.quranInlineSearch input{height:40px;font-size:15px;line-height:40px;padding:0 3px;direction:rtl}.quranInlineSearch input::placeholder{opacity:.5}.searchClear{width:38px;height:38px;flex:none;border-radius:50%;display:grid;place-items:center;background:rgba(29,103,76,.09)}.searchClear svg{width:17px}
+.quranSearchResults{top:calc(120px + env(safe-area-inset-top));left:2px;right:2px;max-height:min(50vh,430px);padding:8px;border-radius:24px!important;box-shadow:0 22px 50px rgba(12,48,35,.2);animation:searchReveal .2s ease both}
+.quranSearchResults button{min-height:64px;padding:10px 12px!important;border-radius:16px!important;gap:3px;border-bottom:1px solid rgba(120,140,130,.1)!important}
+.quranSearchResults button:active{background:rgba(29,103,76,.1)!important}.quranSearchResults span{font-family:"Noto Naskh Arabic","Traditional Arabic",serif;font-size:16px;line-height:1.65;opacity:.72}.emptySearch{padding:18px;text-align:center;opacity:.8}
+@keyframes searchReveal{from{opacity:0;transform:translateY(-5px) scale(.99)}to{opacity:1;transform:none}}
+.searchHighlight{animation:verseGlow 1.8s ease both;border-radius:12px}@keyframes verseGlow{0%,100%{background:transparent}25%,72%{background:rgba(47,157,112,.17);box-shadow:0 0 0 5px rgba(47,157,112,.06)}}
+
+.focusReader{padding-top:0!important}.focusReader .readerToolbar,.focusReader .quranInlineSearch,.focusReader .quranSearchResults{display:none!important}.focusReader .continuousViewport{border-radius:24px;padding-top:calc(58px + env(safe-area-inset-top))!important;transition:padding .24s ease}
+.focusExit{position:fixed;z-index:95;top:calc(10px + env(safe-area-inset-top));left:max(14px,env(safe-area-inset-left));width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,rgba(255,255,255,.48),rgba(255,255,255,.18));color:inherit;animation:focusExitIn .22s ease both}.focusExit svg{width:20px}.dark .focusExit{background:linear-gradient(145deg,rgba(255,255,255,.13),rgba(255,255,255,.045))}@keyframes focusExitIn{from{opacity:0;transform:scale(.88)}to{opacity:.82;transform:none}}
+.reviewSession{min-height:48px;border-radius:18px;padding:6px 8px 6px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex:none}.reviewSession span{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:700}.reviewSession svg{width:17px}.reviewSession button{min-height:36px;border-radius:13px;padding:0 12px;background:rgba(29,103,76,.12);font-weight:700}.verseUnit.reviewHidden{filter:blur(7px);opacity:.34;cursor:pointer;transition:filter .22s ease,opacity .22s ease}.verseUnit:not(.reviewHidden){transition:filter .22s ease,opacity .22s ease}
+
+.glassPanel{background:linear-gradient(145deg,rgba(255,255,255,.32),rgba(255,255,255,.11))!important;border:1px solid rgba(255,255,255,.52)!important;box-shadow:inset 0 1px rgba(255,255,255,.68),0 8px 24px rgba(22,68,50,.06)!important}.dark .glassPanel{background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.025))!important;border-color:rgba(255,255,255,.12)!important;box-shadow:inset 0 1px rgba(255,255,255,.14),0 8px 24px rgba(0,0,0,.12)!important}
+.khatmaCard,.reviewCard{padding:16px!important;margin:14px 0!important;border-radius:24px!important;gap:12px!important}.cardTitle{display:flex!important;align-items:center!important;gap:9px!important}.cardTitle svg{width:22px;color:var(--green)}.dark .cardTitle svg{color:#8ed4b5}.primaryGlass{min-height:48px;border-radius:18px;background:rgba(24,103,74,.14);font-weight:800;border:1px solid rgba(255,255,255,.4);box-shadow:inset 0 1px rgba(255,255,255,.55)}.dark .primaryGlass{background:rgba(117,205,164,.11);border-color:rgba(255,255,255,.1)}
+.glassInput{display:flex;align-items:center;gap:9px;min-height:52px;padding:7px 12px;border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,.38),rgba(255,255,255,.12));border:1px solid rgba(255,255,255,.48);box-shadow:inset 0 1px rgba(255,255,255,.64)}.glassInput span{font-size:11px;opacity:.7}.glassInput input{flex:1;min-width:0!important;width:70px!important;height:38px;border:0!important;background:transparent!important;text-align:center;font-weight:800;outline:0}.glassInput em{font-style:normal;font-size:12px}
+.khatmaStats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.khatmaStats>div:not(.planProgress){padding:10px;border-radius:15px;background:rgba(28,101,74,.07);display:flex;flex-direction:column;gap:3px}.khatmaStats small{opacity:.57}.planProgress{grid-column:1/-1;height:8px;border-radius:999px;background:rgba(84,115,101,.14);overflow:hidden}.planProgress span{display:block;height:100%;border-radius:inherit;background:#2b8a65;transition:width .3s ease}.khatmaStats>button{grid-column:1/-1;min-height:42px;border-radius:15px;background:rgba(28,101,74,.09);display:flex;align-items:center;justify-content:center;gap:7px}.khatmaStats>button svg{width:17px}
+.reviewRange{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px!important;align-items:stretch!important}.reviewRange fieldset{min-width:0;margin:0;padding:10px 9px 9px;border:1px solid rgba(105,132,119,.18);border-radius:19px}.reviewRange legend{padding:0 7px;font-weight:800;font-size:12px}.glassSelect{position:relative;display:flex;flex-direction:column;gap:5px;margin:6px 0}.glassSelect.isOpen{z-index:20}.glassSelect>span:first-child{font-size:9px;opacity:.58}.glassSelectControl{position:relative;width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:46px;padding:0 10px;border-radius:15px;background:linear-gradient(145deg,rgba(255,255,255,.4),rgba(255,255,255,.12));border:1px solid rgba(255,255,255,.48);box-shadow:inset 0 1px rgba(255,255,255,.64),0 5px 13px rgba(21,73,53,.055);color:inherit;font:inherit;font-size:12px;direction:rtl;transition:border-color .2s ease,background .2s ease,transform .16s ease}.glassSelectControl:active{transform:scale(.985)}.glassSelect.isOpen .glassSelectControl{border-color:rgba(68,144,111,.42);background:linear-gradient(145deg,rgba(255,255,255,.52),rgba(255,255,255,.18))}.dark .glassSelectControl,.dark .glassInput{background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.025));border-color:rgba(255,255,255,.12)}.glassSelectControl svg{width:16px;flex:none;opacity:.58;transition:transform .2s ease}.glassSelect.isOpen .glassSelectControl svg{transform:rotate(180deg)}.glassSelectMenu{position:absolute;z-index:40;top:calc(100% + 5px);right:0;left:0;max-height:min(248px,42vh);overflow:auto;overscroll-behavior:contain;padding:5px;border-radius:17px;background:rgba(238,247,242,.9);border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px rgba(255,255,255,.76),0 14px 30px rgba(9,52,37,.18);backdrop-filter:blur(16px) saturate(135%);-webkit-backdrop-filter:blur(16px) saturate(135%);animation:glassSelectOpen .18s ease both}.dark .glassSelectMenu{background:rgba(9,39,29,.92);border-color:rgba(255,255,255,.14)}.glassSelectMenu button{width:100%;min-height:44px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 10px;border-radius:12px;background:transparent;color:inherit;text-align:right;font:inherit;font-size:12px}.glassSelectMenu button.selected{background:rgba(39,132,95,.13);font-weight:800}.glassSelectMenu svg{width:15px;color:#2d8a66}@keyframes glassSelectOpen{from{opacity:0;transform:translateY(-5px) scale(.98)}to{opacity:1;transform:none}}
+.savedItem{position:relative;border-radius:20px;overflow:hidden;display:flex;align-items:stretch}.savedItem>button:first-child{flex:1;text-align:right;background:transparent;padding:14px}.savedItem .removeBookmark{width:48px;background:rgba(190,70,70,.07);display:grid;place-items:center;color:#b04d4d}.savedItem .removeBookmark svg{width:18px}
+
+.modal{animation:modalFade .22s ease both}.sheet{animation:sheetUp .28s cubic-bezier(.2,.82,.25,1) both}.sheetIconButton{width:46px!important;height:46px!important;border-radius:50%!important;display:grid!important;place-items:center!important;background:linear-gradient(145deg,rgba(255,255,255,.4),rgba(255,255,255,.13))!important;border:1px solid rgba(255,255,255,.5)!important;box-shadow:inset 0 1px rgba(255,255,255,.65),0 5px 16px rgba(20,67,49,.08)!important}.dark .sheetIconButton{background:linear-gradient(145deg,rgba(255,255,255,.11),rgba(255,255,255,.035))!important;border-color:rgba(255,255,255,.13)!important}.sheetIconButton svg{width:21px}.shareTop{left:76px!important;top:20px!important}.closeSheet{margin-top:-6px}
+.wordChoiceActions button{background:linear-gradient(145deg,rgba(40,112,84,.13),rgba(255,255,255,.12))!important;border:1px solid rgba(255,255,255,.35);box-shadow:inset 0 1px rgba(255,255,255,.5)}
+.asbabSheet h2{margin-bottom:12px}.asbabNarrations{display:grid;gap:12px}.asbabNarrations article{padding:14px;border-radius:19px;background:rgba(37,112,82,.08);border:1px solid rgba(255,255,255,.28)}.asbabNarrations p{font-family:"Noto Naskh Arabic","Traditional Arabic",serif;font-size:17px;line-height:1.9;margin:0;white-space:pre-line}.asbabNarrations small{display:block;margin-top:9px;opacity:.62}.asbabNote{font-size:11px!important;opacity:.58!important;margin-top:14px!important}.dark .asbabNarrations article{background:rgba(255,255,255,.045);border-color:rgba(255,255,255,.09)}
+.webResearch{margin-top:14px;padding:15px!important;border-radius:22px!important}.webResearch h3{display:flex;align-items:center;gap:7px}.webResearch h3 svg,.webSources svg{width:16px}.webResearch p{font-family:inherit!important;font-size:14px!important;line-height:1.8!important}.webSources{display:flex;flex-direction:column;gap:7px;margin-top:10px}.webSources a{display:flex;align-items:center;gap:7px;padding:9px 11px;border-radius:14px;background:rgba(31,108,79,.08);color:inherit;text-decoration:none;font-size:11px}
+@keyframes modalFade{from{background:rgba(0,0,0,0);backdrop-filter:blur(0)}to{background:rgba(0,0,0,.24);backdrop-filter:blur(4px)}}@keyframes sheetUp{from{opacity:.5;transform:translateY(28px)}to{opacity:1;transform:none}}
+
+.pickerTabs{position:relative;isolation:isolate;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0!important;padding:4px;margin:14px 0!important;min-height:52px;border-radius:19px;background:linear-gradient(145deg,rgba(255,255,255,.3),rgba(255,255,255,.1));border:1px solid rgba(255,255,255,.45);box-shadow:inset 0 1px rgba(255,255,255,.62)}.dark .pickerTabs{background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.025));border-color:rgba(255,255,255,.12)}.pickerTabs button{position:relative;z-index:2;min-width:0;background:transparent!important;border-radius:15px;font-size:12px;padding:0 3px;transition:color .2s ease}.pickerTabs button.active{background:transparent!important}.pickerIndicator{position:absolute;z-index:1;top:4px;right:4px;bottom:4px;width:calc((100% - 8px)/4);border-radius:15px;background:linear-gradient(145deg,rgba(255,255,255,.62),rgba(255,255,255,.22));border:1px solid rgba(255,255,255,.55);box-shadow:inset 0 1px rgba(255,255,255,.75),0 5px 13px rgba(21,73,53,.08);transition:transform .28s cubic-bezier(.2,.82,.25,1)}.dark .pickerIndicator{background:linear-gradient(145deg,rgba(255,255,255,.14),rgba(255,255,255,.05));border-color:rgba(255,255,255,.14)}.picker-surahs .pickerIndicator{transform:translateX(0)}.picker-juz .pickerIndicator{transform:translateX(-100%)}.picker-hizb .pickerIndicator{transform:translateX(-200%)}.picker-pages .pickerIndicator{transform:translateX(-300%)}
+.surahList .navCard{min-height:72px;background:linear-gradient(145deg,rgba(255,255,255,.34),rgba(255,255,255,.11));border:1px solid rgba(255,255,255,.42);box-shadow:inset 0 1px rgba(255,255,255,.58),0 6px 16px rgba(24,74,55,.055)}.dark .surahList .navCard{background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.025));border-color:rgba(255,255,255,.1)}
+.continuousViewport{will-change:auto!important;transform:none!important;overflow-anchor:none}.continuousSurah{content-visibility:auto;contain:layout style paint;contain-intrinsic-block-size:auto 1800px}.continuousToolbar,.quranInlineSearch,.reviewSession{position:relative;z-index:8;transform:translateZ(0)}
+.app:not([data-tab="quran"]) .readerShell{position:absolute;inset:0;visibility:hidden;pointer-events:none}.surahSheet .closeSheet{position:relative;z-index:5;touch-action:manipulation;pointer-events:auto}
+
+@media(max-width:390px){.headerContinue{max-width:49vw;padding-inline:10px;font-size:10px}.headerContinue svg{display:none}.reviewRange{grid-template-columns:1fr}.quranSearchResults{top:calc(116px + env(safe-area-inset-top))}.surahList{grid-template-columns:1fr 1fr}.surahList .navCard{min-height:66px;padding-inline:9px}.sheet{padding-inline:16px}.focusExit{left:12px}}
+@media(max-width:350px){.headerContinue span{max-width:118px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pickerTabs button{font-size:10px}.surahList{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.modal,.sheet,.quranSearchResults,.focusExit,.searchHighlight,.glassSelectMenu{animation:none!important}.pickerIndicator,.planProgress span,.focusReader .continuousViewport,.glassSelectControl,.glassSelectControl svg{transition:none!important}}
+/* Final cross-screen material, contrast and containment pass */
+:is(.app,.noorOverlayTheme):not(.dark){color:#10271f}
+:is(.app,.noorOverlayTheme):not(.dark) button,:is(.app,.noorOverlayTheme):not(.dark) input,:is(.app,.noorOverlayTheme):not(.dark) textarea,:is(.app,.noorOverlayTheme):not(.dark) select{color:#10271f;-webkit-text-fill-color:#10271f}
+:is(.app,.noorOverlayTheme):not(.dark) input::placeholder,:is(.app,.noorOverlayTheme):not(.dark) textarea::placeholder{color:#53655e;opacity:.72;-webkit-text-fill-color:#53655e}
+.appToast{white-space:normal!important;overflow-wrap:anywhere;text-align:center;line-height:1.55;width:max-content;max-width:min(90vw,560px)}
+.asbabRelation{margin:0 0 12px;padding:12px 14px;border-radius:17px;background:rgba(29,103,76,.1);border:1px solid rgba(255,255,255,.34);font-size:13px;line-height:1.85;overflow-wrap:anywhere}.dark .asbabRelation{background:rgba(125,207,171,.08);border-color:rgba(255,255,255,.1)}
+.surahSheet{overflow-x:hidden!important;overscroll-behavior-x:none;touch-action:pan-y}.surahSheet .surahList{width:100%;max-width:100%;overflow-x:hidden;overscroll-behavior-x:none;touch-action:pan-y}.surahSheet .navCard{min-width:0;max-width:100%;color:inherit}.pickerTabs{width:100%;max-width:100%;overflow:hidden;touch-action:pan-y}
+.iqamaInApp{position:fixed;z-index:310;inset:0;display:grid;place-items:center;padding:calc(18px + env(safe-area-inset-top)) 18px calc(18px + env(safe-area-inset-bottom));background:rgba(5,24,17,.28);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);animation:modalFade .22s ease both}.iqamaInAppCard{width:min(100%,390px);border-radius:32px;padding:26px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:11px}.iqamaInAppCard small{opacity:.62}.iqamaInAppCard h2{font-size:20px;margin:0}.iqamaInAppCard strong{font-variant-numeric:tabular-nums;font-size:46px;line-height:1.2;color:#b53030;direction:ltr}.iqamaInAppCard button{min-width:120px;min-height:48px;margin-top:4px;border-radius:17px;background:rgba(24,103,74,.14);border:1px solid rgba(255,255,255,.42);font-weight:800;color:inherit}.dark .iqamaInAppCard button{background:rgba(130,216,176,.12);border-color:rgba(255,255,255,.13)}
+.glass,.glassPanel,.sheetIconButton,.glassInput,.glassSelectControl,.pickerTabs,.navCard{transition:background .22s ease,border-color .22s ease,box-shadow .22s ease,color .18s ease,transform .16s ease}
+@font-face{font-family:"Noor Quran Hafs";src:url("/fonts/hafssmart.8.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+
+
+/* Final Mushaf layout: Uthmani Hafs + full-line justified verses */
+@font-face{font-family:"Noor Quran Hafs Final";src:url("/fonts/hafssmart.8.woff2") format("woff2");font-weight:400;font-style:normal;font-display:block}
+.continuousSurah .mushafText,
+.mushafText{
+  font-family:"Noor Quran Hafs Final","KFGQPC Hafs Smart","Noor Quran Hafs",serif!important;
+  font-weight:400!important;
+  font-size:clamp(28px,8vw,38px)!important;
+  line-height:2.08!important;
+  direction:rtl!important;
+  text-align:right!important;
+  text-align-last:auto!important;
+  text-justify:auto!important;
+  letter-spacing:0!important;
+  word-spacing:0!important;
+  font-kerning:normal!important;
+  font-variant-ligatures:common-ligatures contextual discretionary-ligatures!important;
+  font-feature-settings:"rlig" 1,"liga" 1,"calt" 1,"kern" 1!important;
+  text-rendering:optimizeLegibility!important;
+}
+.mushafText::after{content:none}
+.verseUnit{display:inline!important}
+.qWord{
+  display:inline-block!important;
+  white-space:nowrap!important;
+  vertical-align:baseline!important;
+}
+.ayahNumber{
+  display:inline-grid!important;
+  vertical-align:middle!important;
+  width:1.62em!important;
+  height:1.62em!important;
+  margin-inline:.08em!important;
+  border-radius:0!important;
+  background:radial-gradient(circle at center,#0b2430 0 43%,#18435b 44% 54%,#d6bd6d 55% 61%,#174d67 62% 68%,transparent 69%),
+             conic-gradient(from 0deg,#d9c26f 0 8%,transparent 8% 17%,#d9c26f 17% 25%,transparent 25% 33%,#d9c26f 33% 42%,transparent 42% 50%,#d9c26f 50% 58%,transparent 58% 67%,#d9c26f 67% 75%,transparent 75% 83%,#d9c26f 83% 92%,transparent 92% 100%)!important;
+  border:0!important;
+  box-shadow:none!important;
+  color:#fff!important;
+  font-family:"Noor Quran Hafs Final","Noto Naskh Arabic",serif!important;
+  font-size:.48em!important;
+}
+.dark .ayahNumber{color:#fff!important}
+.basmalaLine{
+  font-family:"Noor Quran Hafs Final","KFGQPC Hafs Smart",serif!important;
+  font-size:clamp(29px,7vw,40px)!important;
+  line-height:1.8!important;
+}
+@media(max-width:390px){
+  .continuousSurah .mushafText,.mushafText{font-size:clamp(27px,7.8vw,35px)!important;line-height:2.04!important}
+}
+
+/* ========================================================================
+   Noor Satin Glass Design System — unified, static and performance-minded.
+   Quran glyphs/text are explicitly excluded from blur/material effects.
+   ======================================================================== */
+:root{
+  --satin-subtle-bg:rgba(246,250,247,.48);
+  --satin-standard-bg:rgba(242,248,244,.64);
+  --satin-elevated-bg:rgba(239,247,242,.82);
+  --satin-border:rgba(255,255,255,.58);
+  --satin-highlight:rgba(255,255,255,.50);
+  --satin-shadow:0 8px 22px rgba(18,61,45,.075);
+  --satin-shadow-elevated:0 16px 38px rgba(12,48,35,.13);
+  --satin-blur:10px;
+  --satin-green:#17664b;
+  --satin-green-soft:rgba(23,102,75,.12);
+}
+.dark{
+  --satin-subtle-bg:rgba(19,45,35,.48);
+  --satin-standard-bg:rgba(19,47,36,.66);
+  --satin-elevated-bg:rgba(17,44,34,.86);
+  --satin-border:rgba(224,244,234,.14);
+  --satin-highlight:rgba(255,255,255,.10);
+  --satin-shadow:0 8px 22px rgba(0,0,0,.14);
+  --satin-shadow-elevated:0 16px 38px rgba(0,0,0,.24);
+  --satin-green-soft:rgba(126,207,170,.14);
+}
+/* Standard material. No refraction, saturation, moving highlight or distortion. */
+.glass,.glassPanel,.glassInput,.glassSelectControl,.continueCard,.khatmaCard,.reviewCard,
+.readerToolbar,.quranInlineSearch,.nav,.composer,.source,.savedItem,.settingsEditor,
+.iqamaInAppCard,.quranLoadingCard,.appToast{
+  background:var(--satin-standard-bg)!important;
+  border:1px solid var(--satin-border)!important;
+  box-shadow:inset 0 1px 0 var(--satin-highlight),var(--satin-shadow)!important;
+  -webkit-backdrop-filter:blur(var(--satin-blur))!important;
+  backdrop-filter:blur(var(--satin-blur))!important;
+}
+.glass::after{display:none!important}
+/* Elevated material for overlays / menus / sheets. */
+.sheet,.modal,.dialog,.bottomSheet,.glassSelectMenu,.quranSearchResults,[role="dialog"]>.glass,
+.wordSheet,.sourcesSheet{
+  background:var(--satin-elevated-bg)!important;
+  border:1px solid var(--satin-border)!important;
+  box-shadow:inset 0 1px 0 var(--satin-highlight),var(--satin-shadow-elevated)!important;
+  -webkit-backdrop-filter:blur(12px)!important;
+  backdrop-filter:blur(12px)!important;
+}
+/* Small controls use the lightest material. */
+.chip,.icon,.setting button,.wordChoiceActions button,.pickerTabs button,.focusButton,
+.primaryGlass,.themeToggle,.editorActions button,.glassSelectMenu button,
+.readerToolbar>button,.nav>button{
+  box-shadow:none;
+}
+/* Satin active navigation indicator replaces the old liquid selection. */
+.liquidSelection{
+  background:var(--satin-subtle-bg)!important;
+  border:1px solid var(--satin-border)!important;
+  box-shadow:inset 0 1px 0 var(--satin-highlight),0 4px 12px rgba(18,61,45,.06)!important;
+  transition:transform .26s cubic-bezier(.2,.8,.2,1)!important;
+}
+/* Static touch feedback only. */
+button::before{display:none!important}
+button.liquid-press{transform:scale(.985)!important}
+button.liquid-release{animation:none!important;transform:none!important}
+/* Reading plane stays optically clean: never blur Quran content. */
+.readerViewport,.mushafSurah,.mushafText,.qWord,.ayahNumber{
+  -webkit-backdrop-filter:none!important;backdrop-filter:none!important;filter:none!important;
+}
+.readerViewport{
+  background:rgba(255,255,255,.12)!important;
+  border:1px solid rgba(255,255,255,.30)!important;
+}
+.dark .readerViewport{background:rgba(2,20,14,.18)!important;border-color:rgba(230,247,239,.08)!important}
+
+/* Quran legibility: preserve the exact Unicode text and bundled Hafs font while
+   giving marks enough vertical room and preventing clipping/synthetic weight. */
+.mushafText,.mushafText .qWord{
+  font-family:"Noor Quran Hafs Final","Noor Quran Hafs","Noto Naskh Arabic","Traditional Arabic",serif!important;
+  font-weight:400!important;font-synthesis:none!important;
+  letter-spacing:0!important;
+  font-kerning:normal!important;
+  font-variant-ligatures:common-ligatures contextual!important;
+  font-feature-settings:"rlig" 1,"liga" 1,"calt" 1,"mark" 1,"mkmk" 1,"kern" 1!important;
+  text-rendering:optimizeLegibility!important;
+}
+.mushafText{line-height:2.32!important;overflow:visible!important;padding-block:.18em!important;overflow-wrap:normal!important;word-break:keep-all!important}
+.mushafText .qWord{
+  white-space:nowrap!important;display:inline-block!important;vertical-align:baseline!important;
+  overflow:visible!important;padding:.10em .01em .14em!important;margin:0!important;
+  border-radius:.22em!important;
+}
+/* Long-press/touch feedback: Noor green, soft enough to keep every diacritic readable. */
+.mushafText .qWord:active,.mushafText .qWord:focus-visible{
+  background:rgba(46,145,103,.16)!important;
+  color:inherit!important;
+  outline:1px solid rgba(86,188,143,.24)!important;
+  outline-offset:1px!important;
+}
+/* Clearer ayah medallion with a larger numeral and restrained Noor palette. */
+.ayahNumber{
+  position:relative!important;isolation:isolate!important;
+  width:1.90em!important;height:1.90em!important;min-width:1.90em!important;
+  margin:0 .13em 0 .08em!important;padding:0!important;
+  border-radius:50%!important;
+  background:radial-gradient(circle at 50% 46%,#123d32 0 48%,#0b2f27 49% 58%,#d5bd72 59% 64%,#2f8064 65% 72%,#e3cf88 73% 78%,transparent 79%)!important;
+  border:0!important;color:#fff!important;
+  box-shadow:0 1px 3px rgba(0,0,0,.16)!important;
+  font-family:"Noto Naskh Arabic","Traditional Arabic",serif!important;
+  font-size:.62em!important;line-height:1!important;font-weight:700!important;
+  overflow:visible!important;
+}
+.ayahNumber::before{
+  content:"";position:absolute;z-index:-1;inset:-.10em;border-radius:26%;
+  border:1px solid rgba(213,189,114,.72);transform:rotate(45deg);
+  box-shadow:inset 0 0 0 1px rgba(47,128,100,.35);pointer-events:none;
+}
+.ayahNumber span{position:relative;z-index:2;display:grid;place-items:center;line-height:1!important;transform:translateY(-.01em)}
+.dark .ayahNumber{color:#fff!important;background:radial-gradient(circle at 50% 46%,#0b2a25 0 48%,#061f1a 49% 58%,#d5bd72 59% 64%,#286f59 65% 72%,#e3cf88 73% 78%,transparent 79%)!important}
+.ayahNumber.bookmarked{background:radial-gradient(circle at 50% 46%,#17664b 0 55%,#d5bd72 56% 64%,#2f8064 65% 72%,#e3cf88 73% 78%,transparent 79%)!important;color:#fff!important}
+@media(max-width:390px){.mushafText{line-height:2.16!important}.ayahNumber{font-size:.64em!important}}
+
+/* Avoid expensive per-card backdrop blur in long scrolling lists. */
+.readerViewport .glassPanel,.savedList .glassPanel,.quranSearchResults button,.customSourceList>div{
+  -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* Ayah medallion interaction guard: keep the ornamental marker intact during tap/long-press. */
+.mushafText .ayahNumber,
+.mushafText .ayahNumber:hover,
+.mushafText .ayahNumber:active,
+.mushafText .ayahNumber:focus,
+.mushafText .ayahNumber:focus-visible {
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-touch-callout: none !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  outline: none !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  color: #fff !important;
+  background: radial-gradient(circle at 50% 46%,#123d32 0 48%,#0b2f27 49% 58%,#d5bd72 59% 64%,#2f8064 65% 72%,#e3cf88 73% 78%,transparent 79%) !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,.16) !important;
+  transform: none !important;
+}
+.dark .mushafText .ayahNumber,
+.dark .mushafText .ayahNumber:hover,
+.dark .mushafText .ayahNumber:active,
+.dark .mushafText .ayahNumber:focus,
+.dark .mushafText .ayahNumber:focus-visible {
+  background: radial-gradient(circle at 50% 46%,#0b2a25 0 48%,#061f1a 49% 58%,#d5bd72 59% 64%,#286f59 65% 72%,#e3cf88 73% 78%,transparent 79%) !important;
+}
+.mushafText .ayahNumber.bookmarked,
+.mushafText .ayahNumber.bookmarked:hover,
+.mushafText .ayahNumber.bookmarked:active,
+.mushafText .ayahNumber.bookmarked:focus,
+.mushafText .ayahNumber.bookmarked:focus-visible {
+  background: radial-gradient(circle at 50% 46%,#17664b 0 55%,#d5bd72 56% 64%,#2f8064 65% 72%,#e3cf88 73% 78%,transparent 79%) !important;
+}
+.mushafText .ayahNumber::selection,
+.mushafText .ayahNumber span::selection { background: transparent !important; color: inherit !important; }
+
+/* ========================================================================
+   Quran reader 2026-09-22: remove phantom surah space + optional page mode.
+   The old intrinsic-size estimate could reserve hundreds of empty pixels for
+   short surahs. Visible surahs now use their real measured content height.
+   ======================================================================== */
+.continuousSurah{
+  content-visibility:visible!important;
+  contain:none!important;
+  contain-intrinsic-size:0!important;
+  contain-intrinsic-block-size:0!important;
+  min-height:0!important;
+  height:auto!important;
+  padding-bottom:18px!important;
+  margin-bottom:14px!important;
+}
+.continuousSurah .mushafText{min-height:0!important;height:auto!important}
+.continuousSurah .mushafText:empty{display:none!important}
+
+.pageModeCounter{display:flex;align-items:center;gap:7px;direction:rtl;padding:0 10px;min-height:38px;border-radius:14px;background:var(--satin-subtle-bg);border:1px solid var(--satin-border);font-size:11px;font-weight:800;white-space:nowrap}
+.pageModeCounter svg{width:17px;height:17px}
+
+.pagedViewport{
+  overflow:hidden!important;
+  padding:10px 10px 12px!important;
+  touch-action:pan-y!important;
+  contain:layout paint!important;
+  perspective:1200px;
+}
+.mushafPage{height:100%;min-height:0;display:flex;flex-direction:column;gap:8px;transform-style:preserve-3d;will-change:transform,opacity}
+.mushafPageInner{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;padding:4px 4px 8px;display:flex;flex-direction:column}
+.mushafPageInner::-webkit-scrollbar{display:none}
+.mushafPageSurah{display:block;margin:0;padding:0 0 8px;min-height:0}
+.mushafPageSurah + .mushafPageSurah{padding-top:8px}
+.pageSurahBanner{min-height:52px!important;margin:2px 0 10px!important;border-radius:18px!important}
+.pageBasmala{margin:0 auto 7px!important;padding:3px 6px 8px!important;line-height:1.65!important}
+.pageMushafText{
+  flex:none;
+  margin:0!important;
+  padding:.08em .01em .12em!important;
+  font-size:clamp(25px,7.2vw,34px)!important;
+  line-height:1.92!important;
+  text-align:justify!important;
+  text-align-last:justify!important;
+  overflow:visible!important;
+}
+.pageDensity-medium .pageMushafText{font-size:clamp(23px,6.7vw,31px)!important;line-height:1.88!important}
+.pageDensity-dense .pageMushafText{font-size:clamp(21px,6.2vw,29px)!important;line-height:1.82!important}
+.mushafPageFooter{margin-top:auto;padding:8px 4px 1px;border-top:1px solid rgba(127,127,127,.13);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;font-size:9px;opacity:.62}
+.mushafPageFooter span:last-child{text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mushafPageFooter b{font-family:"Noor Quran Hafs Final",serif;font-size:13px;font-weight:400}
+.pageTurnControls{height:46px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px;flex:none}
+.pageTurnControls button{min-width:0;height:42px;border-radius:15px;background:var(--satin-subtle-bg)!important;border:1px solid var(--satin-border)!important;color:inherit;display:flex;align-items:center;justify-content:center;gap:4px;font-size:10px;font-weight:700}
+.pageTurnControls button svg{width:15px;height:15px}.pageTurnControls button:disabled{opacity:.28}.pageTurnControls>span{font-size:10px;opacity:.58;white-space:nowrap}
+@keyframes noorPageNext{from{opacity:.72;transform:translateX(-4%) rotateY(5deg) scale(.992)}to{opacity:1;transform:none}}
+@keyframes noorPagePrev{from{opacity:.72;transform:translateX(4%) rotateY(-5deg) scale(.992)}to{opacity:1;transform:none}}
+.pageTurn-next{animation:noorPageNext .28s cubic-bezier(.2,.82,.25,1) both;transform-origin:right center}
+.pageTurn-prev{animation:noorPagePrev .28s cubic-bezier(.2,.82,.25,1) both;transform-origin:left center}
+
+.readerModeSettings{gap:11px!important}.readerModeSegment{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:4px;border-radius:18px;background:rgba(127,127,127,.065);border:1px solid rgba(127,127,127,.11)}
+.readerModeSegment button{min-height:46px;display:flex;align-items:center;justify-content:center;gap:6px;background:transparent!important;border-color:transparent!important;box-shadow:none!important;font-weight:700}
+.readerModeSegment button svg{width:17px;height:17px}.readerModeSegment button.active{background:var(--satin-subtle-bg)!important;border-color:var(--satin-border)!important;box-shadow:inset 0 1px 0 var(--satin-highlight),0 4px 12px rgba(18,61,45,.06)!important;color:var(--satin-green)!important}
+.dark .readerModeSegment button.active{color:#9de0c1!important}
+
+@media(max-width:390px){
+  .pagedViewport{padding-inline:7px!important}.pageMushafText{font-size:clamp(24px,7.1vw,32px)!important}.pageDensity-medium .pageMushafText{font-size:clamp(22px,6.55vw,29px)!important}.pageDensity-dense .pageMushafText{font-size:clamp(20px,6vw,27px)!important}.pageTurnControls button{font-size:9px;padding-inline:4px}
+}
+@media(prefers-reduced-motion:reduce){.pageTurn-next,.pageTurn-prev{animation:none!important}}
+
+/* ========================================================================
+   Quran reader QA/performance pass: real variable-height windowing and a
+   strictly single-screen mushaf page. These rules intentionally come last so
+   older experimental reader rules cannot reintroduce sticky overlap/scroll.
+   ======================================================================== */
+.virtualQuran{position:relative;width:100%;min-height:100%}
+.virtualSurahRow{position:absolute;inset-inline:0;top:0;width:100%;contain:layout style;padding-bottom:14px}
+.virtualSurahRow .continuousSurah{margin:0!important;padding:2px 0 18px!important;border-bottom:1px solid rgba(127,127,127,.13)}
+.virtualSurahRow:last-child .continuousSurah{border-bottom:0}
+.virtualPageRow{padding-bottom:10px;border-bottom:1px solid rgba(127,127,127,.10)}
+.virtualPageRow .continuousSurah{padding:0!important;border-bottom:0!important}
+.virtualPageRow .continuousSurah + .continuousSurah{padding-top:8px!important}
+.continuousSurah .surahBanner.ornate,
+.pageSurahBanner.surahBanner.ornate{
+  position:relative!important;top:auto!important;z-index:1!important;
+}
+
+.pagedViewport{overflow:hidden!important;touch-action:pan-y!important;padding-bottom:8px!important}
+.mushafPage{overflow:hidden!important;isolation:isolate;contain:layout paint style}
+.mushafPageInner{
+  overflow:hidden!important;overscroll-behavior:none!important;
+  justify-content:flex-start!important;padding-bottom:3px!important;
+}
+.mushafPageSurah{flex:none;overflow:visible;isolation:isolate}
+.pageMushafText,
+.pageDensity-medium .pageMushafText,
+.pageDensity-dense .pageMushafText{
+  font-size:var(--page-font-size,28px)!important;
+  line-height:1.78!important;
+}
+.pageSurahBanner{min-height:42px!important;margin:1px 0 5px!important;padding-block:5px!important}
+.pageSurahBanner b{font-size:clamp(20px,5.7vw,28px)!important}
+.pageBasmala{font-size:calc(var(--page-font-size,28px) * .94)!important;margin:0 auto 3px!important;padding:1px 4px 4px!important;line-height:1.42!important}
+.mushafPageFooter{margin-top:auto!important;padding-top:4px!important;min-height:18px;flex:none}
+.pageTurnControls{height:44px!important}
+
+/* Readable screens: never shrink the Quran to match printed page density. */
+.mushafText,.continuousSurah .mushafText,.pageMushafText{
+  text-align-last:start!important;
+}
+.mushafText::after{content:none!important;display:none!important}
+.virtualPageRow{padding-bottom:0;border-bottom:0}
+.mushafPageInner{display:block!important;padding:0!important;direction:rtl}
+.readingColumns{
+  height:100%;width:100%;column-width:var(--reading-column-width,320px);
+  column-gap:0;column-fill:auto;direction:rtl;
+}
+.readingColumns .mushafPageSurah{padding:6px 3px!important;contain:none;isolation:auto;overflow:visible}
+.readingColumns .pageMushafText{font-size:var(--page-font-size,30px)!important;line-height:1.82!important;orphans:1;widows:1}
+.readingColumns .pageSurahBanner{break-inside:avoid;break-after:avoid}
+.readingColumns .pageBasmala{break-inside:avoid;break-after:avoid;line-height:1.8!important}
+.readerScreenCount{display:block;font-size:10px;white-space:nowrap;opacity:.75}
+
+@media(max-height:700px){
+  .pageTurnControls{height:40px!important}.pageTurnControls button{height:38px!important}
+  .pageSurahBanner{min-height:38px!important}.pageMushafText{line-height:1.7!important}
+}
+
+
+/* Keep every Quran surface on the bundled Hafs font. The former final override
+   pointed at a file that was not packaged, so Android fell back to a system
+   font without the Uthmani annotation glyphs. */
+.mushafText,.mushafText .qWord,.pageMushafText,.continuousSurah .mushafText{
+  font-family:"Noor Quran Hafs Final","Noor Quran Hafs","Noto Naskh Arabic","Noto Sans Arabic","Traditional Arabic",serif!important;
+  font-variant-ligatures:normal!important;
+  font-feature-settings:"liga" 1,"calt" 1!important;
+}
+.flashcardPrompt p,.flashcardAnswer p,.savedItem button span,.ayah p,.ayahDetails p{
+  font-family:"Noor Quran Hafs Final","Noor Quran Hafs","Noto Naskh Arabic","Traditional Arabic",serif;
+}
+/* Ayah numerals must stay high contrast in light mode and must not inherit the
+   Quran font's digit glyph/color behaviour. */
+.mushafText .ayahNumber span,.pageMushafText .ayahNumber span{
+  color:#fff!important;
+  -webkit-text-fill-color:#fff!important;
+  opacity:1!important;
+  font-family:system-ui,-apple-system,"Segoe UI",sans-serif!important;
+  font-weight:800!important;
+}
+/* The generic card child flex rule must not override the four Khatma stats. */
+.khatmaCard > .khatmaStats{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:8px;align-items:stretch!important}
+.khatmaStats > div:not(.planProgress){min-width:0;overflow-wrap:anywhere}
+.khatmaStats > .planProgress,.khatmaStats > button{grid-column:1/-1;min-width:0}
+.khatmaCard{min-width:0;overflow:hidden}
+/* Remove the transient blank-frame source: horizontal column painting and
+   scrollLeft re-layout could briefly leave the WebView with no painted page. */
+.mushafPage,.mushafPageInner,.readingColumns{
+  contain:none!important;
+  backface-visibility:visible!important;
+}
+.mushafPage{will-change:auto!important}
+.pageTurn-next,.pageTurn-prev{animation-duration:.18s!important}
+/* Opening spread gets a little more compact so Al-Fatihah + opening Al-Baqarah
+   remain readable on one reader screen without vertical scrolling. */
+.mushafPage:first-child .readingColumns .mushafPageSurah{break-inside:avoid-column}
+
+/* Noor integrated tools + memorization lab -------------------------------- */
+.noorTools{width:min(100%,650px);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:14px}
+.toolTile{min-height:78px;border-radius:22px!important;padding:11px 8px!important;background:transparent!important;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:inherit}
+.toolTile>span{width:34px;height:34px;border-radius:13px;display:grid;place-items:center;background:rgba(23,102,75,.08);color:var(--green)}.dark .toolTile>span{background:rgba(142,212,181,.08);color:#8ed4b5}.toolTile svg{width:18px}.toolTile b{font-size:12px}.toolTile small{font-size:9px;opacity:.5}
+.toolPage{padding:18px 16px 110px!important}.toolBack{display:flex;align-items:center;gap:5px;padding:9px 11px;border-radius:15px;background:rgba(127,127,127,.07);color:inherit}.toolBack svg{width:16px}.toolTitle{display:flex;align-items:center;gap:12px;margin:16px 2px 18px}.toolTitle>svg{width:30px;height:30px;color:var(--green)}.dark .toolTitle>svg{color:#8ed4b5}.toolTitle small{font-size:10px;opacity:.55}.toolTitle h2{margin:2px 0 0;font-size:24px}
+.qiblaPage{max-width:520px;margin:auto}.qiblaDialWrap{display:grid;place-items:center;padding:16px 0 20px}.qiblaDial{position:relative;width:min(70vw,270px);aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,.56);background:radial-gradient(circle,rgba(255,255,255,.28),rgba(255,255,255,.08) 57%,rgba(23,102,75,.05));box-shadow:inset 0 1px rgba(255,255,255,.85),0 18px 44px rgba(19,75,54,.09)}.dark .qiblaDial{border-color:rgba(255,255,255,.13);background:radial-gradient(circle,rgba(255,255,255,.08),rgba(255,255,255,.018) 60%,rgba(118,207,166,.04))}.qiblaDial:before,.qiblaDial:after{content:"";position:absolute;inset:12%;border-radius:50%;border:1px dashed rgba(23,102,75,.15)}.qiblaDial:after{inset:28%;border-style:solid;opacity:.5}.qiblaDial>b{position:absolute;top:9px;left:50%;transform:translateX(-50%);font-size:11px;opacity:.55}.qiblaKaaba{position:absolute;top:31px;left:50%;transform:translateX(-50%) rotate(45deg);width:22px;height:22px;background:#19372d;color:#d9bb82;border-radius:4px;display:grid;place-items:center;font-size:0;box-shadow:0 6px 16px rgba(0,0,0,.15)}.qiblaNeedle{position:absolute;inset:0;transition:transform .22s ease;will-change:transform}.qiblaNeedle span{position:absolute;top:50%;left:50%;width:3px;height:37%;transform:translate(-50%,-96%);border-radius:999px;background:linear-gradient(#1b7052 0 70%,rgba(27,112,82,.15));transform-origin:50% 100%}.qiblaNeedle span:before{content:"";position:absolute;top:-3px;left:50%;width:11px;height:11px;border-radius:50%;transform:translateX(-50%);background:#1b7052;box-shadow:0 0 0 5px rgba(27,112,82,.11)}.dark .qiblaNeedle span,.dark .qiblaNeedle span:before{background:#91d9b9}.qiblaReadout{padding:16px;border-radius:22px;display:grid;text-align:center;gap:5px}.qiblaReadout strong{font-size:30px;color:var(--green)}.dark .qiblaReadout strong{color:#8ed4b5}.qiblaReadout span{font-weight:700}.qiblaReadout small{opacity:.58;line-height:1.55}.qiblaLocate{width:100%;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:7px}.qiblaLocate svg{width:18px}
+.miniTabs{display:grid;grid-template-columns:repeat(3,1fr);padding:5px;border-radius:18px;background:rgba(127,127,127,.07);margin-bottom:12px}.miniTabs button{height:40px;border-radius:14px;background:transparent;color:inherit}.miniTabs button.active{background:linear-gradient(145deg,rgba(255,255,255,.52),rgba(255,255,255,.18));box-shadow:inset 0 1px rgba(255,255,255,.65),0 5px 16px rgba(23,79,58,.07);font-weight:800}.dark .miniTabs button.active{background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.035))}
+.adhkarList{display:grid;gap:11px}.dhikrCard{border-radius:24px;padding:16px;transition:opacity .2s ease,transform .2s ease}.dhikrCard.done{opacity:.72}.dhikrHead{display:flex;justify-content:space-between;align-items:center;gap:12px}.dhikrHead>div{display:flex;flex-direction:column;gap:2px}.dhikrHead small{font-size:10px;opacity:.52}.dhikrCounter{width:54px;height:54px;flex:none;border-radius:18px;background:rgba(23,102,75,.09);color:var(--green);display:grid;place-items:center;font-weight:800}.dark .dhikrCounter{background:rgba(142,212,181,.08);color:#8ed4b5}.dhikrCounter svg{width:24px}.dhikrCard p{font-family:"Noto Naskh Arabic","Traditional Arabic",serif!important;font-size:20px!important;line-height:2!important;opacity:1!important;margin:14px 0 8px!important}.dhikrHint{font-size:9px;opacity:.42}
+.topicSearch{display:flex;align-items:center;gap:8px;border-radius:20px;padding:7px 9px 7px 12px}.topicSearch>svg{width:19px;opacity:.55}.topicSearch input{flex:1;min-width:0;height:42px;border:0;outline:0;background:transparent;color:inherit}.topicSearch button{width:42px;height:42px;border-radius:15px;background:rgba(23,102,75,.12);color:var(--green);display:grid;place-items:center}.dark .topicSearch button{color:#8ed4b5}.topicSearch button svg{width:18px}.topicResults{display:grid;gap:9px;margin-top:12px}.topicResult{position:relative;border-radius:22px;padding:14px;cursor:pointer}.topicResult>div{display:flex;align-items:center;gap:8px}.topicResult>div b{font-size:13px}.topicResult p{margin:9px 0 6px!important;font-family:"Noto Naskh Arabic","Traditional Arabic",serif!important;font-size:16px!important;line-height:1.85!important;opacity:.9!important}.topicResult>small{font-size:9px;opacity:.48}.topicResult>svg{position:absolute;left:12px;bottom:12px;width:15px;opacity:.45}.resultKind{font-size:9px;padding:4px 7px;border-radius:9px;background:rgba(23,102,75,.09);color:var(--green)}.dark .resultKind{color:#8ed4b5}.resultKind.hadith{color:#816727;background:rgba(180,151,80,.1)}.topicEmpty{text-align:center;font-size:12px!important;opacity:.5!important}
+.voiceSearch,.searchClear{width:38px;height:38px;flex:none;border-radius:50%;display:grid;place-items:center;background:rgba(29,103,76,.09);color:inherit}.voiceSearch svg{width:17px}.voiceSearch.listening{background:rgba(41,135,94,.16)}.voicePulse{width:12px;height:12px;border-radius:50%;background:#2f8b64;box-shadow:0 0 0 0 rgba(47,139,100,.4);animation:voicePulse 1.15s ease-out infinite}.voicePulse.large{width:34px;height:34px}@keyframes voicePulse{70%{box-shadow:0 0 0 14px rgba(47,139,100,0)}100%{box-shadow:0 0 0 0 rgba(47,139,100,0)}}
+.reviewLab,.memoryMap{padding:16px!important;margin:14px 0!important;border-radius:24px!important}.betaBadge{margin-inline-start:auto;padding:3px 7px;border-radius:8px;font-size:8px;letter-spacing:.08em;background:rgba(217,187,130,.18);color:#8b6b2e}.reviewModeGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.reviewModeCard{min-height:95px;border-radius:20px;background:linear-gradient(145deg,rgba(255,255,255,.34),rgba(255,255,255,.11));border:1px solid rgba(255,255,255,.42);box-shadow:inset 0 1px rgba(255,255,255,.58),0 6px 16px rgba(24,74,55,.055);display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:9px;text-align:right;padding:12px;color:inherit}.dark .reviewModeCard{background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.025));border-color:rgba(255,255,255,.1)}.reviewModeCard>span{width:38px;height:38px;border-radius:14px;display:grid;place-items:center;background:rgba(23,102,75,.08);color:var(--green)}.dark .reviewModeCard>span{color:#8ed4b5}.reviewModeCard svg{width:18px}.reviewModeCard>svg{width:14px;opacity:.45}.reviewModeCard div{display:flex;flex-direction:column;gap:3px}.reviewModeCard small{font-size:9px;opacity:.52;line-height:1.4}.strengthLegend{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0;font-size:9px;opacity:.57}.strengthLegend span:before{content:"";display:inline-block;width:8px;height:8px;border-radius:3px;margin-left:4px;background:rgba(127,127,127,.22)}.strengthLegend span:nth-child(2):before{background:rgba(191,92,75,.45)}.strengthLegend span:nth-child(3):before{background:rgba(202,166,72,.55)}.strengthLegend span:nth-child(4):before{background:rgba(47,139,100,.6)}.surahHeatmap{display:grid;grid-template-columns:repeat(8,1fr);gap:5px}.surahHeatmap button{aspect-ratio:1;border-radius:11px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(127,127,127,.09);color:inherit;border:1px solid rgba(127,127,127,.08)}.surahHeatmap button b{font-size:10px}.surahHeatmap button small{font-size:7px;opacity:.6}.surahHeatmap .weak{background:rgba(191,92,75,.16)}.surahHeatmap .medium{background:rgba(202,166,72,.18)}.surahHeatmap .strong{background:rgba(47,139,100,.2)}
+.reviewSheet{padding:22px!important}.reviewSheetHead{display:flex;gap:11px;align-items:center;margin:12px 0 18px}.reviewSheetHead>svg{width:29px;color:var(--green)}.dark .reviewSheetHead>svg{color:#8ed4b5}.reviewSheetHead small{font-size:9px;opacity:.55}.reviewSheetHead h2{margin:1px 0 0}.flashcardPrompt,.flashcardAnswer,.heardText,.recitationResult{padding:16px;border-radius:22px;background:rgba(23,102,75,.055);border:1px solid rgba(127,127,127,.1)}.flashcardPrompt small{opacity:.5}.flashcardPrompt p,.flashcardAnswer p,.heardText p{font-family:"Noto Naskh Arabic","Traditional Arabic",serif;font-size:24px;line-height:2;margin:10px 0}.flashcardPrompt p span{opacity:.35}.revealCard{width:100%;margin-top:12px;display:flex;align-items:center;justify-content:center;gap:7px}.gradeActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.gradeActions button{min-height:52px;border-radius:18px;display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(23,102,75,.1);color:inherit}.gradeActions .neededHelp{background:rgba(180,120,70,.08)}.gradeActions svg{width:18px}.sessionMini{display:flex;justify-content:center;gap:16px;margin-top:14px;font-size:10px;opacity:.55}.recitationIntro{font-size:12px!important;line-height:1.7!important}.recitationMic{width:150px;height:150px;margin:12px auto 16px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;background:radial-gradient(circle,rgba(23,102,75,.15),rgba(23,102,75,.05));border:1px solid rgba(255,255,255,.5);color:var(--green)}.dark .recitationMic{color:#8ed4b5;border-color:rgba(255,255,255,.12)}.recitationMic svg{width:34px;height:34px}.recitationMic b{font-size:12px}.heardText p{font-size:18px;margin:5px 0}.recitationResult{margin-top:9px;font-size:12px;line-height:1.65}.summaryHero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;padding:8px 0 18px}.summaryHero>svg{width:34px;color:#aa883b}.summaryHero small{opacity:.55}.summaryHero strong{font-size:46px;line-height:1.1;color:var(--green)}.dark .summaryHero strong{color:#8ed4b5}.summaryGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.summaryGrid>div{padding:11px 5px;border-radius:16px;background:rgba(127,127,127,.07);display:flex;flex-direction:column;align-items:center}.summaryGrid b{font-size:18px}.summaryGrid small{font-size:8px;opacity:.5;text-align:center}.reviewSummarySheet>p{text-align:center;font-size:11px;opacity:.55}.reviewSummarySheet>.primaryGlass{width:100%}
+.widgetSettings button{display:flex!important;align-items:center!important;justify-content:center!important;gap:7px!important}.widgetSettings button svg{width:18px}
+@media(max-width:430px){.noorTools{gap:6px}.toolTile{min-height:70px}.reviewModeGrid{grid-template-columns:1fr}.surahHeatmap{grid-template-columns:repeat(7,1fr)}.summaryGrid{grid-template-columns:repeat(2,1fr)}}
+
+
+/* 2026-09-23: keep Noor home tools visible and smooth heavy WebView pages. */
+.hero{
+  padding-top:clamp(10px,2.2vh,22px)!important;
+  padding-bottom:186px!important;
+}
+.sirahLauncher{
+  width:92px!important;
+  height:92px!important;
+  border-radius:24px!important;
+  margin-top:-4px!important;
+}
+.sirahLauncher img{border-radius:24px!important}
+.simpleTitle{
+  margin-top:8px!important;
+  font-size:clamp(36px,8.8vw,50px)!important;
+  line-height:1.2!important;
+}
+.chips{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  margin-top:14px!important;
+  gap:8px!important;
+}
+.chip{
+  min-height:62px!important;
+  border-radius:23px!important;
+  padding-block:8px!important;
+}
+.noorTools{margin-top:10px!important;gap:7px!important}
+.toolTile{min-height:68px!important;border-radius:20px!important;padding:8px 6px!important}
+.toolTile>span{width:31px!important;height:31px!important;border-radius:12px!important}
+
+/* Send icon: force the paper plane to remain white in light/dark mode. */
+.composer button{background:#17513b!important;color:#fff!important;opacity:1!important}
+.composer button svg{color:#fff!important;stroke:#fff!important;opacity:1!important;fill:none!important}
+.composer button:disabled{opacity:.72!important}
+
+/* Settings/bookmarks scrolling: avoid expensive moving backdrop-filter layers
+   on Android WebView while preserving the Satin Glass look. */
+.settingsPage,.savedPage{
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  background:rgba(238,246,241,.90)!important;
+  touch-action:pan-y!important;
+  overscroll-behavior-y:contain!important;
+  contain:layout paint style;
+  transform:translateZ(0);
+}
+.dark .settingsPage,.dark .savedPage{background:rgba(8,34,26,.94)!important}
+.settingsPage.pageEnter,.savedPage.pageEnter{animation:none!important}
+.settingsPage .settingsEditor,.savedPage .savedItem{
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  contain:layout paint style;
+  box-shadow:inset 0 1px 0 var(--satin-highlight),0 4px 12px rgba(18,61,45,.045)!important;
+}
+.settingsPage .settingsEditor{background:rgba(38,107,80,.055)!important}
+.dark .settingsPage .settingsEditor{background:rgba(255,255,255,.032)!important}
+.savedPage .savedItem{background:rgba(255,255,255,.18)!important}
+.dark .savedPage .savedItem{background:rgba(255,255,255,.035)!important}
+
+.flashcardAnswer small{display:block;font-size:9px;opacity:.5;margin-bottom:5px}
+.flashcardAnswer p{margin-top:2px!important}
+
+@media(max-height:760px){
+  .hero{padding-top:4px!important}
+  .sirahLauncher{width:80px!important;height:80px!important;border-radius:21px!important}
+  .sirahLauncher img{border-radius:21px!important}
+  .simpleTitle{font-size:36px!important;margin-top:5px!important}
+  .chips{margin-top:9px!important}
+  .chip{min-height:56px!important}
+  .noorTools{margin-top:8px!important}
+  .toolTile{min-height:62px!important}
+}
+
+/* Compact Ask-Quran landing on short Android screens: keep the three Noor tools
+   visible above the fixed composer without changing the Satin Glass identity. */
+@media(max-height:700px){
+  .hero{padding-top:0!important;padding-bottom:178px!important}
+  .sirahLauncher{width:72px!important;height:72px!important;border-radius:19px!important;margin-top:-8px!important}
+  .sirahLauncher img{border-radius:19px!important}
+  .simpleTitle{font-size:33px!important;margin-top:3px!important}
+  .chips{margin-top:7px!important;gap:6px!important}
+  .chip{min-height:52px!important;padding-block:6px!important}
+  .noorTools{margin-top:6px!important;gap:6px!important}
+  .toolTile{min-height:58px!important;padding:6px 5px!important}
+  .toolTile>span{width:28px!important;height:28px!important}
+  .toolTile small{display:none!important}
+}
+
+/* Keep the generated square artwork inside its home launcher at every size. */
+.sirahLauncher img{width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;object-fit:contain!important}
+
+.quranSearchResults span,.wordModal h2,.savedItem button span,.flashcardPrompt p,.flashcardAnswer p,.ayah p,.ayahDetails p,.topicResult p,.quranResult span{font-family:"Noor Quran Hafs Final","Noor Quran Hafs","Noto Naskh Arabic","Noto Sans Arabic",serif!important}
+.answerVerseLink{width:100%;min-height:58px;border-radius:19px;padding:12px 14px;display:flex;align-items:center;gap:9px;color:inherit;text-align:right}
+.answerVerseLink svg{width:18px;color:var(--green);flex:none}.answerVerseLink small{margin-right:auto;opacity:.65}.answerVerseLink svg:last-child{color:inherit}
+.answerResults{margin-top:12px;min-width:0}.answerResults>div{display:grid;gap:9px;max-height:none;overflow:visible;scrollbar-width:none;overscroll-behavior:auto;contain:none!important;isolation:auto!important}
+.answerResults>div::-webkit-scrollbar{display:none}.quranResult{width:100%;min-width:0;border-radius:20px;padding:13px 14px;display:grid;grid-template-columns:1fr auto;gap:6px 10px;color:inherit;text-align:right;content-visibility:visible!important;contain:none!important;transform:none!important;will-change:auto!important;backface-visibility:visible!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+.quranResult b{font-size:12px;color:var(--green)}.dark .quranResult b{color:#8ed4b5}.quranResult span{grid-column:1/-1;font-size:20px;line-height:1.9;overflow-wrap:anywhere}.quranResult>svg{grid-column:2;grid-row:1;width:17px}
+:is(.app,.noorOverlayTheme):not(.dark) .a2{background:radial-gradient(circle,rgba(171,219,196,.22),transparent 72%)}
+.adhkarTabs{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;margin:12px 0 16px;padding-bottom:4px;white-space:nowrap}
+.adhkarTabs::-webkit-scrollbar{display:none}
+.adhkarTabs button,.flashcardDifficulty button{flex:none;min-height:40px;padding:0 13px;border-radius:14px;background:rgba(30,104,76,.08);border:1px solid rgba(125,156,140,.15);color:inherit}
+.adhkarTabs button.active,.flashcardDifficulty button.active{background:rgba(35,125,89,.20);border-color:rgba(45,129,91,.38);font-weight:800}
+.flashcardDifficulty{display:flex;gap:7px;margin:14px 0 7px}
+.flashcardDifficulty button{flex:1}
+.difficultyHint{display:block;line-height:1.7;opacity:.7}
+
+/* Focus mode retains its own copy of the auto-scroll controls below the reader. */
+.focusScrollControls{position:fixed!important;z-index:96;bottom:calc(36px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(calc(100vw - 32px),650px);height:62px;padding:8px 12px;border-radius:22px;display:flex;align-items:center;gap:12px}
+.focusScrollControls button{width:46px;min-width:46px;height:46px;flex:none}
+.focusScrollControls .speedSlider{width:auto;flex:1;min-width:0;height:44px}
+
+/* Android scroll-jank follow-up: do not promote the whole long page into one
+   giant GPU texture. Long Saved/Settings content uses static translucent satin
+   layers while scrolling; only temporary overlays keep live blur. */
+.settingsPage,.savedPage{
+  transform:none!important;
+  will-change:auto!important;
+}
+.savedPage .glassPanel,
+.savedPage .glassInput,
+.savedPage .glassSelectControl,
+.settingsPage .settingsEditor,
+.settingsPage .setting{
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  will-change:auto!important;
+}
+.savedPage .glassPanel{
+  background:linear-gradient(145deg,rgba(255,255,255,.29),rgba(255,255,255,.12))!important;
+}
+.dark .savedPage .glassPanel{
+  background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.027))!important;
+}
+
+/* ========================================================================
+   Android WebView long-list stability
+   ------------------------------------------------------------------------
+   Do not make a scrolling surface itself a live backdrop-filter layer.
+   Android WebView can temporarily drop/recreate those tiles while scrolling,
+   which looked like Settings/Saved/Adhkar cards disappeared and came back.
+   Keep the Satin Glass colors/borders, but render long scrolling surfaces and
+   their repeated cards as stable painted layers.
+   ======================================================================== */
+.page,
+.answer,
+.sheet,
+.glassSelectMenu,
+.quranSearchResults{
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  contain:none!important;
+  transform:none!important;
+  will-change:auto!important;
+  backface-visibility:visible!important;
+  -webkit-transform:none!important;
+}
+
+.page.glass,
+.sheet.glass{
+  background:var(--satin-standard-bg)!important;
+}
+
+/* Repeated elements inside every long list must not create one blur texture
+   per row/card. The visual material stays Satin Glass via translucent fill,
+   border and inset highlight. */
+.page .glassPanel,
+.page .settingsEditor,
+.page .savedItem,
+.page .setting,
+.page .dhikrCard,
+.page .topicResult,
+.page .reviewCard,
+.page .khatmaCard,
+.page .continueCard,
+.page .glassInput,
+.page .glassSelectControl,
+.sheet .glassPanel,
+.sheet .glassInput,
+.sheet .glassSelectControl,
+.glassSelectMenu button,
+.quranSearchResults button{
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  contain:none!important;
+  transform:none!important;
+  will-change:auto!important;
+  backface-visibility:visible!important;
+}
+
+/* Let the browser repaint list rows normally instead of clipping them into
+   isolated paint-containment surfaces. */
+.settingsPage,.savedPage,.toolPage,
+.settingsPage .settingsEditor,.savedPage .savedItem,
+.adhkarList,.topicResults,.savedList{
+  contain:none!important;
+  isolation:auto!important;
+}
+
+/* Preserve native momentum scrolling without forcing a giant GPU layer. */
+.page,.answer,.sheet,.glassSelectMenu,.quranSearchResults{
+  -webkit-overflow-scrolling:touch;
+  overflow-anchor:auto;
+  touch-action:pan-y;
+}
+
+/* Do not replay entrance opacity/transforms on long tool/list pages. */
+.toolPage.pageEnter,.settingsPage.pageEnter,.savedPage.pageEnter{
+  animation:none!important;
+  opacity:1!important;
+}
+
+/* The Kaaba marks the fixed top target. Only the direction indicator rotates. */
+.qiblaKaaba{
+  position:absolute!important;
+  top:7%!important;
+  left:50%!important;
+  width:34px!important;
+  height:31px!important;
+  border-radius:3px 3px 5px 5px!important;
+  background:linear-gradient(155deg,#161916 0%,#070907 68%,#101310 100%)!important;
+  border:1px solid rgba(238,220,151,.55)!important;
+  box-shadow:0 7px 18px rgba(0,0,0,.24),inset 2px 0 rgba(255,255,255,.035)!important;
+  z-index:5!important;
+  color:transparent!important;
+  font-size:0!important;
+  transform-origin:50% 50%!important;
+  display:block!important;
+  pointer-events:none!important;
+}
+.qiblaKaaba::before{
+  content:"";
+  position:absolute;
+  left:2px;right:2px;top:8px;
+  height:4px;
+  border-radius:1px;
+  background:linear-gradient(90deg,#aa8a3d,#ead58c 45%,#b18d3e);
+  box-shadow:0 1px 0 rgba(0,0,0,.3);
+}
+.qiblaKaaba::after{
+  content:"";
+  position:absolute;
+  inset:2px 3px auto;
+  height:5px;
+  opacity:.42;
+  background:repeating-linear-gradient(90deg,transparent 0 5px,rgba(231,210,132,.42) 5px 6px);
+}
+.qiblaKaaba .kaabaBand{display:none}
+.qiblaKaaba .kaabaDoor{
+  position:absolute;
+  right:6px;
+  bottom:3px;
+  width:7px;
+  height:12px;
+  border-radius:1px 1px 0 0;
+  background:linear-gradient(90deg,#967332,#d9bb68,#9d7836);
+  border:1px solid rgba(245,222,142,.55);
+}
+.qiblaNeedle{z-index:4}
+.qiblaNeedle span{z-index:2}
+.qiblaDial>b{z-index:6}
+/* Keep settings and ask controls inside narrow Android viewports. */
+.reciterPicker{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0;padding:10px 14px;border:1px solid var(--satin-border,rgba(127,127,127,.25));border-radius:17px;background:var(--satin-subtle-bg,rgba(255,255,255,.09))}
+.reciterPicker{width:100%;color:inherit;text-align:right;font:inherit;min-height:56px}
+.reciterPicker strong{margin-right:auto;font-size:inherit;font-weight:600}
+.reciterPicker svg{width:17px;color:#83bfa4}
+.reciterModal{z-index:110;align-items:flex-end;padding:12px 12px calc(14px + env(safe-area-inset-bottom))}
+.reciterSheet{width:min(100%,550px);margin:0 auto;border-radius:30px;padding:22px 18px;background:linear-gradient(150deg,rgba(39,92,72,.97),rgba(15,48,38,.97));color:#f2fbf5;box-shadow:0 18px 60px rgba(0,0,0,.3)}
+:is(.app,.noorOverlayTheme):not(.dark) .reciterSheet{background:linear-gradient(150deg,rgba(240,252,246,.98),rgba(210,234,224,.98));color:#17392d}
+:is(.app,.noorOverlayTheme):not(.dark) .reciterOption{border-color:rgba(36,93,68,.2);background:linear-gradient(120deg,rgba(255,255,255,.63),rgba(219,242,229,.38))}
+:is(.app,.noorOverlayTheme):not(.dark) .reciterOption.active{border-color:rgba(40,123,78,.55);background:rgba(113,190,146,.22)}
+.reciterOption{width:100%;display:flex;align-items:center;justify-content:space-between;text-align:right;min-height:62px;padding:11px 16px;margin-top:9px;border:1px solid rgba(225,251,232,.15);border-radius:19px;background:linear-gradient(120deg,rgba(205,242,219,.13),rgba(188,235,220,.05));color:inherit;font:inherit}
+.reciterOption.active{border-color:rgba(151,219,181,.65);background:rgba(119,194,153,.18)}
+.reciterOption svg{width:21px;color:#9ddfbc}
+.reciterCancel{width:100%;margin-top:12px;padding:9px;color:inherit;opacity:.8}
+.webSources a{align-items:flex-start}.webSources a span{min-width:0;display:grid;gap:5px}.webSources a b{font-weight:650}.webSources a small{line-height:1.55;opacity:.77}
+.askProviderChoices{display:flex;gap:8px;justify-content:center;margin:0 16px 8px;flex-wrap:wrap}
+.askProviderChoices button{padding:9px 14px;border-radius:16px;color:inherit;background:var(--satin-subtle-bg,rgba(255,255,255,.09));border:1px solid var(--satin-border,rgba(127,127,127,.28))}
+.askProviderChoices button.active{color:#a4dcc2;border-color:rgba(125,206,165,.7)}
+
+/* The generated square icon must never overflow the smaller home button. */
+.sirahLauncher img{width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;object-fit:contain!important}
+
+/* Smooth, short theme handoff without blocking interaction. */
+html.theme-switching *,html.theme-switching *::before,html.theme-switching *::after{transition:background-color .32s ease,color .28s ease,border-color .32s ease,box-shadow .32s ease,opacity .28s ease!important}
+.flashcardScope{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.flashcardScope button{padding:10px;border-radius:14px;background:rgba(127,127,127,.08);border:1px solid rgba(127,127,127,.12)}.flashcardScope button.active{background:rgba(38,107,80,.14);border-color:rgba(38,107,80,.28)}
+
+/* Noor contextual guidance: compact, optional, and visually consistent with Satin Glass. */
+.guidanceModal{z-index:1200}.guidanceSheet{max-width:420px;text-align:center;padding:26px 22px}.guidanceIcon{width:58px;height:58px;margin:0 auto 12px;display:grid;place-items:center;border-radius:20px;background:color-mix(in srgb,var(--accent) 16%,transparent)}.guidanceIcon svg{width:28px;height:28px}.guidanceSheet h2{margin:8px 0}.guidanceSheet p{line-height:1.8;opacity:.86}.theme-switching,.theme-switching *{transition:background-color .32s ease,color .26s ease,border-color .3s ease,box-shadow .3s ease!important}
+.flashcardJuzPicker{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 0}
+.customReciterForm{display:grid;gap:10px;padding:12px;margin:8px 0;border-radius:18px;background:rgba(255,255,255,.09)}
+.customReciterForm input{width:100%;min-height:46px;border:1px solid rgba(128,128,128,.24);border-radius:14px;padding:10px 12px;background:rgba(255,255,255,.12);color:inherit;font:inherit}
+.customReciterForm small{line-height:1.7;opacity:.75}
+
+/* Noor guidance polish: same Satin Glass language as the rest of the app. */
+.guidanceModal{z-index:1200!important;background:rgba(5,24,17,.32)!important;backdrop-filter:blur(7px)!important;-webkit-backdrop-filter:blur(7px)!important}
+.guidanceSheet{position:relative;max-width:430px!important;min-height:470px;text-align:center;padding:22px 20px calc(24px + env(safe-area-inset-bottom))!important;overflow:hidden!important;border-radius:32px 32px 0 0!important;background:var(--satin-elevated-bg)!important}
+.guidanceClose{position:absolute;top:17px;left:17px;z-index:5;width:40px;height:40px;display:grid;place-items:center;border-radius:14px!important;background:var(--satin-subtle-bg)!important;border:1px solid var(--satin-border)!important;color:inherit}.guidanceClose svg{width:18px}
+.guidanceHero{position:relative;height:112px;display:grid;place-items:center;margin-top:6px}.guidanceHalo{position:absolute;width:108px;height:108px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--satin-green) 15%,transparent),transparent 70%);filter:blur(1px)}
+.guidanceIcon{position:relative;width:70px;height:70px;margin:0!important;display:grid;place-items:center;border-radius:24px!important;background:var(--satin-standard-bg)!important;border:1px solid var(--satin-border);box-shadow:inset 0 1px var(--satin-highlight),0 10px 24px rgba(20,72,52,.10)}.guidanceIcon svg{width:31px!important;height:31px!important;color:var(--satin-green)}.dark .guidanceIcon svg{color:#8bc7ab}
+.guidanceProgress{display:flex;justify-content:center;gap:7px;margin:1px 0 18px;direction:ltr}.guidanceProgress span{width:7px;height:7px;border-radius:999px;background:rgba(90,120,105,.20);transition:width .24s ease,background .24s ease}.guidanceProgress span.active{width:28px;background:var(--satin-green)}.guidanceProgress span.done{background:color-mix(in srgb,var(--satin-green) 45%,transparent)}
+.guidanceCopy{max-width:350px;margin:auto}.guidanceCopy>small{display:block;font-size:11px;opacity:.58;margin-bottom:5px}.guidanceCopy h2{font-size:24px;line-height:1.45;margin:0 0 8px!important}.guidanceCopy p{font-size:14px;line-height:1.9!important;margin:0;opacity:.72!important}
+.guidancePreview{display:flex;justify-content:center;flex-wrap:wrap;gap:7px;margin:19px auto 21px;max-width:360px}.guidancePreview span{display:flex;align-items:center;gap:6px;min-height:35px;padding:5px 11px;border-radius:14px;background:var(--satin-subtle-bg);border:1px solid var(--satin-border);font-size:11px;font-weight:750}.guidancePreview svg{width:15px;height:15px;opacity:.78}.guidanceTipDemo{box-shadow:inset 0 1px var(--satin-highlight)}
+.guidanceActions{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:stretch;margin-top:auto}.guidanceActions button{min-height:50px;border-radius:17px!important;font:inherit;font-weight:800}.guidancePrimary{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--satin-green)!important;color:#fff!important;border:1px solid color-mix(in srgb,var(--satin-green) 72%,#fff)!important;box-shadow:0 7px 18px rgba(23,102,75,.16)!important}.guidancePrimary svg{width:18px}.guidanceSecondary{min-width:76px;background:var(--satin-subtle-bg)!important;border:1px solid var(--satin-border)!important;color:inherit!important}
+.guidanceSettings{gap:12px!important}.guidanceSettingsHead{display:flex;align-items:center;gap:11px}.guidanceSettingsHead>div:last-child{display:flex;flex-direction:column;gap:3px}.guidanceSettingsIcon{width:42px;height:42px;flex:none;display:grid;place-items:center;border-radius:15px;background:var(--satin-subtle-bg);border:1px solid var(--satin-border)}.guidanceSettingsIcon svg{width:20px;color:var(--satin-green)}.guidanceToggle{margin:0!important;padding:11px 0!important}.guidanceToggle>div{display:flex;flex-direction:column;gap:2px}.guidanceToggle small{font-size:10px}.guidanceToggle button.isOn{background:var(--satin-green)!important;color:#fff!important}.guidanceSettingsActions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.guidanceSettingsActions button{min-height:44px;display:flex;align-items:center;justify-content:center;gap:7px}.guidanceSettingsActions svg{width:16px}
+@media(max-width:390px){.guidanceSheet{min-height:450px;padding-inline:16px!important}.guidanceHero{height:98px}.guidanceIcon{width:64px;height:64px;border-radius:21px!important}.guidanceCopy h2{font-size:21px}.guidanceCopy p{font-size:13px}.guidancePreview{margin-block:15px 18px}.guidanceSettingsActions{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.guidanceProgress span{transition:none!important}}
+
+/* Contextual coach marks: one quiet, actionable tip at a time inside the Quran reader. */
+.contextCoach{position:fixed;z-index:1180;inset-inline:14px;bottom:calc(88px + env(safe-area-inset-bottom));max-width:430px;margin-inline:auto;display:grid;grid-template-columns:42px minmax(0,1fr) 34px;gap:10px;align-items:start;padding:12px;border-radius:20px;background:var(--satin-elevated-bg);border:1px solid var(--satin-border);box-shadow:0 14px 34px rgba(8,42,30,.16),inset 0 1px var(--satin-highlight);backdrop-filter:blur(18px) saturate(1.08);-webkit-backdrop-filter:blur(18px) saturate(1.08);animation:coachIn .24s ease-out}
+.contextCoachIcon{width:42px;height:42px;display:grid;place-items:center;border-radius:14px;background:var(--satin-subtle-bg);border:1px solid var(--satin-border)}.contextCoachIcon svg{width:19px;color:var(--satin-green)}
+.contextCoachCopy{display:flex;min-width:0;flex-direction:column;gap:2px;text-align:start}.contextCoachCopy b{font-size:13px}.contextCoachCopy span{font-size:11px;line-height:1.65;opacity:.82}.contextCoachCopy small{font-size:9px;opacity:.55;margin-top:2px}
+.contextCoach>button{width:34px;height:34px;display:grid;place-items:center;border:0;border-radius:11px;background:transparent;color:inherit;opacity:.62}.contextCoach>button:active{background:var(--satin-subtle-bg)}.contextCoach>button svg{width:16px}
+@keyframes coachIn{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:none}}
+@media(max-width:390px){.contextCoach{inset-inline:10px;bottom:calc(82px + env(safe-area-inset-bottom));grid-template-columns:38px minmax(0,1fr) 30px;padding:10px}.contextCoachIcon{width:38px;height:38px}.contextCoachCopy span{font-size:10.5px}}
+@media(prefers-reduced-motion:reduce){.contextCoach{animation:none!important}}
+
+/* Production Juz picker: never fall back to Android/WebView native <select>. */
+.flashcardJuzPicker{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 0}.juzPickerTrigger{min-width:142px!important;justify-content:space-between!important;direction:rtl}.juzPickerModal{z-index:1250}.juzPickerSheet{max-height:min(76vh,620px)!important;overflow:hidden!important;display:flex;flex-direction:column;gap:12px}.juzPickerHead{display:flex;align-items:center;justify-content:space-between;gap:12px;flex:none}.juzPickerHead>div{display:grid;gap:2px}.juzPickerHead h2{margin:0!important;font-size:22px}.juzPickerHead small{opacity:.58}.juzPickerGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;overflow-y:auto;overflow-x:hidden;padding:2px 1px calc(6px + env(safe-area-inset-bottom));scrollbar-width:none;overscroll-behavior:contain;touch-action:pan-y}.juzPickerGrid::-webkit-scrollbar{display:none}.juzPickerOption{min-width:0;min-height:52px;padding:10px 13px;border-radius:17px!important;display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:right;color:inherit!important;background:var(--satin-subtle-bg)!important;border:1px solid var(--satin-border)!important;box-shadow:inset 0 1px var(--satin-highlight)!important;font:inherit;font-weight:750}.juzPickerOption.selected{background:color-mix(in srgb,var(--satin-green) 15%,var(--satin-standard-bg))!important;border-color:color-mix(in srgb,var(--satin-green) 48%,var(--satin-border))!important;color:var(--satin-green)!important}.dark .juzPickerOption.selected{color:#a4dcc2!important}.juzPickerCheck{width:25px;height:25px;flex:none;display:grid;place-items:center;border-radius:10px;background:transparent}.juzPickerOption.selected .juzPickerCheck{background:color-mix(in srgb,var(--satin-green) 16%,transparent)}.juzPickerCheck svg{width:16px;height:16px;stroke-width:3}@media(max-width:360px){.juzPickerGrid{grid-template-columns:1fr}.juzPickerSheet{max-height:78vh!important}}
+
+/* Release 41: compact Ask-page shortcuts. */
+.noorTools{grid-template-columns:repeat(5,minmax(0,1fr))}
+.prayerShortcut{cursor:pointer}
+.iqamaLeadSetting{display:grid;grid-template-columns:1fr auto;align-items:center;gap:5px 12px;padding:12px 0;border-top:1px solid rgba(120,140,130,.12);border-bottom:1px solid rgba(120,140,130,.12)}
+.iqamaLeadSetting>span{font-weight:750}.iqamaLeadSetting>div{display:flex;align-items:center;gap:7px}.iqamaLeadSetting input{width:66px!important;min-height:42px;border-radius:14px;text-align:center;background:rgba(35,112,82,.08);border:1px solid rgba(35,112,82,.18);color:inherit;font:inherit;font-weight:800}.iqamaLeadSetting small{grid-column:1/-1;line-height:1.6;opacity:.6}
+.prayerTimesSheet{position:fixed;z-index:305;inset:0;display:flex;align-items:flex-end;justify-content:center;padding:18px 18px calc(18px + env(safe-area-inset-bottom));background:rgba(5,24,17,.32);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);animation:modalFade .2s ease both}
+.prayerTimesCard{width:min(100%,520px);max-height:min(82vh,680px);overflow:hidden;border-radius:30px;padding:18px;display:flex;flex-direction:column;gap:14px}.sheetHead{display:flex;align-items:center;justify-content:space-between;gap:14px}.sheetHead>div{display:flex;flex-direction:column;gap:3px}.sheetHead>div>b{font-size:18px}.sheetHead small{opacity:.58}.sheetHead>button{width:42px;height:42px;border-radius:14px;background:rgba(32,108,79,.09);color:inherit;display:grid;place-items:center}.sheetHead svg{width:19px}
+.prayerTimesList{display:grid;gap:7px;overflow-y:auto;scrollbar-width:none}.prayerTimesList::-webkit-scrollbar{display:none}.prayerScheduleRow{display:grid;grid-template-columns:minmax(86px,1fr) repeat(2,minmax(72px,.72fr));align-items:center;gap:8px;padding:10px 12px;border-radius:17px;background:rgba(34,108,80,.07);border:1px solid rgba(126,157,141,.12)}.prayerScheduleRow>span{font-weight:800;display:flex;flex-direction:column}.prayerScheduleRow>span small{font-size:9px;font-weight:500;opacity:.55}.prayerScheduleRow>div{display:flex;flex-direction:column;align-items:center;gap:1px}.prayerScheduleRow>div small{font-size:9px;opacity:.55}.prayerScheduleRow>div b{font-size:13px;white-space:nowrap}.fridayPrayer{background:rgba(35,125,89,.13);border-color:rgba(35,125,89,.22)}.prayerEmpty{text-align:center;padding:25px 10px;opacity:.65}.sheetActions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.sheetActions button{min-height:46px;border-radius:16px;background:rgba(30,104,76,.11);border:1px solid rgba(125,156,140,.16);color:inherit;font-weight:800}
+.khutbahRow{width:100%;text-align:right;color:inherit;cursor:pointer}.khutbahRow .khutbahTitle{min-width:0;align-items:flex-start;text-align:right}.khutbahRow .khutbahTitle b{white-space:normal;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.khutbahSheet h2{font-size:22px;line-height:1.55;margin:12px 0}.khutbahSheet p{line-height:1.8;opacity:.8}.khutbahSource{display:flex;align-items:center;justify-content:center;text-decoration:none;color:inherit;min-height:48px;margin-top:16px;border-radius:16px}
+@media(max-width:390px){.prayerTimesCard{padding:15px}.prayerScheduleRow{grid-template-columns:minmax(76px,1fr) repeat(2,minmax(64px,.72fr));padding-inline:9px}.prayerScheduleRow>div b{font-size:12px}}
+@media(max-width:560px){.noorTools{grid-template-columns:repeat(3,minmax(0,1fr))}.noorTools .toolTile:nth-child(n+4){min-height:62px}}
+
+/* Quran Android shaping fix: keep each Uthmani word in the same inline shaping
+   context. Android WebView can clip glyph overhangs when every Arabic word is
+   promoted to its own inline-block. Line justification is done only through
+   real inter-word spaces; letters and Quranic marks are never stretched. */
+.mushafText,
+.continuousSurah .mushafText,
+.pageMushafText{
+  text-align:justify!important;
+  text-align-last:start!important;
+  text-justify:inter-word!important;
+  overflow:visible!important;
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+  white-space:normal!important;
+}
+.mushafText .verseUnit{
+  display:inline!important;
+  overflow:visible!important;
+}
+.mushafText .qWord{
+  display:inline!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  padding:0!important;
+  margin:0!important;
+  box-decoration-break:clone;
+  -webkit-box-decoration-break:clone;
+}
+
+/* Release 42: compact navigation search, theme modes and Noor-native reciter controls */
+.pickerSearch{margin:8px 0 10px;display:flex;align-items:center;gap:8px;padding:8px 11px!important;min-height:42px}.pickerSearch svg{width:17px;opacity:.65}.pickerSearch input{flex:1;min-width:0;border:0!important;background:transparent!important;outline:0;color:inherit;font:inherit}.pickerSearch button{width:30px;height:30px;border-radius:12px}.surahList{scrollbar-width:none;contain:none!important;transform:none!important;will-change:auto!important}.surahList::-webkit-scrollbar{display:none}.surahSheet .navCard{content-visibility:visible!important;contain:none!important;transform:none!important;will-change:auto!important;transition:background .16s ease,border-color .16s ease,color .16s ease!important}.navCard small{opacity:.82!important;font-weight:700!important;font-size:11px!important;color:var(--green)!important}.dark .navCard small{color:#a7dec5!important}
+.themeModeButtons{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.themeModeButtons button{display:flex;align-items:center;gap:5px;border-radius:14px;padding:8px 10px}.themeModeButtons button.active{background:rgba(31,128,91,.14);color:var(--green);box-shadow:inset 0 0 0 1px rgba(31,128,91,.22)}.themeModeButtons svg{width:15px}
+.addReciterOption{display:grid!important;text-align:start!important;gap:2px!important}.addReciterOption small{opacity:.62;font-size:10px}.customReciterForm{padding:12px;border-radius:18px;background:rgba(255,255,255,.08);border:1px solid rgba(127,127,127,.14)}.customReciterForm input{width:100%;box-sizing:border-box;margin:5px 0;padding:11px 12px;border-radius:14px;border:1px solid rgba(127,127,127,.16);background:rgba(255,255,255,.12);color:inherit}.saveReciter,.satinSecondary{width:100%;margin-top:8px}.satinSecondary{background:rgba(127,127,127,.09)!important;border:1px solid rgba(127,127,127,.15)!important;border-radius:16px!important}
+.flashcardScope{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+
+/* Release 42 final polish --------------------------------------------------- */
+:root{--theme-x:50vw;--theme-y:0px}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.42s;animation-timing-function:cubic-bezier(.2,.75,.2,1)}
+::view-transition-old(root){animation-name:noor-theme-old}
+::view-transition-new(root){animation-name:noor-theme-reveal;mix-blend-mode:normal}
+@keyframes noor-theme-old{to{opacity:.96}}
+@keyframes noor-theme-reveal{from{clip-path:circle(0 at var(--theme-x) var(--theme-y))}to{clip-path:circle(150vmax at var(--theme-x) var(--theme-y))}}
+html.theme-crossfade #root{animation:noorThemeFallback .36s ease both}
+@keyframes noorThemeFallback{0%{opacity:.72;filter:saturate(.8)}100%{opacity:1;filter:none}}
+
+.setting>div{min-width:0;display:flex;flex-direction:column;gap:3px}.setting>div small{font-size:9px;line-height:1.55;opacity:.58}
+.setting button.isOn{background:color-mix(in srgb,var(--satin-green) 18%,var(--satin-standard-bg))!important;color:var(--satin-green)!important;border-color:color-mix(in srgb,var(--satin-green) 42%,var(--satin-border))!important}
+.setting button svg{width:16px;height:16px;vertical-align:middle}
+.nextIqamaState{display:flex!important;flex-direction:row!important;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:15px;background:rgba(32,115,83,.08);border:1px solid rgba(75,139,111,.14)}
+.nextIqamaState span{font-size:10px;opacity:.6}.nextIqamaState b{font-size:12px;color:var(--green)}.dark .nextIqamaState b{color:#9dd9bd}
+.prayerShortcut .prayerTimeValue{font-size:15px!important;font-weight:800!important;opacity:.9!important;line-height:1.25!important;margin-top:2px;font-variant-numeric:tabular-nums}
+
+.resultBasmala{grid-column:1/-1;display:block!important;font-style:normal;font-family:"Noor Quran Hafs Final","Noor Quran Hafs","Noto Naskh Arabic",serif;font-size:.78em;line-height:1.75;text-align:center;color:var(--green);opacity:.84;margin:3px 0 1px}.dark .resultBasmala{color:#a2dcc1}
+.ayah .resultBasmala{font-size:.84em}.quranResult .resultBasmala+span{grid-column:1/-1}
+.loadMoreResults{width:100%;min-height:44px;margin-top:9px;border-radius:15px;background:var(--satin-subtle-bg)!important;border:1px solid var(--satin-border)!important;color:inherit;font-weight:800}
+/* Avoid Android WebView flicker/blank cards during touch scrolling. The list already renders in 30-result batches, so normal painting is both stable and bounded. */
+.answerResults>div>.quranResult{content-visibility:visible!important;contain:none!important;contain-intrinsic-size:auto}
+
+.flashcardCustomRange{margin:10px 0;padding:10px;border-radius:18px;background:rgba(31,111,81,.055);border:1px solid rgba(90,139,115,.14)}
+.rangeModeToggle{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}.rangeModeToggle button{min-height:40px;border-radius:14px;background:var(--satin-subtle-bg)!important;border:1px solid var(--satin-border)!important;color:inherit;font-weight:700}.rangeModeToggle button.active{background:color-mix(in srgb,var(--satin-green) 16%,var(--satin-standard-bg))!important;color:var(--satin-green)!important}
+
+.reciterSourceChoice{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:9px 0}.reciterSourceChoice button,.folderPickerButton{min-height:46px;border-radius:15px;background:var(--satin-subtle-bg)!important;border:1px solid var(--satin-border)!important;color:inherit;font-weight:750}.reciterSourceChoice button.active{background:color-mix(in srgb,var(--satin-green) 16%,var(--satin-standard-bg))!important;color:var(--satin-green)!important}.folderPickerButton{width:100%;display:flex;align-items:center;justify-content:center;gap:7px}.folderPickerButton svg{width:18px}.customReciterForm label{display:grid;gap:4px}.customReciterForm label>span{font-size:10px;opacity:.65;font-weight:700}
+
+/* Qibla reference design: deep emerald dial, fine gold/mint rings, Kaaba on the true direction. */
+.qiblaPage{max-width:560px;margin:auto}.qiblaPage .toolTitle{margin-bottom:6px}.qiblaPage .toolTitle>svg{width:38px;height:38px;padding:8px;border-radius:50%;border:2px solid #66e2b0;color:#66e2b0}
+.qiblaDialWrap{padding:12px 0 18px!important}.qiblaDial{width:min(88vw,410px)!important;aspect-ratio:1;position:relative;border-radius:50%;overflow:visible!important;border:4px solid rgba(212,184,105,.88)!important;background:radial-gradient(circle at 50% 45%,rgba(21,91,68,.33) 0 8%,rgba(4,50,39,.98) 52%,#052a22 72%,#021b16 100%)!important;box-shadow:0 0 0 5px rgba(91,231,184,.72),0 0 0 9px rgba(4,42,33,.96),0 0 0 11px rgba(218,184,104,.78),inset 0 0 45px rgba(0,0,0,.48),0 18px 42px rgba(0,0,0,.24)!important}
+.qiblaDial::before{content:""!important;position:absolute!important;inset:5%!important;border-radius:50%!important;border:0!important;background:repeating-conic-gradient(from -1deg,rgba(226,198,119,.86) 0deg .45deg,transparent .45deg 2deg)!important;mask:radial-gradient(circle,transparent 0 88%,#000 88.2% 100%);-webkit-mask:radial-gradient(circle,transparent 0 88%,#000 88.2% 100%);opacity:.82!important}
+.qiblaDial::after{content:""!important;position:absolute!important;inset:13%!important;border-radius:50%!important;border:1px solid rgba(103,224,180,.18)!important;background:radial-gradient(circle,transparent 0 71%,rgba(88,209,166,.08) 71.5% 72%,transparent 72.5%)!important;opacity:1!important}
+.qiblaTicks{position:absolute;inset:8%;border-radius:50%;background:repeating-conic-gradient(rgba(229,195,109,.9) 0 1deg,transparent 1deg 10deg);mask:radial-gradient(circle,transparent 0 94%,#000 94% 100%);-webkit-mask:radial-gradient(circle,transparent 0 94%,#000 94% 100%);opacity:.8}
+.cardinal,.degree{position:absolute;z-index:5;color:#e1e6da;text-shadow:0 1px 3px rgba(0,0,0,.6);font-family:Georgia,serif}.cardinal{font-size:24px;font-weight:700}.degree{font-size:13px;opacity:.88}.north{top:11%;left:50%;transform:translateX(-50%)}.east{right:9%;top:50%;transform:translateY(-50%)}.south{bottom:9%;left:50%;transform:translateX(-50%)}.west{left:9%;top:50%;transform:translateY(-50%)}
+.d30{right:24%;top:17%}.d60{right:14%;top:31%}.d120{right:14%;bottom:31%}.d150{right:24%;bottom:17%}.d180{left:50%;bottom:3.8%;transform:translateX(-50%)}.d210{left:24%;bottom:17%}.d240{left:14%;bottom:31%}.d300{left:14%;top:31%}.d330{left:24%;top:17%}
+.qiblaMapWatermark{position:absolute;inset:27%;border-radius:50%;opacity:.14;background:radial-gradient(ellipse at 32% 36%,#5cc79d 0 3%,transparent 4%),radial-gradient(ellipse at 61% 58%,#5cc79d 0 5%,transparent 6%),radial-gradient(ellipse at 42% 66%,#5cc79d 0 2%,transparent 3%),repeating-radial-gradient(circle at 48% 51%,transparent 0 12px,rgba(99,211,169,.18) 13px 14px)}
+.qiblaKaabaOrbit{position:absolute;z-index:8;inset:0;transition:transform .18s linear;pointer-events:none}.qiblaKaabaOrbit .qiblaKaaba{top:7%!important;left:50%!important;transform:translateX(-50%)!important;width:36px!important;height:34px!important;box-shadow:0 0 0 10px rgba(101,227,181,.08),0 7px 18px rgba(0,0,0,.36)!important}
+.qiblaNeedle{z-index:7!important;position:absolute;inset:0;transition:transform .16s linear!important;pointer-events:none}.qiblaNeedle .needleArrow{position:absolute;left:50%;top:17%;width:0!important;height:0!important;background:none!important;border-left:14px solid transparent;border-right:14px solid transparent;border-bottom:0;border-top:70px solid #67f0bd;filter:drop-shadow(0 0 5px rgba(103,240,189,.4));transform:translateX(-50%)!important;transform-origin:50% 100%!important}.qiblaNeedle .needleTail{position:absolute;left:50%;top:50%;width:3px!important;height:34%!important;background:linear-gradient(#d4b66b,#8d7338)!important;border-radius:99px;transform:translateX(-50%)!important}.needleHub{position:absolute;z-index:9;left:50%;top:50%;width:38px;height:38px;border-radius:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,#e3c778 0 21%,#123e31 23% 48%,#d6b85f 50% 64%,#071e18 66%);box-shadow:0 2px 8px rgba(0,0,0,.38)}
+.qiblaReadout{margin-top:6px!important;padding:20px 16px!important;border-radius:27px!important;background:linear-gradient(145deg,rgba(20,67,52,.62),rgba(10,44,34,.5))!important;border-color:rgba(149,219,191,.18)!important;color:#f5fbf7}:is(.app,.noorOverlayTheme):not(.dark) .qiblaReadout{background:linear-gradient(145deg,rgba(17,76,57,.86),rgba(7,53,40,.86))!important;color:#fff}.qiblaReadout strong{font-size:36px!important;color:#73f0bd!important}.qiblaReadout span{font-size:17px!important}.qiblaReadout small{font-size:11px!important}
+@media(max-width:390px){.qiblaDial{width:min(84vw,360px)!important}.cardinal{font-size:20px}.degree{font-size:11px}.qiblaKaabaOrbit .qiblaKaaba{width:31px!important;height:29px!important}.qiblaReadout{padding:17px 13px!important}}
+.qiblaKaabaOrbit .qiblaKaaba{transform:translateX(-50%) rotate(calc(-1 * var(--qibla-angle)))!important}
+
+
+/* Release 43 render fix ----------------------------------------------------
+   Each complete Quran word stays in one inline node. Justification expands
+   only the real spaces between words, while the line box and measured virtual
+   row retain a small amount of room for Quranic marks and glyph overhangs. */
+.readerViewport{
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  contain:layout style!important;
+  clip-path:none!important;
+  scroll-padding-block:.7em!important;
+}
+.virtualSurahRow{
+  contain:none!important;
+  overflow:visible!important;
+  padding-block:.28em!important;
+  box-sizing:border-box!important;
+}
+.mushafSurah,.mushafPageSurah,.pageMushafText,.mushafText,.verseUnit,.qWord{
+  overflow:visible!important;
+  clip-path:none!important;
+  contain:none!important;
+}
+.mushafPage{contain:layout style!important}
+.mushafPageInner,.readingColumns{padding-block:.22em!important;box-sizing:border-box!important}
+.mushafText,.pageMushafText{
+  padding-inline:.18em!important;
+  padding-block:.22em!important;
+  text-align:justify!important;
+  text-align-last:start!important;
+  text-justify:inter-word!important;
+  white-space:normal!important;
+  word-break:normal!important;
+  overflow-wrap:normal!important;
+  letter-spacing:0!important;
+  word-spacing:.035em!important;
+  font-synthesis:none!important;
+  font-kerning:normal!important;
+  font-variant-ligatures:common-ligatures contextual!important;
+  font-feature-settings:"rlig" 1,"liga" 1,"calt" 1,"mark" 1,"mkmk" 1,"kern" 1!important;
+}
+.mushafText .verseUnit,.pageMushafText .verseUnit{display:inline!important}
+.mushafText .qWord,.pageMushafText .qWord{
+  display:inline!important;
+  white-space:nowrap!important;
+  padding-inline:.02em!important;
+  margin:0!important;
+  line-height:inherit!important;
+  box-decoration-break:clone;
+  -webkit-box-decoration-break:clone;
+}
+
+@font-face{font-family:"Noor Amiri Quran";src:url("/fonts/AmiriQuran-Regular.ttf") format("truetype");font-weight:400;font-style:normal;font-display:block}
+@font-face{font-family:"Noor Scheherazade Quran";src:url("/fonts/ScheherazadeNew-Regular.ttf") format("truetype");font-weight:400;font-style:normal;font-display:block}
+@font-face{font-family:"Noor Default Quran";src:url("/fonts/NotoNaskhArabic-Variable.ttf") format("truetype");font-weight:400 700;font-style:normal;font-display:block}
+.quran-font-hafs{--quran-font:"Noor Default Quran","Noor Amiri Quran","Noor Scheherazade Quran",serif}
+.quran-font-amiri{--quran-font:"Noor Amiri Quran","Noor Default Quran","Noor Scheherazade Quran",serif}
+.quran-font-scheherazade{--quran-font:"Noor Scheherazade Quran","Noor Amiri Quran","Noor Default Quran",serif}
+.mushafText,.mushafText .qWord,.pageMushafText,.continuousSurah .mushafText,
+.quranTextSurface,.flashcardPrompt p,.flashcardAnswer p,.savedItem button span,
+.ayah p,.ayahDetails p,.quranSearchResults button>span,.quranResult>span,
+.resultBasmala,.wordSheet h2,.topicResult:has(.resultKind.quran) p{
+  font-family:var(--quran-font,"Noor Default Quran","Noor Amiri Quran","Noor Scheherazade Quran",serif)!important;
+  font-synthesis:none!important;
+  letter-spacing:0!important;
+  font-feature-settings:"rlig" 1,"liga" 1,"calt" 1,"mark" 1,"mkmk" 1!important;
+}
+
+/* The Qibla marker and north needle are separate rotation and paint layers. */
+.qiblaMarkerLayer{
+  position:absolute;z-index:9;inset:0;pointer-events:none;
+  transition:transform .16s linear;will-change:transform;
+}
+.qiblaMarkerLayer .qiblaKaaba{
+  top:6%!important;left:50%!important;width:36px!important;height:34px!important;
+  transform:translateX(-50%) rotate(calc(-1 * var(--qibla-angle)))!important;
+  box-shadow:0 0 0 8px rgba(101,227,181,.08),0 7px 18px rgba(0,0,0,.36)!important;
+  pointer-events:none!important;
+}
+.needleLayer{
+  position:absolute;z-index:6;inset:0;pointer-events:none;
+  transition:transform .14s linear;will-change:transform;
+}
+.needleLayer .needleHead{
+  position:absolute;left:50%;top:24%;width:0;height:0;
+  border-left:11px solid transparent;border-right:11px solid transparent;
+  border-bottom:88px solid #67f0bd;
+  transform:translateX(-50%);
+}
+.needleLayer .needleTail{
+  position:absolute;left:50%;top:54%;width:3px;height:18%;
+  border-radius:99px;background:linear-gradient(#d4b66b,#8d7338);
+  transform:translateX(-50%);
+}
+@media(max-width:390px){.qiblaMarkerLayer .qiblaKaaba{width:31px!important;height:29px!important}.needleLayer .needleHead{border-left-width:9px;border-right-width:9px;border-bottom-width:74px}}
+
+/* Release 44 polish: roomy Noor setting rows and a clearly independent Qibla target. */
+.settingsActionRow{width:100%;font:inherit;color:inherit;text-align:start;min-height:72px;padding:14px 16px!important;margin:8px 0;border-radius:22px!important;display:flex!important;align-items:center;justify-content:space-between;gap:14px;background:var(--satin-subtle-bg)!important;border:1px solid var(--satin-border)!important;box-shadow:inset 0 1px rgba(255,255,255,.22)!important}
+.settingsActionRow>div:first-child{display:flex;flex-direction:column;gap:4px}.settingsActionRow span{font-weight:800;font-size:14px}.settingsActionRow small{font-size:10px;opacity:.58}.settingActionValue{display:flex;align-items:center;gap:8px;min-width:0}.settingActionValue b{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px}.settingActionValue svg{width:17px;height:17px;opacity:.7}
+.lastPageInfo{min-height:64px;padding:12px 14px!important;border:1px solid var(--satin-border)!important;border-radius:20px;background:var(--satin-subtle-bg);margin:8px 0}.lastPageInfo b{min-width:42px;text-align:center;font-size:16px}.lastPageInfo::after{display:none!important}
+.iqamaSettings .editorActions{display:grid;grid-template-columns:1fr 1fr;gap:9px}.iqamaSettings .editorActions button{min-height:52px;padding:10px 12px!important;font-weight:750}.iqamaSettings .editorActions button:first-child{grid-column:1/-1}.iqamaSettings .editorActions button:last-child:nth-child(4){grid-column:1/-1}
+.qiblaDirectionRay{position:absolute;z-index:6;inset:0;pointer-events:none;transition:transform .16s linear}.qiblaDirectionRay span{position:absolute;left:50%;top:13%;width:5px;height:36%;transform:translateX(-50%);transform-origin:50% 100%;border-radius:99px;background:linear-gradient(to bottom,rgba(103,240,189,.98),rgba(103,240,189,.08));box-shadow:0 -4px 14px rgba(103,240,189,.42)}
+.qiblaMarkerLayer{z-index:10!important}.qiblaMarkerLayer .qiblaKaaba{top:5.5%!important;box-shadow:0 0 0 8px rgba(101,227,181,.10),0 7px 18px rgba(0,0,0,.36)!important}
+.needleLayer{z-index:7!important;opacity:.72}.needleHub{z-index:11!important}
+@media(max-width:390px){.settingsActionRow{min-height:66px;padding:12px 13px!important}.settingActionValue b{max-width:118px}.iqamaSettings .editorActions{grid-template-columns:1fr}}
+
+/* Final settings layout: match the Noor reference cards without cramped controls. */
+.settingsChoiceCard{
+  margin:10px 0;padding:16px;border-radius:26px;
+  display:grid;gap:14px;background:var(--satin-standard-bg)!important;
+  border:1px solid var(--satin-border)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.25),0 8px 26px rgba(21,75,55,.045)!important;
+}
+.settingsChoiceHead{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;text-align:right}
+.settingsChoiceHead>div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.settingsChoiceHead span{font-size:16px;font-weight:850}.settingsChoiceHead small{font-size:10px;line-height:1.65;opacity:.58}
+.settingsChoiceHead>svg{width:24px;height:24px;color:var(--green);flex:0 0 auto}
+.settingsSegmented{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px!important;width:100%;justify-content:stretch!important;flex-wrap:nowrap!important}
+.settingsSegmented button{min-width:0;min-height:52px;padding:10px 8px!important;border-radius:18px!important;justify-content:center!important;background:var(--satin-subtle-bg)!important;border:1px solid var(--satin-border)!important;font-weight:750;font-size:13px}
+.settingsSegmented button.active{background:color-mix(in srgb,var(--satin-green) 17%,var(--satin-standard-bg))!important;border-color:color-mix(in srgb,var(--satin-green) 48%,var(--satin-border))!important;box-shadow:0 0 0 1px color-mix(in srgb,var(--satin-green) 26%,transparent),inset 0 1px rgba(255,255,255,.2)!important}
+.settingsInfoCard{margin:10px 0;padding:14px 16px;border-radius:23px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;background:var(--satin-subtle-bg)!important;border:1px solid var(--satin-border)!important;pointer-events:none;user-select:none}
+.settingsInfoIcon,.settingsActionIcon{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:color-mix(in srgb,var(--satin-green) 9%,var(--satin-subtle-bg));color:var(--green);flex:0 0 auto}
+.settingsInfoIcon svg,.settingsActionIcon svg{width:20px;height:20px}.settingsInfoCard>div:nth-child(2){display:flex;flex-direction:column;gap:3px}.settingsInfoCard span{font-weight:800;font-size:14px}.settingsInfoCard small{font-size:10px;opacity:.58}.settingsInfoCard>b{font-size:17px;min-width:34px;text-align:center}
+.settingsActionRow{grid-template-columns:auto minmax(0,1fr) auto!important;display:grid!important;text-align:right!important}
+.settingsActionRow>.settingsActionIcon+div{display:flex;flex-direction:column;gap:4px;min-width:0}.settingsActionRow>.settingsActionIcon+div span{font-weight:800;font-size:14px}.settingsActionRow>.settingsActionIcon+div small{font-size:10px;opacity:.58}
+.settingActionValue{justify-self:end}
+@media(max-width:390px){.settingsChoiceCard{padding:14px}.settingsSegmented{gap:6px!important}.settingsSegmented button{font-size:12px;min-height:48px;padding-inline:5px!important}.settingsChoiceHead small{font-size:9px}}
+
+/* Qibla behavior modeled after large navigation apps: phone forward is fixed at 12 o'clock,
+   while a separate guide rotates by the signed relative bearing to the Kaaba. */
+.deviceForwardMark{position:absolute;z-index:13;left:50%;top:3.2%;width:3px;height:8%;transform:translateX(-50%);border-radius:99px;background:#f7fbf8;box-shadow:0 0 0 1px rgba(0,0,0,.18),0 0 8px rgba(255,255,255,.2);pointer-events:none}
+.deviceForwardMark::after{content:"";position:absolute;left:50%;top:-8px;transform:translateX(-50%);width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-bottom:11px solid #f7fbf8;filter:drop-shadow(0 1px 2px rgba(0,0,0,.25))}
+.qiblaGuideLayer{position:absolute;z-index:8;inset:0;pointer-events:none;transform-origin:50% 50%;transition:transform .11s linear;will-change:transform}
+.qiblaGuideCone{position:absolute;left:50%;top:12.5%;width:0;height:0;transform:translateX(-50%);border-left:34px solid transparent;border-right:34px solid transparent;border-bottom:0;border-top:148px solid rgba(103,240,189,.20);filter:drop-shadow(0 -5px 14px rgba(103,240,189,.17));transform-origin:50% 100%}
+.qiblaGuideLayer::after{content:"";position:absolute;left:50%;top:18%;width:5px;height:31%;transform:translateX(-50%);border-radius:99px;background:linear-gradient(to top,rgba(103,240,189,.05),rgba(103,240,189,.92));box-shadow:0 -3px 12px rgba(103,240,189,.28)}
+.qiblaGuideArrow{position:absolute;left:50%;top:4.2%;transform:translateX(-50%);width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;border-bottom:0;border-top:16px solid #d9bb71;filter:drop-shadow(0 2px 3px rgba(0,0,0,.3))}
+.qiblaKaabaDisplay{position:absolute;z-index:12;left:50%;top:12%;transform:translate(-50%,-50%);opacity:.24;transition:opacity .22s ease,transform .22s ease;pointer-events:none}
+.qiblaKaabaDisplay .qiblaKaaba{position:relative!important;top:auto!important;left:auto!important;transform:none!important;width:42px!important;height:40px!important;box-shadow:0 0 0 9px rgba(101,227,181,.06),0 7px 18px rgba(0,0,0,.36)!important}
+.qiblaKaabaDisplay.aligned{opacity:1;transform:translate(-50%,-50%) scale(1.1)}
+.qiblaAligned .qiblaGuideCone{border-top-color:rgba(103,240,189,.30)}
+.qiblaAligned .qiblaGuideArrow{border-top-color:#75f0bf;filter:drop-shadow(0 0 8px rgba(117,240,191,.55))}
+.qiblaReadout.aligned{box-shadow:0 0 0 1px rgba(103,240,189,.26),inset 0 1px rgba(255,255,255,.16)!important}.qiblaReadout.aligned strong{font-size:42px!important}
+/* Disable legacy moving needle/Kaaba layers if stale markup survives a cached WebView. */
+.qiblaDirectionRay,.qiblaMarkerLayer,.needleLayer,.qiblaKaabaOrbit,.qiblaNeedle{display:none!important}
+@media(max-width:390px){.qiblaGuideCone{border-left-width:29px;border-right-width:29px;border-top-width:126px}.qiblaKaabaDisplay .qiblaKaaba{width:36px!important;height:34px!important}}
+
+/* Reciter long-press download manager */
+.reciterHoldHint{display:block;margin-top:4px;font-size:12px;line-height:1.5;color:rgba(221,244,231,.7)}
+:is(.app,.noorOverlayTheme):not(.dark) .reciterHoldHint{color:rgba(29,72,56,.64)}
+.reciterOption{-webkit-touch-callout:none;user-select:none;touch-action:manipulation}
+.reciterDownloadSheet{width:min(100%,520px);margin:0 auto;border-radius:30px;padding:24px 18px 18px;background:linear-gradient(150deg,rgba(39,92,72,.98),rgba(15,48,38,.98));color:#f2fbf5;box-shadow:0 18px 60px rgba(0,0,0,.32)}
+:is(.app,.noorOverlayTheme):not(.dark) .reciterDownloadSheet{background:linear-gradient(150deg,rgba(245,253,249,.99),rgba(218,238,229,.98));color:#17392d}
+.reciterDownloadDescription{margin:12px 4px 16px;line-height:1.8;color:rgba(235,250,241,.76);font-size:14px}
+:is(.app,.noorOverlayTheme):not(.dark) .reciterDownloadDescription{color:rgba(27,69,52,.68)}
+.downloadAllReciterButton{width:100%;min-height:58px;border-radius:20px;display:flex;align-items:center;justify-content:center;gap:10px;font:inherit;font-weight:750}
+.downloadAllReciterButton:disabled{opacity:.62}
+.reciterDownloadStatus{margin-top:14px;padding:14px;border-radius:20px;border:1px solid rgba(219,249,232,.14);background:rgba(0,0,0,.08)}
+:is(.app,.noorOverlayTheme):not(.dark) .reciterDownloadStatus{border-color:rgba(32,94,68,.14);background:rgba(255,255,255,.38)}
+.reciterDownloadProgressTrack{height:10px;border-radius:999px;overflow:hidden;background:rgba(255,255,255,.12)}
+:is(.app,.noorOverlayTheme):not(.dark) .reciterDownloadProgressTrack{background:rgba(27,74,55,.1)}
+.reciterDownloadProgressTrack>span{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#7adbb1,#b0ecd0);transition:width .24s ease}
+.reciterDownloadProgressMeta{display:flex;align-items:center;justify-content:space-between;margin-top:8px;gap:12px;font-size:13px}
+.reciterDownloadProgressMeta b{font-size:18px;color:#9ae6c2}
+:is(.app,.noorOverlayTheme):not(.dark) .reciterDownloadProgressMeta b{color:#17664b}
+.reciterDownloadStatus>small{display:block;margin-top:8px;line-height:1.6;color:rgba(235,250,241,.72)}
+:is(.app,.noorOverlayTheme):not(.dark) .reciterDownloadStatus>small{color:rgba(27,69,52,.66)}
+.reciterDownloadCancel{width:100%;margin-top:12px;min-height:44px;border-radius:15px}
+
+/* Body portals share Noor's existing Satin Glass, RTL and theme tokens. */
+.noorOverlayLayer{position:fixed;inset:0;isolation:isolate;pointer-events:auto;contain:none;transform:none;filter:none}
+.noorOverlayTheme{position:absolute;inset:0;color:#10271f;direction:rtl}
+.noorOverlayTheme.dark{color:#eff7f2}
+.noorOverlaySurface{position:absolute!important;inset:0!important;overflow:hidden!important;background:transparent!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;animation:none!important;pointer-events:auto}
+.noorBackdrop{position:absolute;inset:0;z-index:0;background:rgba(7,27,19,.28);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);pointer-events:auto;touch-action:none}
+.noorOverlaySurface>:not(.noorBackdrop){position:relative;z-index:1;pointer-events:auto;max-height:min(84vh,calc(100% - env(safe-area-inset-bottom)));flex-shrink:1;min-height:0}
+.noorOverlaySurface>.sheet{overflow-y:auto!important;overscroll-behavior:contain;touch-action:pan-y;max-width:100%}
+.noorOverlaySurface>.sheet:focus{outline:none}
+.modalWrap.noorOverlaySurface{display:flex;align-items:center;justify-content:center;padding:18px}
+.noorOverlaySurface>.sourcesModal{width:min(100%,520px);overflow:auto;border-radius:30px;padding:24px}
+.customReciterForm label{display:grid;gap:7px;text-align:right}
+.customReciterForm label input{width:100%;min-height:48px}
+.customReciterForm>button{min-height:48px}
+.reciterSearchResults{display:grid;gap:10px;margin-top:16px}
+.reciterSearchResult{display:grid;gap:7px;padding:15px;border-radius:20px}
+.reciterSearchResult b{font-size:16px;line-height:1.6}
+.reciterSearchResult small{opacity:.65;line-height:1.8}
+.reciterSearchResult button{min-height:46px;border-radius:16px;margin-top:4px;color:inherit}
+.reciterSearchMessage{line-height:1.9;margin:14px 0;overflow-wrap:anywhere}
+.advancedReciterSource{margin-top:20px;padding-top:12px;border-top:1px solid var(--satin-border)}
+.advancedReciterSource summary{min-height:44px;cursor:pointer;font-weight:700;display:list-item;list-style-position:inside}
+.removeCustomReciter{width:100%;min-height:48px;margin-top:14px;border-radius:17px;color:#b34c4c!important}
+.dark .removeCustomReciter{color:#f4a8a8!important}
+.explanationText{min-width:0}
+.explanationPreview{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
+.explanationFull{display:block;overflow:visible;white-space:pre-wrap;overflow-wrap:anywhere}
+.explanationMore{display:block;min-height:46px;min-width:96px;margin:8px 0 16px;padding:10px 20px;border-radius:16px;font-weight:800;border:1px solid var(--satin-border)}
+.noorToastLayer{position:fixed;inset:0;z-index:100000;pointer-events:none;direction:rtl}
+.noorToastLayer .appToast{pointer-events:none}
+@media(prefers-reduced-motion:reduce){.noorOverlaySurface>.sheet{animation:none!important}}\n
+/* Noor hotfix 2026-10-02: Quran word paint + navigation-sheet gesture ownership. */
+.mushafText .qWord,
+.mushafText .qWord:hover,
+.mushafText .qWord:focus,
+.mushafText .qWord:focus-visible {
+  background:transparent!important;
+  outline:0!important;
+  box-shadow:none!important;
+  -webkit-tap-highlight-color:transparent!important;
+  -webkit-user-select:none!important;
+  user-select:none!important;
+}
+/* Keep only the intentional pressed feedback, never persistent WebView focus blocks. */
+.mushafText .qWord:active {
+  background:rgba(46,145,103,.12)!important;
+  outline:0!important;
+}
+.surahSheet {
+  overflow-y:auto!important;
+  -webkit-overflow-scrolling:touch!important;
+  touch-action:pan-y!important;
+}
+.surahSheet .surahList {
+  overflow:visible!important;
+  touch-action:pan-y!important;
+}
+.surahSheet .surahList .navCard,
+.surahSheet .surahList .navCard * {
+  touch-action:pan-y!important;
+}
+
