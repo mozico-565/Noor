@@ -1,0 +1,577 @@
+{
+  "source": "https://tanzil.net/res/text/metadata/quran-data.xml",
+  "document": "https://tanzil.net/docs/Revelation_Order",
+  "verified": "2026-10-09",
+  "surahs": [
+    {
+      "number": 1,
+      "order": 5,
+      "type": "Meccan"
+    },
+    {
+      "number": 2,
+      "order": 87,
+      "type": "Medinan"
+    },
+    {
+      "number": 3,
+      "order": 89,
+      "type": "Medinan"
+    },
+    {
+      "number": 4,
+      "order": 92,
+      "type": "Medinan"
+    },
+    {
+      "number": 5,
+      "order": 112,
+      "type": "Medinan"
+    },
+    {
+      "number": 6,
+      "order": 55,
+      "type": "Meccan"
+    },
+    {
+      "number": 7,
+      "order": 39,
+      "type": "Meccan"
+    },
+    {
+      "number": 8,
+      "order": 88,
+      "type": "Medinan"
+    },
+    {
+      "number": 9,
+      "order": 113,
+      "type": "Medinan"
+    },
+    {
+      "number": 10,
+      "order": 51,
+      "type": "Meccan"
+    },
+    {
+      "number": 11,
+      "order": 52,
+      "type": "Meccan"
+    },
+    {
+      "number": 12,
+      "order": 53,
+      "type": "Meccan"
+    },
+    {
+      "number": 13,
+      "order": 96,
+      "type": "Medinan"
+    },
+    {
+      "number": 14,
+      "order": 72,
+      "type": "Meccan"
+    },
+    {
+      "number": 15,
+      "order": 54,
+      "type": "Meccan"
+    },
+    {
+      "number": 16,
+      "order": 70,
+      "type": "Meccan"
+    },
+    {
+      "number": 17,
+      "order": 50,
+      "type": "Meccan"
+    },
+    {
+      "number": 18,
+      "order": 69,
+      "type": "Meccan"
+    },
+    {
+      "number": 19,
+      "order": 44,
+      "type": "Meccan"
+    },
+    {
+      "number": 20,
+      "order": 45,
+      "type": "Meccan"
+    },
+    {
+      "number": 21,
+      "order": 73,
+      "type": "Meccan"
+    },
+    {
+      "number": 22,
+      "order": 103,
+      "type": "Medinan"
+    },
+    {
+      "number": 23,
+      "order": 74,
+      "type": "Meccan"
+    },
+    {
+      "number": 24,
+      "order": 102,
+      "type": "Medinan"
+    },
+    {
+      "number": 25,
+      "order": 42,
+      "type": "Meccan"
+    },
+    {
+      "number": 26,
+      "order": 47,
+      "type": "Meccan"
+    },
+    {
+      "number": 27,
+      "order": 48,
+      "type": "Meccan"
+    },
+    {
+      "number": 28,
+      "order": 49,
+      "type": "Meccan"
+    },
+    {
+      "number": 29,
+      "order": 85,
+      "type": "Meccan"
+    },
+    {
+      "number": 30,
+      "order": 84,
+      "type": "Meccan"
+    },
+    {
+      "number": 31,
+      "order": 57,
+      "type": "Meccan"
+    },
+    {
+      "number": 32,
+      "order": 75,
+      "type": "Meccan"
+    },
+    {
+      "number": 33,
+      "order": 90,
+      "type": "Medinan"
+    },
+    {
+      "number": 34,
+      "order": 58,
+      "type": "Meccan"
+    },
+    {
+      "number": 35,
+      "order": 43,
+      "type": "Meccan"
+    },
+    {
+      "number": 36,
+      "order": 41,
+      "type": "Meccan"
+    },
+    {
+      "number": 37,
+      "order": 56,
+      "type": "Meccan"
+    },
+    {
+      "number": 38,
+      "order": 38,
+      "type": "Meccan"
+    },
+    {
+      "number": 39,
+      "order": 59,
+      "type": "Meccan"
+    },
+    {
+      "number": 40,
+      "order": 60,
+      "type": "Meccan"
+    },
+    {
+      "number": 41,
+      "order": 61,
+      "type": "Meccan"
+    },
+    {
+      "number": 42,
+      "order": 62,
+      "type": "Meccan"
+    },
+    {
+      "number": 43,
+      "order": 63,
+      "type": "Meccan"
+    },
+    {
+      "number": 44,
+      "order": 64,
+      "type": "Meccan"
+    },
+    {
+      "number": 45,
+      "order": 65,
+      "type": "Meccan"
+    },
+    {
+      "number": 46,
+      "order": 66,
+      "type": "Meccan"
+    },
+    {
+      "number": 47,
+      "order": 95,
+      "type": "Medinan"
+    },
+    {
+      "number": 48,
+      "order": 111,
+      "type": "Medinan"
+    },
+    {
+      "number": 49,
+      "order": 106,
+      "type": "Medinan"
+    },
+    {
+      "number": 50,
+      "order": 34,
+      "type": "Meccan"
+    },
+    {
+      "number": 51,
+      "order": 67,
+      "type": "Meccan"
+    },
+    {
+      "number": 52,
+      "order": 76,
+      "type": "Meccan"
+    },
+    {
+      "number": 53,
+      "order": 23,
+      "type": "Meccan"
+    },
+    {
+      "number": 54,
+      "order": 37,
+      "type": "Meccan"
+    },
+    {
+      "number": 55,
+      "order": 97,
+      "type": "Medinan"
+    },
+    {
+      "number": 56,
+      "order": 46,
+      "type": "Meccan"
+    },
+    {
+      "number": 57,
+      "order": 94,
+      "type": "Medinan"
+    },
+    {
+      "number": 58,
+      "order": 105,
+      "type": "Medinan"
+    },
+    {
+      "number": 59,
+      "order": 101,
+      "type": "Medinan"
+    },
+    {
+      "number": 60,
+      "order": 91,
+      "type": "Medinan"
+    },
+    {
+      "number": 61,
+      "order": 109,
+      "type": "Medinan"
+    },
+    {
+      "number": 62,
+      "order": 110,
+      "type": "Medinan"
+    },
+    {
+      "number": 63,
+      "order": 104,
+      "type": "Medinan"
+    },
+    {
+      "number": 64,
+      "order": 108,
+      "type": "Medinan"
+    },
+    {
+      "number": 65,
+      "order": 99,
+      "type": "Medinan"
+    },
+    {
+      "number": 66,
+      "order": 107,
+      "type": "Medinan"
+    },
+    {
+      "number": 67,
+      "order": 77,
+      "type": "Meccan"
+    },
+    {
+      "number": 68,
+      "order": 2,
+      "type": "Meccan"
+    },
+    {
+      "number": 69,
+      "order": 78,
+      "type": "Meccan"
+    },
+    {
+      "number": 70,
+      "order": 79,
+      "type": "Meccan"
+    },
+    {
+      "number": 71,
+      "order": 71,
+      "type": "Meccan"
+    },
+    {
+      "number": 72,
+      "order": 40,
+      "type": "Meccan"
+    },
+    {
+      "number": 73,
+      "order": 3,
+      "type": "Meccan"
+    },
+    {
+      "number": 74,
+      "order": 4,
+      "type": "Meccan"
+    },
+    {
+      "number": 75,
+      "order": 31,
+      "type": "Meccan"
+    },
+    {
+      "number": 76,
+      "order": 98,
+      "type": "Medinan"
+    },
+    {
+      "number": 77,
+      "order": 33,
+      "type": "Meccan"
+    },
+    {
+      "number": 78,
+      "order": 80,
+      "type": "Meccan"
+    },
+    {
+      "number": 79,
+      "order": 81,
+      "type": "Meccan"
+    },
+    {
+      "number": 80,
+      "order": 24,
+      "type": "Meccan"
+    },
+    {
+      "number": 81,
+      "order": 7,
+      "type": "Meccan"
+    },
+    {
+      "number": 82,
+      "order": 82,
+      "type": "Meccan"
+    },
+    {
+      "number": 83,
+      "order": 86,
+      "type": "Meccan"
+    },
+    {
+      "number": 84,
+      "order": 83,
+      "type": "Meccan"
+    },
+    {
+      "number": 85,
+      "order": 27,
+      "type": "Meccan"
+    },
+    {
+      "number": 86,
+      "order": 36,
+      "type": "Meccan"
+    },
+    {
+      "number": 87,
+      "order": 8,
+      "type": "Meccan"
+    },
+    {
+      "number": 88,
+      "order": 68,
+      "type": "Meccan"
+    },
+    {
+      "number": 89,
+      "order": 10,
+      "type": "Meccan"
+    },
+    {
+      "number": 90,
+      "order": 35,
+      "type": "Meccan"
+    },
+    {
+      "number": 91,
+      "order": 26,
+      "type": "Meccan"
+    },
+    {
+      "number": 92,
+      "order": 9,
+      "type": "Meccan"
+    },
+    {
+      "number": 93,
+      "order": 11,
+      "type": "Meccan"
+    },
+    {
+      "number": 94,
+      "order": 12,
+      "type": "Meccan"
+    },
+    {
+      "number": 95,
+      "order": 28,
+      "type": "Meccan"
+    },
+    {
+      "number": 96,
+      "order": 1,
+      "type": "Meccan"
+    },
+    {
+      "number": 97,
+      "order": 25,
+      "type": "Meccan"
+    },
+    {
+      "number": 98,
+      "order": 100,
+      "type": "Medinan"
+    },
+    {
+      "number": 99,
+      "order": 93,
+      "type": "Medinan"
+    },
+    {
+      "number": 100,
+      "order": 14,
+      "type": "Meccan"
+    },
+    {
+      "number": 101,
+      "order": 30,
+      "type": "Meccan"
+    },
+    {
+      "number": 102,
+      "order": 16,
+      "type": "Meccan"
+    },
+    {
+      "number": 103,
+      "order": 13,
+      "type": "Meccan"
+    },
+    {
+      "number": 104,
+      "order": 32,
+      "type": "Meccan"
+    },
+    {
+      "number": 105,
+      "order": 19,
+      "type": "Meccan"
+    },
+    {
+      "number": 106,
+      "order": 29,
+      "type": "Meccan"
+    },
+    {
+      "number": 107,
+      "order": 17,
+      "type": "Meccan"
+    },
+    {
+      "number": 108,
+      "order": 15,
+      "type": "Meccan"
+    },
+    {
+      "number": 109,
+      "order": 18,
+      "type": "Meccan"
+    },
+    {
+      "number": 110,
+      "order": 114,
+      "type": "Medinan"
+    },
+    {
+      "number": 111,
+      "order": 6,
+      "type": "Meccan"
+    },
+    {
+      "number": 112,
+      "order": 22,
+      "type": "Meccan"
+    },
+    {
+      "number": 113,
+      "order": 20,
+      "type": "Meccan"
+    },
+    {
+      "number": 114,
+      "order": 21,
+      "type": "Meccan"
+    }
+  ]
+}

@@ -18,6 +18,7 @@ function installRuntimeMocks(){
   Object.defineProperty(HTMLElement.prototype,"scrollTo",{configurable:true,value:function(arg:any){
     this.scrollTop=typeof arg==="number"?arg:Number(arg?.top||0);
   }});
+  Object.defineProperty(HTMLElement.prototype,"scrollBy",{configurable:true,value:function(arg:any){this.scrollTop+=Number(arg?.top||0)}});
   Object.defineProperty(HTMLElement.prototype,"scrollIntoView",{configurable:true,value:vi.fn()});
   vi.stubGlobal("fetch",vi.fn(async(input:RequestInfo|URL)=>{
     const url=String(input);
@@ -605,5 +606,26 @@ describe("local Quran query engine",()=>{
     const verse=full.surahs.find((surah:any)=>surah.number===24).ayahs.find((ayah:any)=>ayah.number===58);
     expect(verse.text).toContain("۟");
     expect(verses.some((ayah:any)=>/[□�]/.test(ayah.text))).toBe(false);
+  });
+});
+
+describe("Noor native recitation integration",()=>{
+  beforeEach(()=>{localStorage.clear();localStorage.setItem("noor_guidance_seen","1");installRuntimeMocks()});
+  afterEach(()=>{cleanup();vi.restoreAllMocks();delete (window as any).Android});
+  it("sequences A–B from matching native events, ignores stale tokens and pauses/resumes",async()=>{
+    localStorage.setItem("noor_ab_settings",JSON.stringify({a:"1:1",b:"1:2",count:1,gap:0}));
+    localStorage.setItem("noor_follow_audio","true");
+    const request=vi.fn(),play=vi.fn(()=>true),pause=vi.fn(),resume=vi.fn();
+    (window as any).Android={getReaderPage:()=>1,setAudioRequest:request,playReciterAyah:play,stopDownloadedAyah:vi.fn(),pauseRecitation:pause,resumeRecitation:resume};
+    render(<App/>);fireEvent.click(screen.getByRole("button",{name:"القرآن"}));await waitForQuran();fireEvent.click(screen.getByRole("button",{name:"تلاوة A–B"}));fireEvent.click(screen.getByRole("button",{name:"بدء التكرار"}));
+    await waitFor(()=>expect(play).toHaveBeenCalledWith("sudais","001001"));const token=request.mock.calls.at(-1)![0];
+    act(()=>window.noorAudioEvent!(token-1,"001001","playing"));expect(document.querySelector(".recitationActive")).toBeNull();
+    act(()=>window.noorAudioEvent!(token,"001001","playing"));await waitFor(()=>expect(document.querySelector('.recitationActive[data-verse="1:1"]')).toBeTruthy());
+    fireEvent.click(screen.getByRole("button",{name:"تلاوة A–B"}));fireEvent.click(screen.getByRole("button",{name:"إيقاف مؤقت"}));expect(pause).toHaveBeenCalled();expect(document.querySelector(".recitationActive")).toBeNull();
+    act(()=>window.noorAudioEvent!(token,"001001","playing"));expect(document.querySelector(".recitationActive")).toBeNull();fireEvent.click(screen.getByRole("button",{name:"استئناف"}));expect(resume).toHaveBeenCalled();act(()=>window.noorAudioEvent!(token,"001001","ended"));await waitFor(()=>expect(play).toHaveBeenCalledWith("sudais","001002"));
+    const nextToken=request.mock.calls.at(-1)![0];act(()=>{window.noorAudioEvent!(token,"001001","ended");window.noorAudioEvent!(nextToken,"001002","playing")});expect(play).toHaveBeenCalledTimes(2);act(()=>window.noorAudioEvent!(nextToken,"001002","ended"));await waitFor(()=>expect(document.querySelector(".sessionPanel [role=status]")?.textContent).toBe("جاهز"));expect(document.querySelector(".recitationActive")).toBeNull();
+  });
+  it("cancels a repeat when the native source reports an error",async()=>{
+    localStorage.setItem("noor_ab_settings",JSON.stringify({a:"1:1",b:"1:2",count:0,gap:0}));const request=vi.fn(),play=vi.fn(()=>true),stop=vi.fn();(window as any).Android={getReaderPage:()=>1,setAudioRequest:request,playReciterAyah:play,stopDownloadedAyah:stop};render(<App/>);fireEvent.click(screen.getByRole("button",{name:"القرآن"}));await waitForQuran();fireEvent.click(screen.getByRole("button",{name:"تلاوة A–B"}));fireEvent.click(screen.getByRole("button",{name:"بدء التكرار"}));await waitFor(()=>expect(play).toHaveBeenCalledOnce());const token=request.mock.calls.at(-1)![0];act(()=>window.noorAudioEvent!(token,"001001","error"));act(()=>window.noorAudioEvent!(token,"001001","ended"));expect(play).toHaveBeenCalledOnce();expect(stop).toHaveBeenCalled();expect(document.querySelector(".recitationActive")).toBeNull();
   });
 });

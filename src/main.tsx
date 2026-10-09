@@ -14,6 +14,8 @@ import {Overlay,OverlayTheme,dismissTopOverlay} from "./Overlay";
 import {ExpandableText} from "./ExpandableText";
 import {eligibleFlashcard,createFlashcardDeck} from "./flashcards";
 import {loadReciterCatalog,searchCatalog,readCustomReciters,resolveCatalogReciter,reciterAudioUrl,downloadAudioBatch,verifyAudioResponse,type CustomReciter,type CatalogReciter} from "./reciters";
+import {RepeatPanel,RevelationJourney,QuranStories,OrderQuiz} from "./NoorFeatures";
+import {RecitationSession,type RepeatSettings,type SessionState} from "./recitationSession";
 import {markedWords,MushafMargin} from "./mushafMarks";
 import {fetchQuranpediaAsbab} from "./asbabQuranpedia";
 const NOOR_LOGO="./noor-logo.png";
@@ -97,6 +99,9 @@ declare global {
       playDownloadedAyah?:(reciter:string,verseId:string)=>boolean;
       playReciterAyah?:(reciter:string,verseId:string)=>boolean;
       stopDownloadedAyah?:()=>void;
+      setAudioRequest?:(token:number)=>void;
+      pauseRecitation?:()=>void;
+      resumeRecitation?:()=>void;
       exportRecitations?:(reciter:string)=>void;
       importRecitations?:()=>void;
       getPrayerLocationJson?:()=>string;
@@ -123,6 +128,8 @@ declare global {
     noorReciterProgress?:(reciter:string,done:number,total:number,message:string,running:boolean)=>void;
     noorRecitationTransfer?:(success:boolean,message:string)=>void;
     noorReciterFolderPicked?:(uri:string,label:string,error:string,foundFiles?:number,foundSurahs?:number)=>void;
+    noorAudioEvent?:(token:number,id:string,event:string)=>void;
+    noorAudioBackground?:()=>void;
     noorAudioError?:(message:string)=>void;
     noorQiblaLocation?:(lat:number,lon:number,error:string)=>void;
     noorQiblaHeading?:(heading:number,accuracy:number)=>void;
@@ -450,7 +457,9 @@ export function App(){
   const [wordAction,setWordAction]=useState<WordAction|null>(null);
   const [asbabDetail,setAsbabDetail]=useState<{verse:ReaderVerse;entry:AsbabEntry;contextual?:boolean;relatedAyah?:number}|null>(null);
   const audioRef=useRef<HTMLAudioElement|null>(null);
+  const audioCleanupRef=useRef<(()=>void)|null>(null);
   const [surahPicker,setSurahPicker]=useState(false);
+  const [repeatOpen,setRepeatOpen]=useState(false),[orderOpen,setOrderOpen]=useState(false);
   const [autoScroll,setAutoScroll]=useState(false);
   const [autoScrollSpeed,setAutoScrollSpeed]=useState(()=>Number(localStorage.getItem("noor_auto_scroll_speed")||"2"));
   // Page-flip mode was removed: the Quran reader now always uses the smooth
@@ -510,7 +519,7 @@ export function App(){
   const [voiceStatus,setVoiceStatus]=useState("");
   const voicePurposeRef=useRef<"quran"|"recitation"|null>(null);
   const voiceHandlerRef=useRef<(text:string,error:string)=>void>(()=>{});
-  const [toolPage,setToolPage]=useState<null|"qibla"|"adhkar"|"topics">(null);
+  const [toolPage,setToolPage]=useState<null|"qibla"|"adhkar"|"topics"|"revelation"|"stories">(null);
   const [qiblaHeading,setQiblaHeading]=useState(0);
   const [qiblaBearing,setQiblaBearing]=useState<number|null>(null);
   const [qiblaStatus,setQiblaStatus]=useState("جاهز لتحديد اتجاه القبلة");
@@ -731,6 +740,8 @@ export function App(){
       if(reviewSummary){setReviewSummary(null);return true;}
       if(flashcardActive){finishFlashcards();return true;}
       if(recitationActive){finishRecitation();return true;}
+      if(repeatOpen){setRepeatOpen(false);return true;}
+      if(orderOpen){setOrderOpen(false);buildReviewSummary("ترتيب الآيات",reviewSessionCorrect,reviewSessionAssisted,reviewSessionCorrect+reviewSessionAssisted);return true;}
       if(toolPage){if(toolPage==="qibla")window.Android?.stopQiblaCompass?.();setToolPage(null);return true;}
       if(sirahPage){setSirahPage(false);return true;}
       if(answer){setAnswer(null);return true;}
@@ -738,7 +749,7 @@ export function App(){
       return false;
     };
     return()=>{window.noorHandleBack=undefined;};
-  },[focusMode,surahPicker,wordInfo,wordAction,asbabDetail,sources,reviewSummary,flashcardActive,recitationActive,toolPage,sirahPage,answer,tab,reviewSessionCorrect,reviewSessionAssisted,reviewSessionStarted]);
+  },[focusMode,surahPicker,wordInfo,wordAction,asbabDetail,sources,reviewSummary,flashcardActive,recitationActive,toolPage,sirahPage,answer,tab,reviewSessionCorrect,reviewSessionAssisted,reviewSessionStarted,repeatOpen,orderOpen]);
 
   useEffect(()=>{
     localStorage.setItem("noor_tab",tab);
@@ -993,6 +1004,7 @@ export function App(){
   function jumpToVerse(v:ReaderVerse,highlight=false){
     document.documentElement.classList.remove("keyboard-open");
     (document.activeElement as HTMLElement|null)?.blur?.();
+    if(sessionRef.current?.state.key&&sessionRef.current.state.key.split(":")[0]!==String(v.surahNumber))sessionRef.current.cancel();
     setAutoScroll(false);
     setQuranMounted(true);
     setTab("quran");
@@ -1028,17 +1040,8 @@ export function App(){
 
   function resumeReading(){
     const key=localStorage.getItem("noor_last_verse")||lastVerseKey;
-    if(!key||!verseByKey.has(key))return;
-    const verse=verseByKey.get(key)!;
-    setQuranMounted(true);setTab("quran");
-    if(readerMode==="pages"){
-      setReaderPage(verse.page);
-      localStorage.setItem("noor_reader_page",String(verse.page));
-      window.Android?.saveReaderPage?.(verse.page);window.Android?.saveReaderPosition?.(verse.page,verse.surahName,String(verse.number));
-      return;
-    }
-    continuousVirtualizer.scrollToIndex(verse.page-1,{align:"start",behavior:"auto"});
-    requestAnimationFrame(()=>requestAnimationFrame(()=>revealContinuousVerse(verse,false)));
+    const verse=key?verseByKey.get(key):null;
+    if(verse)jumpToVerse(verse,false);
   }
   useEffect(()=>{
     if(!widgetActionPending)return;
@@ -1166,7 +1169,8 @@ export function App(){
     return()=>{window.removeEventListener("pagehide",save);document.removeEventListener("visibilitychange",vis)};
   },[readerMode,readerPage,lastVerseKey,pages]);
   useLayoutEffect(()=>{
-    if(tab!=="quran"||!quran||!readerRef.current)return;
+    // Explicit verse navigation takes precedence over restoring the old tab pixel.
+    if(tab!=="quran"||!quran||!readerRef.current||pendingVerseJump)return;
     const root=readerRef.current,top=readerPositionRef.current;
     if(top<=0)return;
     // Keep the saved pixel while virtual rows are measured after opening the tab.
@@ -1284,17 +1288,46 @@ export function App(){
     return customReciters.find(item=>item.id===id)||(reciterDirs[id as keyof typeof reciterDirs]?{id,name:reciterNames[id],baseUrl:`https://everyayah.com/data/${reciterDirs[id as keyof typeof reciterDirs]}`,numbering:"verseId",sourceType:"url"}:undefined);
   }
   function sudaisUrl(verse:ReaderVerse){const source=audioSource(reciter);return source?reciterAudioUrl(source,sudaisId(verse),verse.global_number):"";}
-  async function playAyah(verse:ReaderVerse){
+  const [repeatSettings,setRepeatSettings]=useState<RepeatSettings>(()=>{try{const v=JSON.parse(localStorage.getItem("noor_ab_settings")||"null");if(v&&typeof v.a==="string"&&typeof v.b==="string"&&Number.isFinite(v.count)&&Number.isFinite(v.gap))return v}catch{}return {a:"1:1",b:"1:1",count:3,gap:2}});
+  const [followAudio,setFollowAudio]=useState(()=>localStorage.getItem("noor_follow_audio")==="true");
+  const [sessionState,setSessionState]=useState<SessionState>({status:"idle",key:null,cycle:0});
+  const [playingVerse,setPlayingVerse]=useState<string|null>(null);
+  const currentAudioVerse=useRef<ReaderVerse|null>(null),sessionRef=useRef<RecitationSession|null>(null);
+  const latestAudio=useRef({play:(key:string)=>{},follow:followAudio,ended:(verse:ReaderVerse)=>{}});
+  function stopAudio(){++audioRequestRef.current;audioRef.current?.pause();audioRef.current=null;audioCleanupRef.current?.();audioCleanupRef.current=null;window.Android?.stopDownloadedAyah?.();currentAudioVerse.current=null;setPlayingVerse(null)}
+  if(!sessionRef.current)sessionRef.current=new RecitationSession({play:key=>latestAudio.current.play(key),stop:stopAudio,pause:()=>{audioRef.current?.pause();window.Android?.pauseRecitation?.()},resume:()=>{void audioRef.current?.play().catch(()=>sessionRef.current?.fail("تعذر استئناف الصوت"));window.Android?.resumeRecitation?.()}},state=>{setSessionState({...state});setPlayingVerse(state.status==="playing"?state.key:null)});
+  latestAudio.current={play:key=>{const v=verseByKey.get(key);if(v)void playAyah(v,true);else sessionRef.current?.fail("الآية غير متاحة")},follow:followAudio,ended:verse=>{if(sessionRef.current?.state.status!=="idle"){sessionRef.current?.ended(verse.verse_key);return}setPlayingVerse(null);if(latestAudio.current.follow){const next=verseByKey.get(`${verse.surahNumber}:${verse.number+1}`);if(next)void playAyah(next,true)}}};
+  useEffect(()=>{localStorage.setItem("noor_ab_settings",JSON.stringify(repeatSettings))},[repeatSettings]);
+  useEffect(()=>{localStorage.setItem("noor_follow_audio",String(followAudio));if(followAudio)setAutoScroll(false)},[followAudio]);
+  useEffect(()=>{sessionRef.current?.cancel()},[reciter]);
+  useEffect(()=>{
+    window.noorAudioEvent=(token,id,event)=>{if(token!==audioRequestRef.current)return;const v=currentAudioVerse.current;if(!v||sudaisId(v)!==id)return;if(event==="playing"){if(sessionRef.current?.state.status==="paused"){window.Android?.pauseRecitation?.();return}setPlayingVerse(v.verse_key);sessionRef.current?.started(v.verse_key)}else if(event==="ended")latestAudio.current.ended(v);else if(event==="error"){setPlayingVerse(null);sessionRef.current?.fail("تعذر تشغيل الآية؛ تحقق من المصدر أو الملف المحلي")}};
+    const background=()=>{if(sessionRef.current?.state.status!=="idle")sessionRef.current?.pause();else{audioRef.current?.pause();window.Android?.pauseRecitation?.();setPlayingVerse(null)}};
+    window.noorAudioBackground=background;const visible=()=>{if(document.hidden)background()};document.addEventListener("visibilitychange",visible);
+    return()=>{window.noorAudioEvent=undefined;window.noorAudioBackground=undefined;document.removeEventListener("visibilitychange",visible);sessionRef.current?.cancel()};
+  },[]);
+  useEffect(()=>{
+    if(!followAudio||!playingVerse||tab!=="quran")return;
+    setAutoScroll(false);const verse=verseByKey.get(playingVerse);if(!verse)return;
+    const el=document.getElementById(`ayah-${playingVerse.replace(":","-")}`),root=readerRef.current;
+    if(el&&root){const a=el.getBoundingClientRect(),b=root.getBoundingClientRect();if(a.top>=b.top+8&&a.bottom<=b.bottom-8)return;root.scrollBy({top:a.top-b.top-50,behavior:"smooth"})}
+    else{continuousVirtualizer.scrollToIndex(verse.page-1,{align:"start",behavior:"auto"});requestAnimationFrame(()=>requestAnimationFrame(()=>revealContinuousVerse(verse,false)))}
+  },[playingVerse,followAudio,tab]);
+  function startRepeat(){const a=verseByKey.get(repeatSettings.a),b=verseByKey.get(repeatSettings.b);if(!a||!b||a.surahNumber!==b.surahNumber||b.number<a.number){setToast("تحقق من بداية المقطع ونهايته");return}const keys=Array.from(verseByKey.values()).filter(v=>v.global_number>=a.global_number&&v.global_number<=b.global_number).sort((x,y)=>x.global_number-y.global_number).map(v=>v.verse_key);sessionRef.current?.start(keys,repeatSettings.count,repeatSettings.gap);setRepeatOpen(false);setQuranMounted(true);setTab("quran");}
+  async function playAyah(verse:ReaderVerse,fromSession=false){
+    if(!fromSession)sessionRef.current?.cancel();
+
     const request=++audioRequestRef.current,id=sudaisId(verse),selected=reciter;
-    audioRef.current?.pause();window.Android?.stopDownloadedAyah?.();
+    audioRef.current?.pause();audioCleanupRef.current?.();audioCleanupRef.current=null;window.Android?.stopDownloadedAyah?.();
+    currentAudioVerse.current=verse;setPlayingVerse(null);window.Android?.setAudioRequest?.(request);
     const custom=customReciters.find(item=>item.id===selected);
     if(custom?.sourceType==="folder"){
-      if(!window.Android?.playCustomReciterAyah?.(selected,id))setToast("ملف هذه الآية غير موجود في المجلد المختار");return;
+      if(!window.Android?.playCustomReciterAyah?.(selected,id)){setToast("ملف هذه الآية غير موجود في المجلد المختار");sessionRef.current?.fail("ملف هذه الآية غير موجود في المجلد المختار")}return;
     }
     if(custom?.baseUrl)window.Android?.saveOnlineReciter?.(custom.id,custom.name,custom.baseUrl,custom.numbering||"verseId");
     if(window.Android?.playReciterAyah?.(selected,id))return;
     if(window.Android?.hasReciterAyah?.(selected,id)&&window.Android.playDownloadedAyah?.(selected,id))return;
-    const url=sudaisUrl(verse);if(!url){setToast("مصدر تلاوة هذا القارئ غير متاح");return;}
+    const url=sudaisUrl(verse);if(!url){setToast("مصدر تلاوة هذا القارئ غير متاح");sessionRef.current?.fail("مصدر تلاوة هذا القارئ غير متاح");return;}
     let source=url;
     if("caches" in window){
       try{const cache=await caches.open(`noor-audio-${selected}-v1`),cached=await cache.match(url);
@@ -1304,9 +1337,9 @@ export function App(){
     }
     if(request!==audioRequestRef.current){if(source!==url)URL.revokeObjectURL(source);return;}
     const audio=new Audio(source);audioRef.current=audio;audio.preload="auto";
-    const release=()=>{if(source!==url)URL.revokeObjectURL(source);};
-    const failed=()=>{release();if(request!==audioRequestRef.current)return;setToast(`تعذر تشغيل تلاوة ${reciterNames[selected]}. تحقق من الإنترنت أو نزّل السورة.`);setTimeout(()=>setToast(""),4000);};
-    audio.addEventListener?.("ended",release,{once:true});audio.addEventListener?.("error",failed,{once:true});audio.play().catch(failed);
+    let released=false;const release=()=>{if(released)return;released=true;if(source!==url)URL.revokeObjectURL(source);};audioCleanupRef.current=release;
+    const failed=()=>{release();if(request!==audioRequestRef.current)return;setPlayingVerse(null);sessionRef.current?.fail("تعذر تشغيل الصوت");setToast(`تعذر تشغيل تلاوة ${reciterNames[selected]}. تحقق من الإنترنت أو نزّل السورة.`);setTimeout(()=>setToast(""),4000);};
+    audio.addEventListener?.("playing",()=>{if(request===audioRequestRef.current){if(sessionRef.current?.state.status==="paused"){audio.pause();return}setPlayingVerse(verse.verse_key);sessionRef.current?.started(verse.verse_key)}});audio.addEventListener?.("ended",()=>{release();if(request===audioRequestRef.current)latestAudio.current.ended(verse)},{once:true});audio.addEventListener?.("error",failed,{once:true});if(!(fromSession&&sessionRef.current?.state.status==="paused"))audio.play().catch(failed);
   }
   async function startReciterDownload(id:string,verses:ReaderVerse[]){
     const source=audioSource(id);if(!source)return;
@@ -1819,7 +1852,7 @@ export function App(){
           </div>}
           {startsHere&&group.surahNumber!==1&&group.surahNumber!==9&&<div className="basmalaLine">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>}
           <div className="mushafText">
-            {group.verses.map(v=>{const skip=hasBasmalaPrefix(v)?4:0;const inReview=reviewMode&&v.global_number>=Math.min(fromReviewGlobal,toReviewGlobal)&&v.global_number<=Math.max(fromReviewGlobal,toReviewGlobal);const hidden=inReview&&!revealedReview.has(v.verse_key);return <span className={`verseUnit ${hidden?"reviewHidden":""}`} id={`ayah-${v.verse_key.replace(":","-")}`} data-verse={v.verse_key} key={v.verse_key} onClick={()=>{if(inReview)toggleReviewReveal(v)}}>
+            {group.verses.map(v=>{const skip=hasBasmalaPrefix(v)?4:0;const inReview=reviewMode&&v.global_number>=Math.min(fromReviewGlobal,toReviewGlobal)&&v.global_number<=Math.max(fromReviewGlobal,toReviewGlobal);const hidden=inReview&&!revealedReview.has(v.verse_key);return <span className={`verseUnit ${hidden?"reviewHidden":""} ${playingVerse===v.verse_key?"recitationActive":""}`} id={`ayah-${v.verse_key.replace(":","-")}`} data-verse={v.verse_key} key={v.verse_key} onClick={()=>{if(inReview)toggleReviewReveal(v)}}>
               <MushafMargin verseKey={v.verse_key} kind="division"/>
               {markedWords(v.verse_key,v.words.slice(skip),(w,offset)=>{const wi=offset+skip;return <React.Fragment key={`${v.verse_key}-${wi}`}><WordSpan text={cleanQuranDisplay(w.text)} onLong={()=>{learnGuidanceTip("word");setWordAction({verse:v,index:wi,text:w.text})}} onDouble={()=>{learnGuidanceTip("audio");playAyah(v)}}/></React.Fragment>})}
               <MushafMargin verseKey={v.verse_key} kind="sajda"/>{(v.surahNumber!==1||v.number!==1||skip===0)&&<AyahButton bookmarked={bookmarks.includes(v.verse_key)} number={v.number} onClick={()=>toggleBookmark(v.verse_key)} onLong={()=>askVerse(v)}/>}{' '}
@@ -1859,7 +1892,7 @@ export function App(){
             </div>}
             {startsHere&&group.surahNumber!==1&&group.surahNumber!==9&&<div className="basmalaLine pageBasmala">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>}
             <div className="mushafText pageMushafText">
-              {group.verses.map(v=>{const skip=hasBasmalaPrefix(v)?4:0;return <span className="verseUnit" id={`ayah-${v.verse_key.replace(":","-")}`} data-verse={v.verse_key} key={v.verse_key}>
+              {group.verses.map(v=>{const skip=hasBasmalaPrefix(v)?4:0;return <span className={`verseUnit ${playingVerse===v.verse_key?"recitationActive":""}`} id={`ayah-${v.verse_key.replace(":","-")}`} data-verse={v.verse_key} key={v.verse_key}>
                 <MushafMargin verseKey={v.verse_key} kind="division"/>
                 {markedWords(v.verse_key,v.words.slice(skip),(w,offset)=>{const wi=offset+skip;return <React.Fragment key={`${v.verse_key}-${wi}`}><WordSpan text={cleanQuranDisplay(w.text)} onLong={()=>{learnGuidanceTip("word");setWordAction({verse:v,index:wi,text:w.text})}} onDouble={()=>{learnGuidanceTip("audio");playAyah(v)}}/></React.Fragment>})}
                 <MushafMargin verseKey={v.verse_key} kind="sajda"/>{(v.surahNumber!==1||v.number!==1||skip===0)&&<AyahButton bookmarked={bookmarks.includes(v.verse_key)} number={v.number} onClick={()=>toggleBookmark(v.verse_key)} onLong={()=>askVerse(v)}/>} {' '}
@@ -1875,7 +1908,7 @@ export function App(){
         <button disabled={readerPage<=1&&pageScreen===0} onClick={()=>turnReaderScreen(-1)}>السابقة <ChevronLeft/></button>
       </div>
     </div>;
-  },[pages,readerPage,pageTurn,quran,bookmarks,currentSurahs,pageFontSize,pageScreen,pageScreens]);
+  },[pages,readerPage,pageTurn,quran,bookmarks,currentSurahs,pageFontSize,pageScreen,pageScreens,playingVerse]);
 
   if(sirahPage){
     return <OverlayTheme.Provider value={{dark,quranFont}}><main className={`${dark?"app dark":"app"} quran-font-${quranFont}`} data-tab="sirah">
@@ -1914,6 +1947,8 @@ export function App(){
       {tab==="home" && <>
         {toolPage&&<Glass className="page toolPage pageEnter">
           <button className="toolBack" onClick={closeTool}><ChevronRight/> رجوع</button>
+          {toolPage==="revelation"&&<RevelationJourney surahs={quran?.surahs||[]} onOpen={key=>{const v=verseByKey.get(key);if(v){closeTool();jumpToVerse(v,true)}}}/>}
+          {toolPage==="stories"&&<QuranStories surahs={quran?.surahs||[]} onOpen={key=>{const v=verseByKey.get(key);if(v){closeTool();jumpToVerse(v,true)}}}/>}
           {toolPage==="qibla"&&<div className="qiblaPage">
             <div className="toolTitle"><Compass/><div><small>اتجاه محلي على الجهاز</small><h2>القبلة</h2></div></div>
             <div className={`qiblaDialWrap ${qiblaAligned?"qiblaAligned":""}`}><div className="qiblaDial">
@@ -1954,6 +1989,8 @@ export function App(){
             </button>)}
           </div>
           <div className="noorTools" aria-label="أدوات نور">
+            <button className="toolTile glass" onClick={()=>{setToolPage("revelation");setAnswer(null)}}><span><CalendarDays/></span><b>رحلة نزول القرآن</b><small>ترتيب ومصادر</small></button>
+            <button className="toolTile glass" onClick={()=>{setToolPage("stories");setAnswer(null)}}><span><BookOpen/></span><b>قصص القرآن</b><small>فصول وآيات</small></button>
             <button className="toolTile glass" onClick={openQibla}><span><Compass/></span><b>القبلة</b><small>اتجاه مباشر</small></button>
             <button className="toolTile glass" onClick={()=>{setToolPage("adhkar");setAnswer(null)}}><span><BookMarked/></span><b>الأذكار</b><small>بالمصادر</small></button>
             <button className="toolTile glass" onClick={()=>{setToolPage("topics");setAnswer(null)}}><span><Layers3/></span><b>موضوعات</b><small>بحث مترابط</small></button>
@@ -1985,13 +2022,15 @@ export function App(){
       {quranMounted&&<div aria-hidden={tab!=="quran"} className={`readerShell continuousReader ${focusMode?"focusReader":""}`}>
         {focusMode&&<button className="focusExit glass" onClick={()=>setFocusMode(false)} aria-label="الخروج من وضع التركيز"><Minimize2/></button>}
         <div className="readerToolbar glass continuousToolbar">
+          <button className="recitationOpen" aria-label="تلاوة A–B" onClick={()=>setRepeatOpen(true)}>A–B</button>
           <button className="surahPickerButton" aria-label="اختر السورة أو الجزء أو الصفحة" onClick={()=>setSurahPicker(true)}><List/><span>انتقال</span></button>
           <button className="focusButton" onClick={()=>setFocusMode(v=>!v)} aria-label="وضع التركيز"><Focus/></button>
           <div className="autoScrollControls" aria-label="التمرير التلقائي">
-            <button className={autoScroll?"autoActive":""} onClick={()=>setAutoScroll(v=>!v)} aria-label={autoScroll?"إيقاف التمرير التلقائي":"تشغيل التمرير التلقائي"}>{autoScroll?<Pause/>:<Play/>}</button>
+            <button className={autoScroll?"autoActive":""} onClick={()=>{setFollowAudio(false);setAutoScroll(v=>!v)}} aria-label={autoScroll?"إيقاف التمرير التلقائي":"تشغيل التمرير التلقائي"}>{autoScroll?<Pause/>:<Play/>}</button>
             <input className="speedSlider" type="range" min="1" max="6" step="0.1" value={autoScrollSpeed} onInput={e=>setAutoScrollSpeed(Number((e.target as HTMLInputElement).value))} onChange={e=>setAutoScrollSpeed(Number(e.target.value))} aria-label="سرعة التمرير"/>
           </div>
         </div>
+        {sessionState.status!=="idle"&&<div className="reviewSession glass"><span>{sessionState.key} · {sessionState.status==="paused"?"متوقف مؤقتًا":sessionState.status==="error"?sessionState.message:`التكرار ${arNum(sessionState.cycle)}`}</span><button onClick={()=>setRepeatOpen(true)}>تحكم</button><button onClick={()=>sessionRef.current?.cancel()}>إلغاء</button></div>}
         {!focusMode&&<div className={`quranInlineSearch glass ${quranSearch?"hasValue":""}`}><Search/><input aria-label="البحث داخل المصحف" value={quranSearch} onChange={e=>setQuranSearch(e.target.value)} placeholder="البحث داخل المصحف…"/>{quranSearch&&<button className="searchClear" aria-label="مسح البحث" onClick={()=>setQuranSearch("")}><X/></button>}</div>}
         {!focusMode&&quranSearch.trim().length>=2&&quranSearchResults.length===0&&debouncedQuranSearch===quranSearch&&<div className="quranSearchResults glass emptySearch">لا توجد نتائج مطابقة</div>}
         {!focusMode&&quranSearchResults.length>0&&<div className="quranSearchResults glass">{quranSearchResults.slice(0,20).map(v=><button key={v.verse_key} onClick={()=>{setQuranSearch("");setDebouncedQuranSearch("");jumpToVerse(v,true)}}><b>سورة {v.surahName} · الآية {arNum(v.number)}</b><VersePreview verse={v} compact/></button>)}</div>}
@@ -2002,7 +2041,7 @@ export function App(){
           <div className="readerBottomPad"/>
         </div>
         {focusMode&&<div className="focusScrollControls autoScrollControls glass" aria-label="التمرير التلقائي في وضع التركيز">
-          <button className={autoScroll?"autoActive":""} onClick={()=>setAutoScroll(v=>!v)} aria-label={autoScroll?"إيقاف التمرير التلقائي":"تشغيل التمرير التلقائي"}>{autoScroll?<Pause/>:<Play/>}</button>
+          <button className={autoScroll?"autoActive":""} onClick={()=>{setFollowAudio(false);setAutoScroll(v=>!v)}} aria-label={autoScroll?"إيقاف التمرير التلقائي":"تشغيل التمرير التلقائي"}>{autoScroll?<Pause/>:<Play/>}</button>
           <input className="speedSlider" type="range" min="1" max="6" step="0.1" value={autoScrollSpeed} onInput={e=>setAutoScrollSpeed(Number((e.target as HTMLInputElement).value))} onChange={e=>setAutoScrollSpeed(Number(e.target.value))} aria-label="سرعة التمرير في وضع التركيز"/>
         </div>}
       </div>}
@@ -2011,7 +2050,7 @@ export function App(){
         <Bookmark/><h2>المحفوظات</h2>
         <div className="khatmaCard glassPanel"><div className="cardTitle"><CalendarDays/><b>خطة ختم القرآن</b></div><label className="glassInput"><span>عدد الأيام</span><input aria-label="عدد أيام الختمة" type="number" inputMode="numeric" min="1" max="365" value={khatmaDaysDraft} onChange={e=>setKhatmaDaysDraft(e.target.value)} onBlur={()=>{const days=clamp(Math.trunc(Number(khatmaDaysDraft)||30),1,365);setKhatmaDays(days);setKhatmaDaysDraft(String(days));localStorage.setItem("noor_khatma_days",String(days))}}/><em>يومًا</em></label><button className="primaryGlass" onClick={startKhatma}>{khatmaStart?"تحديث الخطة":"ابدأ الخطة"}</button>{khatmaStats&&<div className="khatmaStats"><div><small>اليوم</small><b>{arNum(khatmaStats.day)}</b></div><div><small>قراءة اليوم</small><b>{arNum(khatmaStats.daily)} صفحة</b></div><div><small>المتبقي</small><b>{arNum(khatmaStats.remaining)} صفحة</b></div><div><small>الإنجاز</small><b>{arNum(khatmaStats.percent)}٪</b></div><div className="planProgress"><span style={{width:`${khatmaStats.percent}%`}}/></div><button onClick={updateKhatmaProgress}><Check/> تحديث من موضع القراءة</button></div>}</div>
         <div className="reviewCard glassPanel"><div className="cardTitle"><EyeOff/><b>مراجعة الحفظ</b></div><small>اختر بداية ونهاية النطاق. يمكن أن يمتد النطاق بين سورتين.</small><div className="reviewRange"><fieldset><legend>من</legend><GlassSelect label="سورة البداية" value={reviewFromSurah} onChange={n=>{setReviewFromSurah(n);setReviewFromAyah(1)}}>{quran?.surahs.map(s=><option value={s.number} key={s.number}>{s.name_arabic}</option>)}</GlassSelect><GlassSelect label="آية البداية" value={reviewFromAyah} onChange={setReviewFromAyah}>{Array.from({length:quran?.surahs.find(s=>s.number===reviewFromSurah)?.counts.ayahs||1},(_,i)=><option value={i+1} key={i+1}>{arNum(i+1)}</option>)}</GlassSelect></fieldset><fieldset><legend>إلى</legend><GlassSelect label="سورة النهاية" value={reviewToSurah} onChange={n=>{setReviewToSurah(n);setReviewToAyah(1)}}>{quran?.surahs.map(s=><option value={s.number} key={s.number}>{s.name_arabic}</option>)}</GlassSelect><GlassSelect label="آية النهاية" value={reviewToAyah} onChange={setReviewToAyah}>{Array.from({length:quran?.surahs.find(s=>s.number===reviewToSurah)?.counts.ayahs||1},(_,i)=><option value={i+1} key={i+1}>{arNum(i+1)}</option>)}</GlassSelect></fieldset></div><button className="primaryGlass" onClick={beginClassicReview}>ابدأ المراجعة</button></div>
-        <div className="reviewLab glassPanel"><div className="cardTitle"><Sparkles/><b>مختبر المراجعة</b><span className="betaBadge">BETA</span></div><small>يستخدم التسميع نفس النطاق المختار بالأعلى. البطاقات تستخدم النطاق الذي تختاره هنا مع مستوى الصعوبة.</small><div className="reviewModeGrid"><button className="reviewModeCard" onClick={()=>{startReviewSession();setReviewSessionCorrect(0);setReviewSessionAssisted(0);setRecitationText("");setRecitationResult("");setRecitationActive(true)}}><span><Mic/></span><div><b>التسميع الذكي</b><small>استمع لقراءتك وطابقها مع النطاق</small></div><ChevronLeft/></button><button className="reviewModeCard" onClick={beginFlashcards}><span><Target/></span><div><b>اختبار البطاقات</b><small>أكمل الآية من بدايتها</small></div><ChevronLeft/></button></div><div className="flashcardScope" role="group" aria-label="نطاق اختبار البطاقات"><button type="button" className={flashcardScope==="all"?"active":""} onClick={()=>setFlashcardScope("all")}>القرآن كاملًا</button><button type="button" className={flashcardScope==="review"?"active":""} onClick={()=>setFlashcardScope("review")}>نطاق آيات مخصص</button><button type="button" className={flashcardScope==="juz"?"active":""} onClick={()=>setFlashcardScope("juz")}>جزء محدد</button><button type="button" className={flashcardScope==="surah"?"active":""} onClick={()=>setFlashcardScope("surah")}>سورة معينة</button></div>{flashcardScope==="surah"&&<div className="flashcardJuzPicker"><span>السورة</span><GlassSelect label="السورة" value={flashcardSurah} onChange={setFlashcardSurah}>{quran?.surahs.map(s=><option value={s.number} key={s.number}>{s.name_arabic}</option>)}</GlassSelect></div>}{flashcardScope==="juz"&&<div className="flashcardJuzPicker"><span>الجزء</span><button type="button" className="glassSelectControl juzPickerTrigger" aria-haspopup="dialog" aria-expanded={flashcardJuzPickerOpen} onClick={()=>setFlashcardJuzPickerOpen(true)}><b>الجزء {arNum(flashcardJuz)}</b><ChevronDown/></button></div>}{flashcardScope==="review"&&<div className="flashcardCustomRange"><div className="rangeModeToggle"><button className={customRangeMode==="single"?"active":""} onClick={()=>{setCustomRangeMode("single");setReviewToSurah(reviewFromSurah)}}>داخل سورة واحدة</button><button className={customRangeMode==="between"?"active":""} onClick={()=>setCustomRangeMode("between")}>بين سور مختلفة</button></div><div className="reviewRange"><fieldset><legend>من</legend><GlassSelect label="سورة البداية" value={reviewFromSurah} onChange={n=>{setReviewFromSurah(n);setReviewFromAyah(1);if(customRangeMode==="single"){setReviewToSurah(n);setReviewToAyah(1)}}}>{quran?.surahs.map(s=><option value={s.number} key={s.number}>{s.name_arabic}</option>)}</GlassSelect><GlassSelect label="آية البداية" value={reviewFromAyah} onChange={setReviewFromAyah}>{Array.from({length:quran?.surahs.find(s=>s.number===reviewFromSurah)?.counts.ayahs||1},(_,i)=><option value={i+1} key={i+1}>{arNum(i+1)}</option>)}</GlassSelect></fieldset><fieldset><legend>إلى</legend>{customRangeMode==="between"&&<GlassSelect label="سورة النهاية" value={reviewToSurah} onChange={n=>{setReviewToSurah(n);setReviewToAyah(1)}}>{quran?.surahs.map(s=><option value={s.number} key={s.number}>{s.name_arabic}</option>)}</GlassSelect>}<GlassSelect label="آية النهاية" value={reviewToAyah} onChange={setReviewToAyah}>{Array.from({length:quran?.surahs.find(s=>s.number===(customRangeMode==="single"?reviewFromSurah:reviewToSurah))?.counts.ayahs||1},(_,i)=><option value={i+1} key={i+1}>{arNum(i+1)}</option>)}</GlassSelect></fieldset></div></div>}<div className="flashcardDifficulty" role="group" aria-label="صعوبة اختبار البطاقات">{([["easy","سهل"],["medium","متوسط"],["hard","صعب"]] as const).map(([key,label])=><button type="button" key={key} aria-pressed={flashcardDifficulty===key} className={flashcardDifficulty===key?"active":""} onClick={()=>setFlashcardDifficulty(key)}>{label}</button>)}</div><small className="difficultyHint">{flashcardDifficulty==="easy"?"آيات قصيرة من النطاق المختار":flashcardDifficulty==="hard"?"آيات طويلة من النطاق المختار":"آيات متوسطة الطول من القرآن كاملًا"}</small></div>
+        <div className="reviewLab glassPanel"><div className="cardTitle"><Sparkles/><b>مختبر المراجعة</b><span className="betaBadge">BETA</span></div><small>يستخدم التسميع نفس النطاق المختار بالأعلى. البطاقات تستخدم النطاق الذي تختاره هنا مع مستوى الصعوبة.</small><div className="reviewModeGrid"><button className="reviewModeCard" onClick={()=>{startReviewSession();setOrderOpen(true)}}><span><Layers3/></span><div><b>ترتيب الآيات</b><small>أعد ترتيب النطاق المختار</small></div><ChevronLeft/></button><button className="reviewModeCard" onClick={()=>{startReviewSession();setReviewSessionCorrect(0);setReviewSessionAssisted(0);setRecitationText("");setRecitationResult("");setRecitationActive(true)}}><span><Mic/></span><div><b>التسميع الذكي</b><small>استمع لقراءتك وطابقها مع النطاق</small></div><ChevronLeft/></button><button className="reviewModeCard" onClick={beginFlashcards}><span><Target/></span><div><b>اختبار البطاقات</b><small>أكمل الآية من بدايتها</small></div><ChevronLeft/></button></div><div className="flashcardScope" role="group" aria-label="نطاق اختبار البطاقات"><button type="button" className={flashcardScope==="all"?"active":""} onClick={()=>setFlashcardScope("all")}>القرآن كاملًا</button><button type="button" className={flashcardScope==="review"?"active":""} onClick={()=>setFlashcardScope("review")}>نطاق آيات مخصص</button><button type="button" className={flashcardScope==="juz"?"active":""} onClick={()=>setFlashcardScope("juz")}>جزء محدد</button><button type="button" className={flashcardScope==="surah"?"active":""} onClick={()=>setFlashcardScope("surah")}>سورة معينة</button></div>{flashcardScope==="surah"&&<div className="flashcardJuzPicker"><span>السورة</span><GlassSelect label="السورة" value={flashcardSurah} onChange={setFlashcardSurah}>{quran?.surahs.map(s=><option value={s.number} key={s.number}>{s.name_arabic}</option>)}</GlassSelect></div>}{flashcardScope==="juz"&&<div className="flashcardJuzPicker"><span>الجزء</span><button type="button" className="glassSelectControl juzPickerTrigger" aria-haspopup="dialog" aria-expanded={flashcardJuzPickerOpen} onClick={()=>setFlashcardJuzPickerOpen(true)}><b>الجزء {arNum(flashcardJuz)}</b><ChevronDown/></button></div>}{flashcardScope==="review"&&<div className="flashcardCustomRange"><div className="rangeModeToggle"><button className={customRangeMode==="single"?"active":""} onClick={()=>{setCustomRangeMode("single");setReviewToSurah(reviewFromSurah)}}>داخل سورة واحدة</button><button className={customRangeMode==="between"?"active":""} onClick={()=>setCustomRangeMode("between")}>بين سور مختلفة</button></div><div className="reviewRange"><fieldset><legend>من</legend><GlassSelect label="سورة البداية" value={reviewFromSurah} onChange={n=>{setReviewFromSurah(n);setReviewFromAyah(1);if(customRangeMode==="single"){setReviewToSurah(n);setReviewToAyah(1)}}}>{quran?.surahs.map(s=><option value={s.number} key={s.number}>{s.name_arabic}</option>)}</GlassSelect><GlassSelect label="آية البداية" value={reviewFromAyah} onChange={setReviewFromAyah}>{Array.from({length:quran?.surahs.find(s=>s.number===reviewFromSurah)?.counts.ayahs||1},(_,i)=><option value={i+1} key={i+1}>{arNum(i+1)}</option>)}</GlassSelect></fieldset><fieldset><legend>إلى</legend>{customRangeMode==="between"&&<GlassSelect label="سورة النهاية" value={reviewToSurah} onChange={n=>{setReviewToSurah(n);setReviewToAyah(1)}}>{quran?.surahs.map(s=><option value={s.number} key={s.number}>{s.name_arabic}</option>)}</GlassSelect>}<GlassSelect label="آية النهاية" value={reviewToAyah} onChange={setReviewToAyah}>{Array.from({length:quran?.surahs.find(s=>s.number===(customRangeMode==="single"?reviewFromSurah:reviewToSurah))?.counts.ayahs||1},(_,i)=><option value={i+1} key={i+1}>{arNum(i+1)}</option>)}</GlassSelect></fieldset></div></div>}<div className="flashcardDifficulty" role="group" aria-label="صعوبة اختبار البطاقات">{([["easy","سهل"],["medium","متوسط"],["hard","صعب"]] as const).map(([key,label])=><button type="button" key={key} aria-pressed={flashcardDifficulty===key} className={flashcardDifficulty===key?"active":""} onClick={()=>setFlashcardDifficulty(key)}>{label}</button>)}</div><small className="difficultyHint">{flashcardDifficulty==="easy"?"آيات قصيرة من النطاق المختار":flashcardDifficulty==="hard"?"آيات طويلة من النطاق المختار":"آيات متوسطة الطول من القرآن كاملًا"}</small></div>
         <div className="memoryMap glassPanel"><div className="cardTitle"><BarChart3/><b>خريطة قوة الحفظ</b></div><small>الرمادي لم يُختبر بعد. كلما تحسن أداؤك يصبح اللون أقوى.</small><div className="strengthLegend"><span>غير مختبر</span><span>يحتاج مراجعة</span><span>متوسط</span><span>قوي</span></div><div className="surahHeatmap">{surahStrengthStats.map(item=><button key={item.number} className={item.score<0?"untested":item.score<45?"weak":item.score<75?"medium":"strong"} title={`سورة ${item.name}`} onClick={()=>{setReviewFromSurah(item.number);setReviewToSurah(item.number);setReviewFromAyah(1);setReviewToAyah(quran?.surahs.find(s=>s.number===item.number)?.counts.ayahs||1);setToast(`تم اختيار سورة ${item.name} للمراجعة`);setTimeout(()=>setToast(""),1800)}}><b>{arNum(item.number)}</b><small>{item.score<0?"—":`${arNum(item.score)}٪`}</small></button>)}</div></div>
         {bookmarks.length===0?<p>اضغط رقم أي آية داخل المصحف لحفظها هنا.</p>:
           <div className="savedList">{bookmarks.map(k=>{
@@ -2058,6 +2097,8 @@ export function App(){
     {guideStep>=0&&<Overlay className="modal guidanceModal" role="dialog" aria-modal="true" aria-label="تعرف على نور"><Glass className="sheet guidanceSheet"><button className="guidanceClose" aria-label="تخطي الإرشادات" onClick={()=>{localStorage.setItem("noor_guidance_seen","1");setGuideStep(-1)}}><X/></button><div className="guidanceHero"><div className="guidanceHalo"></div><div className="guidanceIcon">{guideStep===0?<BookOpen/>:guideStep===1?<Sparkles/>:<CircleCheck/>}</div></div><div className="guidanceProgress" aria-label={`الخطوة ${guideStep+1} من 3`}>{[0,1,2].map(i=><span key={i} className={i===guideStep?"active":i<guideStep?"done":""}></span>)}</div><div className="guidanceCopy"><small>تعرف على نور · {arNum(guideStep+1)} من ٣</small><h2>{guideStep===0?"القرآن في قلب التجربة":guideStep===1?"كل ميزة تظهر في وقتها":"تعلّم بالتجربة، لا بالمحاضرات"}</h2><p>{guideStep===0?"اقرأ براحة، استمع للآيات، اعرف معنى الكلمات، واحفظ موضعك لتعود إليه مباشرة.":guideStep===1?"الأذكار والقبلة والختمة والاختبارات والتلاوات تبقى قريبة منك، من غير أن تزدحم الشاشة بالتعليمات.":"عند أول استخدام لميزة مهمة سيظهر تلميح صغير فوق مكانها الحقيقي. جرّبها مرة، وبعدها يختفي التلميح."}</p></div><div className="guidancePreview">{guideStep===0?<><span><BookOpen/> قراءة</span><span><Volume2/> تلاوة</span><span><BookMarked/> حفظ</span></>:guideStep===1?<><span><Compass/> قبلة</span><span><CalendarDays/> ختمة</span><span><Target/> اختبار</span></>:<><span className="guidanceTipDemo"><Sparkles/> تلميحات سياقية</span><span><CircleCheck/> تختفي بعد التعلم</span></>}</div><div className="guidanceActions"><button className="guidancePrimary" onClick={()=>{if(guideStep<2)setGuideStep(v=>v+1);else{localStorage.setItem("noor_guidance_seen","1");setGuideStep(-1)}}}>{guideStep<2?<>التالي <ChevronLeft/></>:<>ابدأ مع نور <CircleCheck/></>}</button>{guideStep>0?<button className="guidanceSecondary" onClick={()=>setGuideStep(v=>Math.max(0,v-1))}>السابق</button>:<button className="guidanceSecondary" onClick={()=>{localStorage.setItem("noor_guidance_seen","1");setGuideStep(-1)}}>تخطي</button>}</div></Glass></Overlay>}
     {flashcardJuzPickerOpen&&<Overlay className="modal juzPickerModal" role="dialog" aria-modal="true" aria-labelledby="juz-picker-title" onClose={()=>setFlashcardJuzPickerOpen(false)}><Glass className="sheet juzPickerSheet" onClick={e=>e.stopPropagation()}><div className="juzPickerHead"><div><small>اختبار البطاقات</small><h2 id="juz-picker-title">اختر الجزء</h2></div><button type="button" className="sheetIconButton" aria-label="إغلاق" onClick={()=>setFlashcardJuzPickerOpen(false)}><X/></button></div><div className="juzPickerGrid" role="listbox" aria-label="أجزاء القرآن">{Array.from({length:30},(_,i)=>i+1).map(n=><button type="button" role="option" aria-selected={flashcardJuz===n} className={`juzPickerOption ${flashcardJuz===n?"selected":""}`} key={n} onClick={()=>{setFlashcardJuz(n);setFlashcardJuzPickerOpen(false)}}><span>الجزء {arNum(n)}</span><span className="juzPickerCheck" aria-hidden="true">{flashcardJuz===n?<Check/>:null}</span></button>)}</div></Glass></Overlay>}
 
+    {repeatOpen&&<Overlay className="modal" aria-label="تكرار التلاوة" onClose={()=>setRepeatOpen(false)}><Glass className="sheet featureSheet"><div className="featureTitle"><h2>التلاوة والمتابعة</h2><button aria-label="إغلاق التلاوة" onClick={()=>setRepeatOpen(false)}><X/></button></div><RepeatPanel surahs={quran?.surahs||[]} settings={repeatSettings} onSettings={settings=>{sessionRef.current?.cancel();setRepeatSettings(settings)}} state={sessionState} onStart={startRepeat} onPause={()=>sessionRef.current?.pause()} onResume={()=>sessionRef.current?.resume()} onCancel={()=>sessionRef.current?.cancel()} follow={followAudio} onFollow={setFollowAudio}/></Glass></Overlay>}
+    {orderOpen&&<Overlay className="modal" aria-label="اختبار ترتيب الآيات" onClose={()=>{setOrderOpen(false);buildReviewSummary("ترتيب الآيات",reviewSessionCorrect,reviewSessionAssisted,reviewSessionCorrect+reviewSessionAssisted)}}><Glass className="sheet featureSheet"><div className="featureTitle"><h2>ترتيب الآيات</h2><button aria-label="إنهاء ترتيب الآيات" onClick={()=>{setOrderOpen(false);buildReviewSummary("ترتيب الآيات",reviewSessionCorrect,reviewSessionAssisted,reviewSessionCorrect+reviewSessionAssisted)}}><X/></button></div><OrderQuiz verses={reviewVerses} onScore={results=>{setReviewSessionCorrect(n=>n+results.filter(r=>r.correct).length);setReviewSessionAssisted(n=>n+results.filter(r=>!r.correct).length);for(const r of results)updateReviewStrength(r.key,r.correct?8:-8)}}/></Glass></Overlay>}
     {reciterPickerOpen&&<Overlay className="modal reciterModal" aria-label="اختر القارئ" onClose={()=>setReciterPickerOpen(false)}><Glass className="sheet reciterSheet"><div className="reviewSheetHead"><Play/><div><small>تلاوة القرآن</small><h2>اختر القارئ</h2><span className="reciterHoldHint">اضغط مطولًا على اسم الشيخ لتنزيل جميع السور</span></div></div>{["sudais","shuraim","minshawy","ali_jaber","dosari",...customReciters.map(r=>r.id)].map(id=><ReciterChoiceButton key={id} id={id} name={reciterNames[id]} active={id===reciter} onSelect={()=>{++audioRequestRef.current;audioRef.current?.pause();window.Android?.stopDownloadedAyah?.();setReciter(id);localStorage.setItem("noor_reciter",id);setSudaisProgress("");setReciterPickerOpen(false)}} onLongPress={()=>setReciterManageId(id)}/>)}
       <button className="reciterOption addReciterOption" onClick={()=>{setReciterPickerOpen(false);setAddingReciter(true);setCatalogResults([]);setCatalogSearched(false);setCatalogError("")}}><span>＋ إضافة قارئ جديد</span><small>ابحث باسم القارئ فقط</small></button><button className="reciterCancel satinSecondary" onClick={()=>setReciterPickerOpen(false)}>إغلاق</button></Glass></Overlay>}
     {addingReciter&&<Overlay className="modal reciterModal" aria-label="إضافة قارئ جديد" onClose={()=>{if(!catalogAdding)setAddingReciter(false)}}><Glass className="sheet reciterSheet addReciterSheet">

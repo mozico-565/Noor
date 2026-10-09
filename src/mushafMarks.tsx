@@ -1,4 +1,5 @@
 import React,{useLayoutEffect,useRef,useState} from "react";
+import {createPortal} from "react-dom";
 import data from "./mushafMarksData.json";
 
 export const sajdaRanges=new Map(data.sajdas.map(mark=>[mark.verseKey,mark]));
@@ -14,26 +15,9 @@ export function divisionLabel(verseKey:string){
 }
 export function MushafMargin({verseKey,kind}:{verseKey:string;kind:"division"|"sajda"}){
   const label=kind==="division"?divisionLabel(verseKey):sajdaMargins.has(verseKey)?"سجدة":null;
-  const anchor=useRef<HTMLSpanElement>(null);
-  useLayoutEffect(()=>{
-    const text=anchor.current?.closest(".mushafText");
-    // One observer per text block, regardless of how many marks it contains.
-    if(!text||text.querySelector(".mushafMarginAnchor")!==anchor.current)return;
-    let disposed=false;
-    const layout=()=>{
-      if(disposed)return;
-      const labels=Array.from(text.querySelectorAll<HTMLElement>(".mushafMarginLabel"));
-      for(const node of labels)node.style.marginTop="0px";
-      const positions=labels.map(node=>({node,rect:node.getBoundingClientRect()})).sort((a,b)=>a.rect.top-b.rect.top);
-      let bottom=-Infinity;
-      for(const {node,rect} of positions){const top=Math.max(rect.top,bottom+3);node.style.marginTop=`${top-rect.top}px`;bottom=top+rect.height;}
-    };
-    layout();const observer=typeof ResizeObserver!=="undefined"?new ResizeObserver(layout):null;
-    observer?.observe(text);document.fonts?.ready.then(layout);window.addEventListener("resize",layout);
-    return()=>{disposed=true;observer?.disconnect();window.removeEventListener("resize",layout)};
-  },[verseKey,kind,label]);
-  return label?<span ref={anchor} className="mushafMarginAnchor" data-mark={`${kind}-${verseKey}`}><span className={`mushafMarginLabel ${kind}`} aria-label={label}>{label}</span></span>:null;
+  return label?<span className={`mushafInlineMark ${kind}`} data-mark={`${kind}-${verseKey}`} aria-label={label} title={label}>{kind==="division"?"۞":"۩"}</span>:null;
 }
+
 type LetterAnchor={letter:number;fraction:number};
 type Stroke={left:number;top:number;width:number};
 // DOM Range measures the already-shaped text. No span splits an Arabic letter
@@ -50,10 +34,12 @@ export function letterBoundary(node:Text,anchor:LetterAnchor){
 function SajdaPhrase({verseKey,children}:{verseKey:string;children:React.ReactNode}){
   const mark=sajdaRanges.get(verseKey)!;
   const ref=useRef<HTMLSpanElement>(null);
+  const [surface,setSurface]=useState<HTMLElement|null>(null);
   const [strokes,setStrokes]=useState<Stroke[]>([]);
   useLayoutEffect(()=>{
     const phrase=ref.current,text=phrase?.closest<HTMLElement>(".mushafText");
     if(!phrase||!text)return;
+    setSurface(text);
     let disposed=false,frame=0;
     const layout=()=>{
       if(disposed)return;
@@ -80,7 +66,7 @@ function SajdaPhrase({verseKey,children}:{verseKey:string;children:React.ReactNo
       const next=lines.map(line=>{
         const right=line.first===0?start.x:line.right;
         const left=line.last===measured.length-1?end.x:line.left;
-        return {left:(left-origin.left)/scale-text.clientLeft,top:(line.top-origin.top)/scale-text.clientTop-fontSize*.16,width:Math.max(0,(right-left)/scale)};
+        return {left:(left-origin.left)/scale-text.clientLeft,top:(line.top-origin.top)/scale-text.clientTop+fontSize*.08,width:Math.max(0,(right-left)/scale)};
       });
       setStrokes(old=>old.length===next.length&&old.every((s,i)=>["left","top","width"].every(k=>Math.abs(s[k as keyof Stroke]-next[i][k as keyof Stroke])<.05))?old:next);
     };
@@ -89,7 +75,7 @@ function SajdaPhrase({verseKey,children}:{verseKey:string;children:React.ReactNo
     observer?.observe(text);document.fonts?.ready.then(schedule);document.fonts?.addEventListener("loadingdone",schedule);window.addEventListener("resize",schedule);
     return()=>{disposed=true;cancelAnimationFrame(frame);observer?.disconnect();document.fonts?.removeEventListener("loadingdone",schedule);window.removeEventListener("resize",schedule)};
   },[children,mark]);
-  return <span ref={ref} className="sajdaPhrase" data-sajda-range={verseKey} data-first-word={mark.firstWord} data-last-word={mark.lastWord}>{children}{strokes.map((stroke,i)=><span key={i} className="sajdaStroke" aria-hidden="true" style={stroke}/>)}</span>;
+  return <span ref={ref} className="sajdaPhrase" data-sajda-range={verseKey} data-first-word={mark.firstWord} data-last-word={mark.lastWord}>{children}{surface&&!ref.current?.closest(".reviewHidden")&&createPortal(strokes.map((stroke,i)=><span key={i} data-sajda-stroke={verseKey} className="sajdaStroke" aria-hidden="true" style={stroke}/>),surface)}</span>;
 }
 export function markedWords<T extends {index:number;text:string}>(verseKey:string,words:T[],render:(word:T,offset:number)=>React.ReactNode){
   const range=sajdaRanges.get(verseKey);
