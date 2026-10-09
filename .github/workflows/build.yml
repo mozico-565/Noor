@@ -52,7 +52,7 @@ jobs:
         run: |
           set -euo pipefail
           if [[ -f src/Overlay.tsx ]]; then
-            for FILE in src/main.tsx src/asbabQuranpedia.ts src/styles.css src/Overlay.tsx src/ExpandableText.tsx src/flashcards.ts src/reciters.ts src/main.test.tsx src/regressions.test.tsx index.html android/app/src/main/java/com/noor/quran/MainActivity.java android/app/build.gradle; do
+            for FILE in src/main.tsx src/asbabQuranpedia.ts src/mushafMarks.tsx src/mushafMarksData.json src/mushafMarks.test.tsx src/styles.css src/Overlay.tsx src/ExpandableText.tsx src/flashcards.ts src/reciters.ts src/main.test.tsx src/regressions.test.tsx index.html android/app/src/main/java/com/noor/quran/MainActivity.java android/app/build.gradle; do
               test -s "$FILE" || { echo "Missing fix file: $FILE" >&2; exit 1; }
               mkdir -p "noor/$(dirname "$FILE")"
               cp "$FILE" "noor/$FILE"
@@ -217,7 +217,7 @@ jobs:
           python3 - <<'PY_ASSETS'
           import io, pathlib, zipfile
           root = pathlib.Path('.')
-          patch_files = ['.github/workflows/build.yml', 'index.html', 'src/main.tsx', 'src/asbabQuranpedia.ts', 'src/styles.css', 'src/Overlay.tsx', 'src/ExpandableText.tsx', 'src/flashcards.ts', 'src/reciters.ts', 'src/main.test.tsx', 'src/regressions.test.tsx', 'android/app/src/main/java/com/noor/quran/MainActivity.java', 'android/app/build.gradle']
+          patch_files = ['.github/workflows/build.yml', 'index.html', 'src/main.tsx', 'src/asbabQuranpedia.ts', 'src/mushafMarks.tsx', 'src/mushafMarksData.json', 'src/mushafMarks.test.tsx', 'src/styles.css', 'src/Overlay.tsx', 'src/ExpandableText.tsx', 'src/flashcards.ts', 'src/reciters.ts', 'src/main.test.tsx', 'src/regressions.test.tsx', 'android/app/src/main/java/com/noor/quran/MainActivity.java', 'android/app/build.gradle']
           parts = sorted(root.glob('Noor-GitHub-Pages-Ready-44.zip-1.part-*'))
           assert len(parts) == 2
           with zipfile.ZipFile(io.BytesIO(b''.join(p.read_bytes() for p in parts))) as original, zipfile.ZipFile('output/Noor-Release-45-Source.zip', 'w', zipfile.ZIP_DEFLATED) as source:
