@@ -1,0 +1,197 @@
+{
+  "cases": 10,
+  "results": [
+    {
+      "id": "sudais",
+      "offline": false,
+      "keys": [
+        "1:1",
+        "1:2",
+        "1:1",
+        "1:2"
+      ],
+      "durations": [
+        3.082458,
+        4.493042,
+        3.082458,
+        4.493042
+      ],
+      "sources": "EveryAyah URL transport using retrieved real MP3 bytes",
+      "paused": true,
+      "nativeDevice": false
+    },
+    {
+      "id": "sudais",
+      "offline": true,
+      "keys": [
+        "1:1",
+        "1:2",
+        "1:1",
+        "1:2"
+      ],
+      "durations": [
+        3.082458,
+        4.493042,
+        3.082458,
+        4.493042
+      ],
+      "sources": "CacheStorage blob playback",
+      "paused": false,
+      "nativeDevice": false
+    },
+    {
+      "id": "minshawy",
+      "offline": false,
+      "keys": [
+        "1:1",
+        "1:2",
+        "1:1",
+        "1:2"
+      ],
+      "durations": [
+        4.97125,
+        5.598188,
+        4.97125,
+        5.598188
+      ],
+      "sources": "EveryAyah URL transport using retrieved real MP3 bytes",
+      "paused": false,
+      "nativeDevice": false
+    },
+    {
+      "id": "minshawy",
+      "offline": true,
+      "keys": [
+        "1:1",
+        "1:2",
+        "1:1",
+        "1:2"
+      ],
+      "durations": [
+        4.97125,
+        5.598188,
+        4.97125,
+        5.598188
+      ],
+      "sources": "CacheStorage blob playback",
+      "paused": false,
+      "nativeDevice": false
+    },
+    {
+      "id": "shuraim",
+      "offline": false,
+      "keys": [
+        "1:1",
+        "1:2",
+        "1:1",
+        "1:2"
+      ],
+      "durations": [
+        2.721655,
+        3.5345,
+        2.721655,
+        3.5345
+      ],
+      "sources": "EveryAyah URL transport using retrieved real MP3 bytes",
+      "paused": false,
+      "nativeDevice": false
+    },
+    {
+      "id": "shuraim",
+      "offline": true,
+      "keys": [
+        "1:1",
+        "1:2",
+        "1:1",
+        "1:2"
+      ],
+      "durations": [
+        2.721655,
+        3.5345,
+        2.721655,
+        3.5345
+      ],
+      "sources": "CacheStorage blob playback",
+      "paused": false,
+      "nativeDevice": false
+    },
+    {
+      "id": "ali_jaber",
+      "offline": false,
+      "keys": [
+        "1:1",
+        "1:2",
+        "1:1",
+        "1:2"
+      ],
+      "durations": [
+        13.244125,
+        6.7135,
+        13.244125,
+        6.7135
+      ],
+      "sources": "EveryAyah URL transport using retrieved real MP3 bytes",
+      "paused": false,
+      "nativeDevice": false
+    },
+    {
+      "id": "ali_jaber",
+      "offline": true,
+      "keys": [
+        "1:1",
+        "1:2",
+        "1:1",
+        "1:2"
+      ],
+      "durations": [
+        13.244125,
+        6.7135,
+        13.244125,
+        6.7135
+      ],
+      "sources": "CacheStorage blob playback",
+      "paused": false,
+      "nativeDevice": false
+    },
+    {
+      "id": "dosari",
+      "offline": false,
+      "keys": [
+        "1:1",
+        "1:2",
+        "1:1",
+        "1:2"
+      ],
+      "durations": [
+        3.298707,
+        6.199,
+        3.298707,
+        6.199
+      ],
+      "sources": "EveryAyah URL transport using retrieved real MP3 bytes",
+      "paused": false,
+      "nativeDevice": false
+    },
+    {
+      "id": "dosari",
+      "offline": true,
+      "keys": [
+        "1:1",
+        "1:2",
+        "1:1",
+        "1:2"
+      ],
+      "durations": [
+        3.298707,
+        6.199,
+        3.298707,
+        6.199
+      ],
+      "sources": "CacheStorage blob playback",
+      "paused": false,
+      "nativeDevice": false
+    }
+  ],
+  "errors": [],
+  "method": "Actual HTMLAudio decode and natural ended after seeking near end; no fabricated audio or ended events"
+}

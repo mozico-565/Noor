@@ -1,0 +1,35 @@
+{
+  "results": [
+    {
+      "mode": "light",
+      "sequence": [
+        "1:1",
+        "1:2",
+        "1:1",
+        "1:2"
+      ],
+      "storyProgress": 1,
+      "journeyOpened": "96:1",
+      "storyOpened": "12:19",
+      "quiz": true,
+      "realMp3": "Sudais source bytes decoded with actual HTMLAudio, seek near end",
+      "nativeDevice": false
+    },
+    {
+      "mode": "dark",
+      "sequence": [
+        "1:1",
+        "1:2",
+        "1:1",
+        "1:2"
+      ],
+      "storyProgress": 1,
+      "journeyOpened": "96:1",
+      "storyOpened": "12:19",
+      "quiz": true,
+      "realMp3": "Sudais source bytes decoded with actual HTMLAudio, seek near end",
+      "nativeDevice": false
+    }
+  ],
+  "errors": []
+}

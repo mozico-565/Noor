@@ -1,0 +1,1555 @@
+{
+  "browser": "Chromium153",
+  "views": 90,
+  "errors": [],
+  "results": [
+    {
+      "verse": "7:206",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.015625,
+      "endError": 0.00909999999998945,
+      "topErrors": [
+        2.421875
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "hafs"
+    },
+    {
+      "verse": "13:15",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.023374999999987267,
+      "endError": 0.015250000000008868,
+      "topErrors": [
+        2.421875
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "hafs"
+    },
+    {
+      "verse": "16:49",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.0053000000000054115,
+      "endError": 0.0031000000000034333,
+      "topErrors": [
+        2.421875
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "hafs"
+    },
+    {
+      "verse": "17:107",
+      "strokes": 2,
+      "lines": 2,
+      "startError": 0,
+      "endError": 0.0014249999999833562,
+      "topErrors": [
+        2.421875,
+        2.421875
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "hafs"
+    },
+    {
+      "verse": "19:58",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.02482500000002119,
+      "endError": 0.009375000000005684,
+      "topErrors": [
+        2.421875
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "hafs"
+    },
+    {
+      "verse": "22:18",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.00487500000002683,
+      "endError": 0,
+      "topErrors": [
+        2.421875
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "hafs"
+    },
+    {
+      "verse": "22:77",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.021874999999994316,
+      "endError": 0.013949999999994134,
+      "topErrors": [
+        2.421875
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "hafs"
+    },
+    {
+      "verse": "25:60",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.004975000000001728,
+      "endError": 0.0002000000000066393,
+      "topErrors": [
+        2.421875
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "hafs"
+    },
+    {
+      "verse": "27:25",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.01572500000000332,
+      "endError": 0.004975000000001728,
+      "topErrors": [
+        2.421875
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "hafs"
+    },
+    {
+      "verse": "32:15",
+      "strokes": 2,
+      "lines": 2,
+      "startError": 0.00642499999999302,
+      "endError": 0.013950000000022555,
+      "topErrors": [
+        2.421875,
+        2.421875
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "hafs"
+    },
+    {
+      "verse": "38:24",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.011725000000012642,
+      "endError": 0,
+      "topErrors": [
+        2.421875
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "hafs"
+    },
+    {
+      "verse": "41:37",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.015199999999992997,
+      "endError": 0.0005999999999914962,
+      "topErrors": [
+        2.421875
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "hafs"
+    },
+    {
+      "verse": "53:62",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.004774999999995089,
+      "endError": 0,
+      "topErrors": [
+        2.421875
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "hafs"
+    },
+    {
+      "verse": "84:21",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.01875000000001137,
+      "endError": 0.015600000000006276,
+      "topErrors": [
+        2.421875
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "hafs"
+    },
+    {
+      "verse": "96:19",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.015625,
+      "endError": 0.013125000000002274,
+      "topErrors": [
+        2.421875
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "hafs"
+    },
+    {
+      "verse": "7:206",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.13437500000000568,
+      "endError": 0.05452499999999816,
+      "topErrors": [
+        1.28125
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "amiri"
+    },
+    {
+      "verse": "13:15",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.20249999999998636,
+      "endError": 0.09549999999998704,
+      "topErrors": [
+        2.703125
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "amiri"
+    },
+    {
+      "verse": "16:49",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.24675000000002,
+      "endError": 0.1647000000000105,
+      "topErrors": [
+        2.015625
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "amiri"
+    },
+    {
+      "verse": "17:107",
+      "strokes": 2,
+      "lines": 2,
+      "startError": 0.0625,
+      "endError": 0.14895000000001346,
+      "topErrors": [
+        2.640625,
+        2.578125
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "amiri"
+    },
+    {
+      "verse": "19:58",
+      "strokes": 2,
+      "lines": 2,
+      "startError": 0.05835000000000434,
+      "endError": 0.22500000000002274,
+      "topErrors": [
+        2.078125,
+        2.015625
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "amiri"
+    },
+    {
+      "verse": "22:18",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.1976500000000101,
+      "endError": 0.109375,
+      "topErrors": [
+        2.578125
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "amiri"
+    },
+    {
+      "verse": "22:77",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.078125,
+      "endError": 0.018174999999999386,
+      "topErrors": [
+        2.1875
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "amiri"
+    },
+    {
+      "verse": "25:60",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.1664000000000101,
+      "endError": 0.10067499999999541,
+      "topErrors": [
+        2.359375
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "amiri"
+    },
+    {
+      "verse": "27:25",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.2099499999999921,
+      "endError": 0.1039000000000101,
+      "topErrors": [
+        2.640625
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "amiri"
+    },
+    {
+      "verse": "32:15",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.12915000000000987,
+      "endError": 0.018174999999999386,
+      "topErrors": [
+        2.296875
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "amiri"
+    },
+    {
+      "verse": "38:24",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.09992499999998472,
+      "endError": 0.015625,
+      "topErrors": [
+        1.5625
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "amiri"
+    },
+    {
+      "verse": "41:37",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.2551250000000209,
+      "endError": 0.15457499999999413,
+      "topErrors": [
+        1.625
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "amiri"
+    },
+    {
+      "verse": "53:62",
+      "strokes": 2,
+      "lines": 2,
+      "startError": 0.08817500000000678,
+      "endError": 0.234375,
+      "topErrors": [
+        1.96875,
+        1.90625
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "amiri"
+    },
+    {
+      "verse": "84:21",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.11875000000000568,
+      "endError": 0.024275000000002933,
+      "topErrors": [
+        1.734375
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "amiri"
+    },
+    {
+      "verse": "96:19",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.203125,
+      "endError": 0.15749999999999886,
+      "topErrors": [
+        1.96875
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "amiri"
+    },
+    {
+      "verse": "7:206",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.21875,
+      "endError": 0.13265000000001237,
+      "topErrors": [
+        1.0625
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "13:15",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.12437499999998636,
+      "endError": 0.0072499999999990905,
+      "topErrors": [
+        2.6875
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "16:49",
+      "strokes": 2,
+      "lines": 2,
+      "startError": 0.0436250000000058,
+      "endError": 0.19215000000002647,
+      "topErrors": [
+        1.90625,
+        1.84375
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "17:107",
+      "strokes": 2,
+      "lines": 2,
+      "startError": 0.171875,
+      "endError": 0.19582500000001346,
+      "topErrors": [
+        2.578125,
+        2.515625
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "19:58",
+      "strokes": 2,
+      "lines": 2,
+      "startError": 0.05617499999999609,
+      "endError": 0.19375000000002274,
+      "topErrors": [
+        1.953125,
+        1.90625
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "22:18",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.25487500000002683,
+      "endError": 0.140625,
+      "topErrors": [
+        2.515625
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "22:77",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.1875,
+      "endError": 0.0963000000000136,
+      "topErrors": [
+        2.125
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "25:60",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.2601500000000101,
+      "endError": 0.17880000000002383,
+      "topErrors": [
+        2.234375
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "27:25",
+      "strokes": 2,
+      "lines": 2,
+      "startError": 0.042524999999997704,
+      "endError": 0.1820250000000101,
+      "topErrors": [
+        2.578125,
+        2.515625
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "32:15",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.1469500000000039,
+      "endError": 0.018174999999999386,
+      "topErrors": [
+        2.234375
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "38:24",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.10814999999999486,
+      "endError": 0.015625,
+      "topErrors": [
+        1.34375
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "41:37",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.2551250000000209,
+      "endError": 0.11224999999998886,
+      "topErrors": [
+        1.453125
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "53:62",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.2652249999999867,
+      "endError": 0.140625,
+      "topErrors": [
+        1.84375
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "84:21",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.17500000000001137,
+      "endError": 0.05552500000000293,
+      "topErrors": [
+        1.5625
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "96:19",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.25,
+      "endError": 0.183749999999975,
+      "topErrors": [
+        1.90625
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 5.4756,
+      "fontSize": 30.42,
+      "overflow": false,
+      "mode": "light",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "7:206",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.021874999999994316,
+      "endError": 0.00837500000000091,
+      "topErrors": [
+        2.75
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "hafs"
+    },
+    {
+      "verse": "13:15",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.022249999999985448,
+      "endError": 0.008499999999997954,
+      "topErrors": [
+        2.75
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "hafs"
+    },
+    {
+      "verse": "16:49",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.019450000000006185,
+      "endError": 0.005774999999999864,
+      "topErrors": [
+        2.75
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "hafs"
+    },
+    {
+      "verse": "17:107",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.015625,
+      "endError": 0.00832499999999925,
+      "topErrors": [
+        2.75
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "hafs"
+    },
+    {
+      "verse": "19:58",
+      "strokes": 2,
+      "lines": 2,
+      "startError": 0.011475000000004343,
+      "endError": 0.006250000000022737,
+      "topErrors": [
+        2.75,
+        2.75
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "hafs"
+    },
+    {
+      "verse": "22:18",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.015224999999986721,
+      "endError": 0,
+      "topErrors": [
+        2.75
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "hafs"
+    },
+    {
+      "verse": "22:77",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.009374999999977263,
+      "endError": 0.002550000000013597,
+      "topErrors": [
+        2.75
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "hafs"
+    },
+    {
+      "verse": "25:60",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.010150000000010095,
+      "endError": 0.006925000000023829,
+      "topErrors": [
+        2.75
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "hafs"
+    },
+    {
+      "verse": "27:25",
+      "strokes": 2,
+      "lines": 2,
+      "startError": 0.011274999999997704,
+      "endError": 0.010150000000010095,
+      "topErrors": [
+        2.75,
+        2.75
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "hafs"
+    },
+    {
+      "verse": "32:15",
+      "strokes": 2,
+      "lines": 2,
+      "startError": 0.004149999999995657,
+      "endError": 0.0025499999999851752,
+      "topErrors": [
+        2.75,
+        2.75
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "hafs"
+    },
+    {
+      "verse": "38:24",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.0061749999999847205,
+      "endError": 0,
+      "topErrors": [
+        2.75
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "hafs"
+    },
+    {
+      "verse": "41:37",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.010674999999991996,
+      "endError": 0.005150000000000432,
+      "topErrors": [
+        2.75
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "hafs"
+    },
+    {
+      "verse": "53:62",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.009950000000003456,
+      "endError": 0,
+      "topErrors": [
+        2.75
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "hafs"
+    },
+    {
+      "verse": "84:21",
+      "strokes": 2,
+      "lines": 2,
+      "startError": 0.012500000000002842,
+      "endError": 0.01212500000002592,
+      "topErrors": [
+        2.75,
+        2.75
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "hafs"
+    },
+    {
+      "verse": "96:19",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.015625,
+      "endError": 0.014999999999986358,
+      "topErrors": [
+        2.75
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "hafs"
+    },
+    {
+      "verse": "7:206",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.16874999999998863,
+      "endError": 0.030000000000001137,
+      "topErrors": [
+        -0.578125
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "amiri"
+    },
+    {
+      "verse": "13:15",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.21699999999998454,
+      "endError": 0.026249999999997442,
+      "topErrors": [
+        2.703125
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "amiri"
+    },
+    {
+      "verse": "16:49",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.21402499999999236,
+      "endError": 0.02674999999999983,
+      "topErrors": [
+        1.125
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "amiri"
+    },
+    {
+      "verse": "17:107",
+      "strokes": 2,
+      "lines": 2,
+      "startError": 0.328125,
+      "endError": 0.4214749999999867,
+      "topErrors": [
+        2.453125,
+        2.34375
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "amiri"
+    },
+    {
+      "verse": "19:58",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.4981250000000159,
+      "endError": 0.30000000000001137,
+      "topErrors": [
+        1.125
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "amiri"
+    },
+    {
+      "verse": "22:18",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.18719999999999004,
+      "endError": 0.03125,
+      "topErrors": [
+        2.453125
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "amiri"
+    },
+    {
+      "verse": "22:77",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.48750000000001137,
+      "endError": 0.36615000000000464,
+      "topErrors": [
+        1.484375
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "amiri"
+    },
+    {
+      "verse": "25:60",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.49970000000001846,
+      "endError": 0.3886499999999842,
+      "topErrors": [
+        1.84375
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "amiri"
+    },
+    {
+      "verse": "27:25",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.2523750000000007,
+      "endError": 0.030949999999997146,
+      "topErrors": [
+        2.453125
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "amiri"
+    },
+    {
+      "verse": "32:15",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.23624999999998408,
+      "endError": 0.022399999999997533,
+      "topErrors": [
+        1.734375
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "amiri"
+    },
+    {
+      "verse": "38:24",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.20375000000001364,
+      "endError": 0.03125,
+      "topErrors": [
+        0.15625
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "amiri"
+    },
+    {
+      "verse": "41:37",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.3756000000000199,
+      "endError": 0.15912499999998886,
+      "topErrors": [
+        0.265625
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "amiri"
+    },
+    {
+      "verse": "53:62",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.3797749999999951,
+      "endError": 0.1875,
+      "topErrors": [
+        1
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "amiri"
+    },
+    {
+      "verse": "84:21",
+      "strokes": 2,
+      "lines": 2,
+      "startError": 0.04375000000000284,
+      "endError": 0.3550000000000182,
+      "topErrors": [
+        0.515625,
+        0.390625
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "amiri"
+    },
+    {
+      "verse": "96:19",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.109375,
+      "endError": 0.018749999999997158,
+      "topErrors": [
+        1.125
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "amiri"
+    },
+    {
+      "verse": "7:206",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.5031250000000114,
+      "endError": 0.3268749999999727,
+      "topErrors": [
+        -1.078125
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "13:15",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.40449999999998454,
+      "endError": 0.18799999999998818,
+      "topErrors": [
+        2.5625
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "16:49",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.38589999999999236,
+      "endError": 0.17920000000000869,
+      "topErrors": [
+        0.75
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "17:107",
+      "strokes": 2,
+      "lines": 2,
+      "startError": 0.328125,
+      "endError": 0.3745999999999867,
+      "topErrors": [
+        2.328125,
+        2.203125
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "19:58",
+      "strokes": 2,
+      "lines": 2,
+      "startError": 0.10087500000000205,
+      "endError": 0.37812500000001137,
+      "topErrors": [
+        0.984375,
+        0.875
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "22:18",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.49442499999997835,
+      "endError": 0.265625,
+      "topErrors": [
+        2.203125
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "22:77",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.19062500000001137,
+      "endError": 0.022399999999997533,
+      "topErrors": [
+        1.359375
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "25:60",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.49970000000001846,
+      "endError": 0.3417749999999842,
+      "topErrors": [
+        1.59375
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "27:25",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.3818249999999921,
+      "endError": 0.12470000000000425,
+      "topErrors": [
+        2.328125
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "32:15",
+      "strokes": 2,
+      "lines": 2,
+      "startError": 0.10224999999999795,
+      "endError": 0.38177500000000464,
+      "topErrors": [
+        1.59375,
+        1.46875
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "38:24",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.194500000000005,
+      "endError": 0.03125,
+      "topErrors": [
+        -0.34375
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "41:37",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.3130999999999915,
+      "endError": 0.023049999999997794,
+      "topErrors": [
+        -0.21875
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "53:62",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.4891499999999951,
+      "endError": 0.25,
+      "topErrors": [
+        0.75
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "84:21",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.3187499999999943,
+      "endError": 0.08937500000000398,
+      "topErrors": [
+        0.140625
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "scheherazade"
+    },
+    {
+      "verse": "96:19",
+      "strokes": 1,
+      "lines": 1,
+      "startError": 0.140625,
+      "endError": 0.013750000000001705,
+      "topErrors": [
+        0.875
+      ],
+      "positive": true,
+      "mark": true,
+      "padding": 6.192,
+      "fontSize": 34.4,
+      "overflow": false,
+      "mode": "dark",
+      "font": "scheherazade"
+    }
+  ]
+}
