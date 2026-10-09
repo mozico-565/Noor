@@ -1879,3 +1879,5 @@ html.theme-crossfade #root{animation:noorThemeFallback .36s ease both}
 .juzPickerGrid{display:flex!important;flex-direction:column!important;max-height:55vh!important;overflow:auto!important;scrollbar-width:none!important;gap:6px!important}
 .juzPickerGrid button{width:100%!important;min-height:48px!important;flex:none!important;border-radius:8px!important;text-align:right!important;justify-content:flex-start!important}
 .reciterSheet .reciterChoice,.reciterSheet>button{border-radius:10px!important;min-height:48px}
+
+.sessionPanel input[type="checkbox"]{accent-color:#438b69;flex:none;vertical-align:middle}.featureTitle .sheetIconButton{flex:none;background:rgba(127,127,127,.08);color:inherit;border:1px solid rgba(127,127,127,.16);border-radius:12px;min-width:42px;min-height:42px}
