@@ -45,4 +45,20 @@ APK نسخة Debug للاختبار، باسم الحزمة com.noor.quran، و�
 
 ## بناء Android
 
-يُنشئ GitHub Actions APK وAAB بعد الاختبارات. تُسجل نتيجة Gradle وبصمة APK النهائية بعد انتهاء البناء.
+اجتاز التشغيل #174 اختبارات Vitest الـ85 وTypeScript وبناء الويب. نجح Gradle 8.9 في :app:assembleDebug و:app:bundleRelease.
+
+المصدر المختبر: 21b140b75c93b171791dbb02872eb1189f5dea4a.
+
+تشغيل CI: https://github.com/mozico-565/Noor/actions/runs/37989501160
+
+نُشر الإصدار: https://github.com/mozico-565/Noor/releases/tag/noor-release-46
+
+فُحص APK بعد تنزيله: 114060256 بايت، ZIP بلا تلف، com.noor.quran، versionCode 46، versionName 1.4.6. ملفات JavaScript وCSS داخله مطابقة بايتًا للنسخة المختبرة. بيانات القرآن مضمنة ومطابقة.
+
+SHA256 للـAPK: `63c203ceedd948c757869dd2132142e8f32d8811ada239f0c96b9537fd201c2e`، مطابق للبصمة المنشورة في GitHub.
+
+شهادة توقيع APK الجديد SHA256: `6850e2446feb8653eaf08037d826c189918942f5528ab2b4ab087524c22cba5e`.
+
+شهادة APK السابق المتاح (1.4.1 / code 41): `b8450b26e45595c0e848e1026afef3087ca943ea748c2fc5dcfe4a95a178a6d3`.
+
+الشهادتان مختلفتان: هذا APK لا يستطيع تحديث ذلك APK مباشرة. هذا الشرط غير مكتمل ويحتاج المفتاح الخاص الأصلي؛ لا يمكن استرجاعه من APK. لم يُنشأ مفتاح دائم أو تُضاف أسرار حساب دون تفويض.
