@@ -84,11 +84,34 @@ public class MainActivity extends Activity {
     private volatile boolean audioDownloadCancelled = false;
     private MediaPlayer downloadedPlayer;
 
+    private volatile int recitationRequest = 0;
+    private boolean recitationPaused = false, recitationPrepared = false;
+    private String recitationVerseId="";
+    private void audioEvent(int token, String id, String event) {
+        evalJs("window.noorAudioEvent&&window.noorAudioEvent("+token+","+JSONObject.quote(id)+","+JSONObject.quote(event)+")");
+    }
+    private void configureRecitationPlayer(MediaPlayer player, String id, int token) {
+        recitationPaused=false;recitationPrepared=false;recitationVerseId=id;
+        player.setOnPreparedListener(mp -> {
+            if (downloadedPlayer!=mp || token!=recitationRequest) return;
+            recitationPrepared=true;
+            if (!recitationPaused) {mp.start();audioEvent(token,id,"playing");}
+        });
+        player.setOnCompletionListener(mp -> {
+            if(downloadedPlayer!=mp || token!=recitationRequest)return;
+            releaseDownloadedPlayer();audioEvent(token,id,"ended");
+        });
+        player.setOnErrorListener((mp,what,extra) -> {
+            if(downloadedPlayer==mp && token==recitationRequest){releaseDownloadedPlayer();audioEvent(token,id,"error");}
+            return true;
+        });
+    }
     private void releaseDownloadedPlayer() {
         if (downloadedPlayer != null) {
             try { downloadedPlayer.release(); } catch (Exception ignored) {}
             downloadedPlayer = null;
         }
+        recitationPrepared=false;
     }
 
     private static String reciterDirectory(String id) {
@@ -556,6 +579,9 @@ private void emitSudaisProgress(int done, int total, String message) {
 
     @Override protected void onPause() {
         activityForeground = false;
+        recitationPaused=true;
+        try{if(downloadedPlayer!=null&&recitationPrepared&&downloadedPlayer.isPlaying())downloadedPlayer.pause();}catch(Exception ignored){}
+        evalJs("window.noorAudioBackground&&window.noorAudioBackground()");
         unregisterQiblaCompass(false);
         super.onPause();
     }
@@ -1038,9 +1064,14 @@ private void emitSudaisProgress(int done, int total, String message) {
             return reciterBaseUrl(reciter) != null && globalAyahNumber(id) > 0 &&
                     isMp3File(new File(new File(getFilesDir(), reciter), id + ".mp3"));
         }
+        @JavascriptInterface public void setAudioRequest(int token) {recitationRequest=token;}
+        @JavascriptInterface public void stopDownloadedAyah() {runOnUiThread(() -> releaseDownloadedPlayer());}
+        @JavascriptInterface public void pauseRecitation() {runOnUiThread(() -> {recitationPaused=true;try{if(downloadedPlayer!=null&&recitationPrepared&&downloadedPlayer.isPlaying())downloadedPlayer.pause();}catch(Exception ignored){}});}
+        @JavascriptInterface public void resumeRecitation() {runOnUiThread(() -> {recitationPaused=false;try{if(downloadedPlayer!=null&&recitationPrepared){downloadedPlayer.start();audioEvent(recitationRequest,recitationVerseId,"playing");}}catch(Exception ignored){}});}
         @JavascriptInterface public boolean playDownloadedAyah(String reciter, String id) {
             if (!hasReciterAyah(reciter, id)) return false;
             File file = new File(new File(getFilesDir(), reciter), id + ".mp3");
+            final int token=recitationRequest;
             runOnUiThread(() -> {
                 releaseDownloadedPlayer();
                 try {
@@ -1048,11 +1079,9 @@ private void emitSudaisProgress(int done, int total, String message) {
                     downloadedPlayer = player;
                     player.setAudioStreamType(AudioManager.STREAM_MUSIC);
                     player.setDataSource(file.getAbsolutePath());
-                    player.setOnPreparedListener(MediaPlayer::start);
-                    player.setOnCompletionListener(mp -> releaseDownloadedPlayer());
-                    player.setOnErrorListener((mp, what, extra) -> {releaseDownloadedPlayer();return true;});
+                    configureRecitationPlayer(player,id,token);
                     player.prepareAsync();
-                } catch (Exception error) { releaseDownloadedPlayer(); }
+                } catch (Exception error) { releaseDownloadedPlayer();audioEvent(token,id,"error"); }
             });
             return true;
         }
@@ -1061,6 +1090,7 @@ private void emitSudaisProgress(int done, int total, String message) {
             if (url == null) return false;
             final File local = new File(new File(getFilesDir(), reciter), id + ".mp3");
             final boolean offline = isMp3File(local);
+            final int token=recitationRequest;
             if (!offline) cacheReciterAyahInBackground(reciter, id, url);
             runOnUiThread(() -> {
                 releaseDownloadedPlayer();
@@ -1070,18 +1100,11 @@ private void emitSudaisProgress(int done, int total, String message) {
                     player.setAudioStreamType(AudioManager.STREAM_MUSIC);
                     player.setDataSource(offline ? local.getAbsolutePath() :
                             url);
-                    player.setOnPreparedListener(MediaPlayer::start);
-                    player.setOnCompletionListener(mp -> releaseDownloadedPlayer());
-                    player.setOnErrorListener((mp, what, extra) -> {
-                        releaseDownloadedPlayer();
-                        evalJs("window.noorAudioError&&window.noorAudioError(" +
-                                JSONObject.quote(offline ? "تعذر قراءة الملف الصوتي؛ أعد تنزيل السورة" : "تعذر تشغيل الآية عبر الإنترنت؛ تحقق من اتصالك") + ")");
-                        return true;
-                    });
+                    configureRecitationPlayer(player,id,token);
                     player.prepareAsync();
                 } catch (Exception error) {
                     releaseDownloadedPlayer();
-                    evalJs("window.noorAudioError&&window.noorAudioError('تعذر فتح تلاوة الآية')");
+                    audioEvent(token,id,"error");
                 }
             });
             return true;
@@ -1285,7 +1308,8 @@ private void emitSudaisProgress(int done, int total, String message) {
                 Uri tree=Uri.parse(raw);Uri file=findReciterDocument(tree,verseId+".mp3");
                 if(file==null)return false;
                 try(android.os.ParcelFileDescriptor test=getContentResolver().openFileDescriptor(file,"r")){if(test==null)return false;}
-                runOnUiThread(() -> {releaseDownloadedPlayer();try{MediaPlayer player=new MediaPlayer();downloadedPlayer=player;player.setAudioStreamType(AudioManager.STREAM_MUSIC);player.setDataSource(MainActivity.this,file);player.setOnPreparedListener(MediaPlayer::start);player.setOnCompletionListener(mp->releaseDownloadedPlayer());player.setOnErrorListener((mp,w,e)->{releaseDownloadedPlayer();return true;});player.prepareAsync();}catch(Exception e){releaseDownloadedPlayer();}});
+                final int token=recitationRequest;
+                runOnUiThread(() -> {releaseDownloadedPlayer();try{MediaPlayer player=new MediaPlayer();downloadedPlayer=player;player.setAudioStreamType(AudioManager.STREAM_MUSIC);player.setDataSource(MainActivity.this,file);configureRecitationPlayer(player,verseId,token);player.prepareAsync();}catch(Exception e){releaseDownloadedPlayer();audioEvent(token,verseId,"error");}});
                 return true;
             }catch(Throwable ignored){return false;}
         }
