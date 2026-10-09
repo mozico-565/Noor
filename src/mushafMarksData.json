@@ -1,0 +1,1911 @@
+{
+  "sajdas": [
+    {
+      "verseKey": "7:206",
+      "marginVerseKey": "7:206",
+      "firstWord": 11,
+      "lastWord": 11,
+      "phrase": "يَسْجُدُونَ",
+      "page": 176,
+      "reference": "https://quran.ksu.edu.sa/png_big/176.png",
+      "startAnchor": {
+        "letter": 0,
+        "fraction": 0.8
+      },
+      "endAnchor": {
+        "letter": 5,
+        "fraction": 0.4762
+      },
+      "strokeReference": {
+        "y": 813,
+        "right": 191,
+        "left": 113,
+        "startLetterBounds": [
+          179,
+          194
+        ],
+        "endLetterBounds": [
+          103,
+          124
+        ]
+      }
+    },
+    {
+      "verseKey": "13:15",
+      "marginVerseKey": "13:15",
+      "firstWord": 1,
+      "lastWord": 2,
+      "phrase": "وَلِلَّهِ يَسْجُدُ",
+      "page": 251,
+      "reference": "https://quran.ksu.edu.sa/png_big/251.png",
+      "startAnchor": {
+        "letter": 0,
+        "fraction": 0.5385
+      },
+      "endAnchor": {
+        "letter": 3,
+        "fraction": 0.0435
+      },
+      "strokeReference": {
+        "y": 169,
+        "right": 416,
+        "left": 329,
+        "startLetterBounds": [
+          409,
+          422
+        ],
+        "endLetterBounds": [
+          328,
+          351
+        ]
+      }
+    },
+    {
+      "verseKey": "16:49",
+      "marginVerseKey": "16:50",
+      "firstWord": 1,
+      "lastWord": 2,
+      "phrase": "وَلِلَّهِ يَسْجُدُ",
+      "page": 272,
+      "reference": "https://quran.ksu.edu.sa/png_big/272.png",
+      "startAnchor": {
+        "letter": 0,
+        "fraction": 0.2727
+      },
+      "endAnchor": {
+        "letter": 3,
+        "fraction": 0.3529
+      },
+      "strokeReference": {
+        "y": 491,
+        "right": 519,
+        "left": 427,
+        "startLetterBounds": [
+          516,
+          527
+        ],
+        "endLetterBounds": [
+          421,
+          438
+        ]
+      }
+    },
+    {
+      "verseKey": "17:107",
+      "marginVerseKey": "17:109",
+      "firstWord": 16,
+      "lastWord": 18,
+      "phrase": "يَخِرُّونَ لِلْأَذْقَانِ سُجَّدًا",
+      "page": 293,
+      "reference": "https://quran.ksu.edu.sa/png_big/293.png",
+      "startAnchor": {
+        "letter": 0,
+        "fraction": 0.5
+      },
+      "endAnchor": {
+        "letter": 3,
+        "fraction": 0.4444
+      },
+      "strokeReference": {
+        "y": 223,
+        "right": 489,
+        "left": 315,
+        "startLetterBounds": [
+          482,
+          496
+        ],
+        "endLetterBounds": [
+          311,
+          320
+        ]
+      }
+    },
+    {
+      "verseKey": "19:58",
+      "marginVerseKey": "19:58",
+      "firstWord": 27,
+      "lastWord": 28,
+      "phrase": "خَرُّوا۟ سُجَّدًا",
+      "page": 309,
+      "reference": "https://quran.ksu.edu.sa/png_big/309.png",
+      "startAnchor": {
+        "letter": 0,
+        "fraction": 0.7143
+      },
+      "endAnchor": {
+        "letter": 3,
+        "fraction": 0.7
+      },
+      "strokeReference": {
+        "y": 435,
+        "right": 444,
+        "left": 357,
+        "startLetterBounds": [
+          429,
+          450
+        ],
+        "endLetterBounds": [
+          350,
+          360
+        ]
+      }
+    },
+    {
+      "verseKey": "22:18",
+      "marginVerseKey": "22:18",
+      "firstWord": 5,
+      "lastWord": 6,
+      "phrase": "يَسْجُدُ لَهُۥ",
+      "page": 334,
+      "reference": "https://quran.ksu.edu.sa/png_big/334.png",
+      "startAnchor": {
+        "letter": 0,
+        "fraction": 0.5833
+      },
+      "endAnchor": {
+        "letter": 1,
+        "fraction": 0.375
+      },
+      "strokeReference": {
+        "y": 272,
+        "right": 546,
+        "left": 475,
+        "startLetterBounds": [
+          539,
+          551
+        ],
+        "endLetterBounds": [
+          469,
+          485
+        ]
+      }
+    },
+    {
+      "verseKey": "22:77",
+      "marginVerseKey": "22:77",
+      "firstWord": 5,
+      "lastWord": 5,
+      "phrase": "وَٱسْجُدُوا۟",
+      "page": 341,
+      "reference": "https://quran.ksu.edu.sa/png_big/341.png",
+      "startAnchor": {
+        "letter": 0,
+        "fraction": 0.4
+      },
+      "endAnchor": {
+        "letter": 6,
+        "fraction": 0.3636
+      },
+      "strokeReference": {
+        "y": 436,
+        "right": 332,
+        "left": 239,
+        "startLetterBounds": [
+          326,
+          341
+        ],
+        "endLetterBounds": [
+          235,
+          246
+        ]
+      }
+    },
+    {
+      "verseKey": "25:60",
+      "marginVerseKey": "25:60",
+      "firstWord": 4,
+      "lastWord": 4,
+      "phrase": "ٱسْجُدُوا۟",
+      "page": 365,
+      "reference": "https://quran.ksu.edu.sa/png_big/365.png",
+      "startAnchor": {
+        "letter": 0,
+        "fraction": 0.8333
+      },
+      "endAnchor": {
+        "letter": 5,
+        "fraction": 0.4286
+      },
+      "strokeReference": {
+        "y": 328,
+        "right": 262,
+        "left": 184,
+        "startLetterBounds": [
+          257,
+          263
+        ],
+        "endLetterBounds": [
+          181,
+          188
+        ]
+      }
+    },
+    {
+      "verseKey": "27:25",
+      "marginVerseKey": "27:26",
+      "firstWord": 1,
+      "lastWord": 2,
+      "phrase": "أَلَّا يَسْجُدُوا۟",
+      "page": 379,
+      "reference": "https://quran.ksu.edu.sa/png_big/379.png",
+      "startAnchor": {
+        "letter": 0,
+        "fraction": 0.7143
+      },
+      "endAnchor": {
+        "letter": 5,
+        "fraction": 0.3333
+      },
+      "strokeReference": {
+        "y": 216,
+        "right": 391,
+        "left": 292,
+        "startLetterBounds": [
+          381,
+          395
+        ],
+        "endLetterBounds": [
+          289,
+          298
+        ]
+      }
+    },
+    {
+      "verseKey": "32:15",
+      "marginVerseKey": "32:15",
+      "firstWord": 8,
+      "lastWord": 9,
+      "phrase": "خَرُّوا۟ سُجَّدًا",
+      "page": 416,
+      "reference": "https://quran.ksu.edu.sa/png_big/416.png",
+      "startAnchor": {
+        "letter": 0,
+        "fraction": 0.7857
+      },
+      "endAnchor": {
+        "letter": 3,
+        "fraction": 0.3636
+      },
+      "strokeReference": {
+        "y": 375,
+        "right": 297,
+        "left": 195,
+        "startLetterBounds": [
+          286,
+          300
+        ],
+        "endLetterBounds": [
+          191,
+          202
+        ]
+      }
+    },
+    {
+      "verseKey": "38:24",
+      "marginVerseKey": "38:24",
+      "firstWord": 30,
+      "lastWord": 31,
+      "phrase": "وَخَرَّ رَاكِعًا",
+      "page": 454,
+      "reference": "https://quran.ksu.edu.sa/png_big/454.png",
+      "startAnchor": {
+        "letter": 1,
+        "fraction": 0.5294
+      },
+      "endAnchor": {
+        "letter": 4,
+        "fraction": 0.625
+      },
+      "strokeReference": {
+        "y": 594,
+        "right": 221,
+        "left": 142,
+        "startLetterBounds": [
+          212,
+          229
+        ],
+        "endLetterBounds": [
+          137,
+          145
+        ]
+      }
+    },
+    {
+      "verseKey": "41:37",
+      "marginVerseKey": "41:38",
+      "firstWord": 12,
+      "lastWord": 13,
+      "phrase": "وَٱسْجُدُوا۟ لِلَّهِ",
+      "page": 480,
+      "reference": "https://quran.ksu.edu.sa/png_big/480.png",
+      "startAnchor": {
+        "letter": 0,
+        "fraction": 0.4118
+      },
+      "endAnchor": {
+        "letter": 2,
+        "fraction": 0.1429
+      },
+      "strokeReference": {
+        "y": 699,
+        "right": 436,
+        "left": 307,
+        "startLetterBounds": [
+          429,
+          446
+        ],
+        "endLetterBounds": [
+          305,
+          319
+        ]
+      }
+    },
+    {
+      "verseKey": "53:62",
+      "marginVerseKey": "53:62",
+      "firstWord": 1,
+      "lastWord": 2,
+      "phrase": "فَٱسْجُدُوا۟ لِلَّهِ",
+      "page": 528,
+      "reference": "https://quran.ksu.edu.sa/png_big/528.png",
+      "startAnchor": {
+        "letter": 0,
+        "fraction": 0.0833
+      },
+      "endAnchor": {
+        "letter": 2,
+        "fraction": 0.375
+      },
+      "strokeReference": {
+        "y": 485,
+        "right": 420,
+        "left": 301,
+        "startLetterBounds": [
+          419,
+          431
+        ],
+        "endLetterBounds": [
+          295,
+          311
+        ]
+      }
+    },
+    {
+      "verseKey": "84:21",
+      "marginVerseKey": "84:21",
+      "firstWord": 5,
+      "lastWord": 6,
+      "phrase": "لَا يَسْجُدُونَ",
+      "page": 589,
+      "reference": "https://quran.ksu.edu.sa/png_big/589.png",
+      "startAnchor": {
+        "letter": 0,
+        "fraction": 0.4
+      },
+      "endAnchor": {
+        "letter": 5,
+        "fraction": 0.5217
+      },
+      "strokeReference": {
+        "y": 758,
+        "right": 413,
+        "left": 318,
+        "startLetterBounds": [
+          409,
+          419
+        ],
+        "endLetterBounds": [
+          306,
+          329
+        ]
+      }
+    },
+    {
+      "verseKey": "96:19",
+      "marginVerseKey": "96:19",
+      "firstWord": 4,
+      "lastWord": 4,
+      "phrase": "وَٱسْجُدْ",
+      "page": 598,
+      "reference": "https://quran.ksu.edu.sa/png_big/598.png",
+      "datasetPage": 597,
+      "startAnchor": {
+        "letter": 1,
+        "fraction": 1.0
+      },
+      "endAnchor": {
+        "letter": 4,
+        "fraction": 0.04
+      },
+      "strokeReference": {
+        "y": 161,
+        "right": 248,
+        "left": 182,
+        "startLetterBounds": [
+          236,
+          248
+        ],
+        "endLetterBounds": [
+          181,
+          206
+        ]
+      }
+    }
+  ],
+  "quarters": [
+    {
+      "verseKey": "1:1",
+      "quarter": 1,
+      "hizb": 1,
+      "juz": 1
+    },
+    {
+      "verseKey": "2:26",
+      "quarter": 2,
+      "hizb": 1,
+      "juz": 1
+    },
+    {
+      "verseKey": "2:44",
+      "quarter": 3,
+      "hizb": 1,
+      "juz": 1
+    },
+    {
+      "verseKey": "2:60",
+      "quarter": 4,
+      "hizb": 1,
+      "juz": 1
+    },
+    {
+      "verseKey": "2:75",
+      "quarter": 5,
+      "hizb": 2,
+      "juz": 1
+    },
+    {
+      "verseKey": "2:92",
+      "quarter": 6,
+      "hizb": 2,
+      "juz": 1
+    },
+    {
+      "verseKey": "2:106",
+      "quarter": 7,
+      "hizb": 2,
+      "juz": 1
+    },
+    {
+      "verseKey": "2:124",
+      "quarter": 8,
+      "hizb": 2,
+      "juz": 1
+    },
+    {
+      "verseKey": "2:142",
+      "quarter": 9,
+      "hizb": 3,
+      "juz": 2
+    },
+    {
+      "verseKey": "2:158",
+      "quarter": 10,
+      "hizb": 3,
+      "juz": 2
+    },
+    {
+      "verseKey": "2:177",
+      "quarter": 11,
+      "hizb": 3,
+      "juz": 2
+    },
+    {
+      "verseKey": "2:189",
+      "quarter": 12,
+      "hizb": 3,
+      "juz": 2
+    },
+    {
+      "verseKey": "2:203",
+      "quarter": 13,
+      "hizb": 4,
+      "juz": 2
+    },
+    {
+      "verseKey": "2:219",
+      "quarter": 14,
+      "hizb": 4,
+      "juz": 2
+    },
+    {
+      "verseKey": "2:233",
+      "quarter": 15,
+      "hizb": 4,
+      "juz": 2
+    },
+    {
+      "verseKey": "2:243",
+      "quarter": 16,
+      "hizb": 4,
+      "juz": 2
+    },
+    {
+      "verseKey": "2:253",
+      "quarter": 17,
+      "hizb": 5,
+      "juz": 3
+    },
+    {
+      "verseKey": "2:263",
+      "quarter": 18,
+      "hizb": 5,
+      "juz": 3
+    },
+    {
+      "verseKey": "2:272",
+      "quarter": 19,
+      "hizb": 5,
+      "juz": 3
+    },
+    {
+      "verseKey": "2:283",
+      "quarter": 20,
+      "hizb": 5,
+      "juz": 3
+    },
+    {
+      "verseKey": "3:15",
+      "quarter": 21,
+      "hizb": 6,
+      "juz": 3
+    },
+    {
+      "verseKey": "3:33",
+      "quarter": 22,
+      "hizb": 6,
+      "juz": 3
+    },
+    {
+      "verseKey": "3:52",
+      "quarter": 23,
+      "hizb": 6,
+      "juz": 3
+    },
+    {
+      "verseKey": "3:75",
+      "quarter": 24,
+      "hizb": 6,
+      "juz": 3
+    },
+    {
+      "verseKey": "3:93",
+      "quarter": 25,
+      "hizb": 7,
+      "juz": 4
+    },
+    {
+      "verseKey": "3:113",
+      "quarter": 26,
+      "hizb": 7,
+      "juz": 4
+    },
+    {
+      "verseKey": "3:133",
+      "quarter": 27,
+      "hizb": 7,
+      "juz": 4
+    },
+    {
+      "verseKey": "3:153",
+      "quarter": 28,
+      "hizb": 7,
+      "juz": 4
+    },
+    {
+      "verseKey": "3:171",
+      "quarter": 29,
+      "hizb": 8,
+      "juz": 4
+    },
+    {
+      "verseKey": "3:186",
+      "quarter": 30,
+      "hizb": 8,
+      "juz": 4
+    },
+    {
+      "verseKey": "4:1",
+      "quarter": 31,
+      "hizb": 8,
+      "juz": 4
+    },
+    {
+      "verseKey": "4:12",
+      "quarter": 32,
+      "hizb": 8,
+      "juz": 4
+    },
+    {
+      "verseKey": "4:24",
+      "quarter": 33,
+      "hizb": 9,
+      "juz": 5
+    },
+    {
+      "verseKey": "4:36",
+      "quarter": 34,
+      "hizb": 9,
+      "juz": 5
+    },
+    {
+      "verseKey": "4:58",
+      "quarter": 35,
+      "hizb": 9,
+      "juz": 5
+    },
+    {
+      "verseKey": "4:74",
+      "quarter": 36,
+      "hizb": 9,
+      "juz": 5
+    },
+    {
+      "verseKey": "4:88",
+      "quarter": 37,
+      "hizb": 10,
+      "juz": 5
+    },
+    {
+      "verseKey": "4:100",
+      "quarter": 38,
+      "hizb": 10,
+      "juz": 5
+    },
+    {
+      "verseKey": "4:114",
+      "quarter": 39,
+      "hizb": 10,
+      "juz": 5
+    },
+    {
+      "verseKey": "4:135",
+      "quarter": 40,
+      "hizb": 10,
+      "juz": 5
+    },
+    {
+      "verseKey": "4:148",
+      "quarter": 41,
+      "hizb": 11,
+      "juz": 6
+    },
+    {
+      "verseKey": "4:163",
+      "quarter": 42,
+      "hizb": 11,
+      "juz": 6
+    },
+    {
+      "verseKey": "5:1",
+      "quarter": 43,
+      "hizb": 11,
+      "juz": 6
+    },
+    {
+      "verseKey": "5:12",
+      "quarter": 44,
+      "hizb": 11,
+      "juz": 6
+    },
+    {
+      "verseKey": "5:27",
+      "quarter": 45,
+      "hizb": 12,
+      "juz": 6
+    },
+    {
+      "verseKey": "5:41",
+      "quarter": 46,
+      "hizb": 12,
+      "juz": 6
+    },
+    {
+      "verseKey": "5:51",
+      "quarter": 47,
+      "hizb": 12,
+      "juz": 6
+    },
+    {
+      "verseKey": "5:67",
+      "quarter": 48,
+      "hizb": 12,
+      "juz": 6
+    },
+    {
+      "verseKey": "5:82",
+      "quarter": 49,
+      "hizb": 13,
+      "juz": 7
+    },
+    {
+      "verseKey": "5:97",
+      "quarter": 50,
+      "hizb": 13,
+      "juz": 7
+    },
+    {
+      "verseKey": "5:109",
+      "quarter": 51,
+      "hizb": 13,
+      "juz": 7
+    },
+    {
+      "verseKey": "6:13",
+      "quarter": 52,
+      "hizb": 13,
+      "juz": 7
+    },
+    {
+      "verseKey": "6:36",
+      "quarter": 53,
+      "hizb": 14,
+      "juz": 7
+    },
+    {
+      "verseKey": "6:59",
+      "quarter": 54,
+      "hizb": 14,
+      "juz": 7
+    },
+    {
+      "verseKey": "6:74",
+      "quarter": 55,
+      "hizb": 14,
+      "juz": 7
+    },
+    {
+      "verseKey": "6:95",
+      "quarter": 56,
+      "hizb": 14,
+      "juz": 7
+    },
+    {
+      "verseKey": "6:111",
+      "quarter": 57,
+      "hizb": 15,
+      "juz": 8
+    },
+    {
+      "verseKey": "6:127",
+      "quarter": 58,
+      "hizb": 15,
+      "juz": 8
+    },
+    {
+      "verseKey": "6:141",
+      "quarter": 59,
+      "hizb": 15,
+      "juz": 8
+    },
+    {
+      "verseKey": "6:151",
+      "quarter": 60,
+      "hizb": 15,
+      "juz": 8
+    },
+    {
+      "verseKey": "7:1",
+      "quarter": 61,
+      "hizb": 16,
+      "juz": 8
+    },
+    {
+      "verseKey": "7:31",
+      "quarter": 62,
+      "hizb": 16,
+      "juz": 8
+    },
+    {
+      "verseKey": "7:47",
+      "quarter": 63,
+      "hizb": 16,
+      "juz": 8
+    },
+    {
+      "verseKey": "7:65",
+      "quarter": 64,
+      "hizb": 16,
+      "juz": 8
+    },
+    {
+      "verseKey": "7:88",
+      "quarter": 65,
+      "hizb": 17,
+      "juz": 9
+    },
+    {
+      "verseKey": "7:117",
+      "quarter": 66,
+      "hizb": 17,
+      "juz": 9
+    },
+    {
+      "verseKey": "7:142",
+      "quarter": 67,
+      "hizb": 17,
+      "juz": 9
+    },
+    {
+      "verseKey": "7:156",
+      "quarter": 68,
+      "hizb": 17,
+      "juz": 9
+    },
+    {
+      "verseKey": "7:171",
+      "quarter": 69,
+      "hizb": 18,
+      "juz": 9
+    },
+    {
+      "verseKey": "7:189",
+      "quarter": 70,
+      "hizb": 18,
+      "juz": 9
+    },
+    {
+      "verseKey": "8:1",
+      "quarter": 71,
+      "hizb": 18,
+      "juz": 9
+    },
+    {
+      "verseKey": "8:22",
+      "quarter": 72,
+      "hizb": 18,
+      "juz": 9
+    },
+    {
+      "verseKey": "8:41",
+      "quarter": 73,
+      "hizb": 19,
+      "juz": 10
+    },
+    {
+      "verseKey": "8:61",
+      "quarter": 74,
+      "hizb": 19,
+      "juz": 10
+    },
+    {
+      "verseKey": "9:1",
+      "quarter": 75,
+      "hizb": 19,
+      "juz": 10
+    },
+    {
+      "verseKey": "9:19",
+      "quarter": 76,
+      "hizb": 19,
+      "juz": 10
+    },
+    {
+      "verseKey": "9:34",
+      "quarter": 77,
+      "hizb": 20,
+      "juz": 10
+    },
+    {
+      "verseKey": "9:46",
+      "quarter": 78,
+      "hizb": 20,
+      "juz": 10
+    },
+    {
+      "verseKey": "9:60",
+      "quarter": 79,
+      "hizb": 20,
+      "juz": 10
+    },
+    {
+      "verseKey": "9:75",
+      "quarter": 80,
+      "hizb": 20,
+      "juz": 10
+    },
+    {
+      "verseKey": "9:93",
+      "quarter": 81,
+      "hizb": 21,
+      "juz": 11
+    },
+    {
+      "verseKey": "9:111",
+      "quarter": 82,
+      "hizb": 21,
+      "juz": 11
+    },
+    {
+      "verseKey": "9:122",
+      "quarter": 83,
+      "hizb": 21,
+      "juz": 11
+    },
+    {
+      "verseKey": "10:11",
+      "quarter": 84,
+      "hizb": 21,
+      "juz": 11
+    },
+    {
+      "verseKey": "10:26",
+      "quarter": 85,
+      "hizb": 22,
+      "juz": 11
+    },
+    {
+      "verseKey": "10:53",
+      "quarter": 86,
+      "hizb": 22,
+      "juz": 11
+    },
+    {
+      "verseKey": "10:71",
+      "quarter": 87,
+      "hizb": 22,
+      "juz": 11
+    },
+    {
+      "verseKey": "10:90",
+      "quarter": 88,
+      "hizb": 22,
+      "juz": 11
+    },
+    {
+      "verseKey": "11:6",
+      "quarter": 89,
+      "hizb": 23,
+      "juz": 12
+    },
+    {
+      "verseKey": "11:24",
+      "quarter": 90,
+      "hizb": 23,
+      "juz": 12
+    },
+    {
+      "verseKey": "11:41",
+      "quarter": 91,
+      "hizb": 23,
+      "juz": 12
+    },
+    {
+      "verseKey": "11:61",
+      "quarter": 92,
+      "hizb": 23,
+      "juz": 12
+    },
+    {
+      "verseKey": "11:84",
+      "quarter": 93,
+      "hizb": 24,
+      "juz": 12
+    },
+    {
+      "verseKey": "11:108",
+      "quarter": 94,
+      "hizb": 24,
+      "juz": 12
+    },
+    {
+      "verseKey": "12:7",
+      "quarter": 95,
+      "hizb": 24,
+      "juz": 12
+    },
+    {
+      "verseKey": "12:30",
+      "quarter": 96,
+      "hizb": 24,
+      "juz": 12
+    },
+    {
+      "verseKey": "12:53",
+      "quarter": 97,
+      "hizb": 25,
+      "juz": 13
+    },
+    {
+      "verseKey": "12:77",
+      "quarter": 98,
+      "hizb": 25,
+      "juz": 13
+    },
+    {
+      "verseKey": "12:101",
+      "quarter": 99,
+      "hizb": 25,
+      "juz": 13
+    },
+    {
+      "verseKey": "13:5",
+      "quarter": 100,
+      "hizb": 25,
+      "juz": 13
+    },
+    {
+      "verseKey": "13:19",
+      "quarter": 101,
+      "hizb": 26,
+      "juz": 13
+    },
+    {
+      "verseKey": "13:35",
+      "quarter": 102,
+      "hizb": 26,
+      "juz": 13
+    },
+    {
+      "verseKey": "14:10",
+      "quarter": 103,
+      "hizb": 26,
+      "juz": 13
+    },
+    {
+      "verseKey": "14:28",
+      "quarter": 104,
+      "hizb": 26,
+      "juz": 13
+    },
+    {
+      "verseKey": "15:1",
+      "quarter": 105,
+      "hizb": 27,
+      "juz": 14
+    },
+    {
+      "verseKey": "15:50",
+      "quarter": 106,
+      "hizb": 27,
+      "juz": 14
+    },
+    {
+      "verseKey": "16:1",
+      "quarter": 107,
+      "hizb": 27,
+      "juz": 14
+    },
+    {
+      "verseKey": "16:30",
+      "quarter": 108,
+      "hizb": 27,
+      "juz": 14
+    },
+    {
+      "verseKey": "16:51",
+      "quarter": 109,
+      "hizb": 28,
+      "juz": 14
+    },
+    {
+      "verseKey": "16:75",
+      "quarter": 110,
+      "hizb": 28,
+      "juz": 14
+    },
+    {
+      "verseKey": "16:90",
+      "quarter": 111,
+      "hizb": 28,
+      "juz": 14
+    },
+    {
+      "verseKey": "16:111",
+      "quarter": 112,
+      "hizb": 28,
+      "juz": 14
+    },
+    {
+      "verseKey": "17:1",
+      "quarter": 113,
+      "hizb": 29,
+      "juz": 15
+    },
+    {
+      "verseKey": "17:23",
+      "quarter": 114,
+      "hizb": 29,
+      "juz": 15
+    },
+    {
+      "verseKey": "17:50",
+      "quarter": 115,
+      "hizb": 29,
+      "juz": 15
+    },
+    {
+      "verseKey": "17:70",
+      "quarter": 116,
+      "hizb": 29,
+      "juz": 15
+    },
+    {
+      "verseKey": "17:99",
+      "quarter": 117,
+      "hizb": 30,
+      "juz": 15
+    },
+    {
+      "verseKey": "18:17",
+      "quarter": 118,
+      "hizb": 30,
+      "juz": 15
+    },
+    {
+      "verseKey": "18:32",
+      "quarter": 119,
+      "hizb": 30,
+      "juz": 15
+    },
+    {
+      "verseKey": "18:51",
+      "quarter": 120,
+      "hizb": 30,
+      "juz": 15
+    },
+    {
+      "verseKey": "18:75",
+      "quarter": 121,
+      "hizb": 31,
+      "juz": 16
+    },
+    {
+      "verseKey": "18:99",
+      "quarter": 122,
+      "hizb": 31,
+      "juz": 16
+    },
+    {
+      "verseKey": "19:22",
+      "quarter": 123,
+      "hizb": 31,
+      "juz": 16
+    },
+    {
+      "verseKey": "19:59",
+      "quarter": 124,
+      "hizb": 31,
+      "juz": 16
+    },
+    {
+      "verseKey": "20:1",
+      "quarter": 125,
+      "hizb": 32,
+      "juz": 16
+    },
+    {
+      "verseKey": "20:55",
+      "quarter": 126,
+      "hizb": 32,
+      "juz": 16
+    },
+    {
+      "verseKey": "20:83",
+      "quarter": 127,
+      "hizb": 32,
+      "juz": 16
+    },
+    {
+      "verseKey": "20:111",
+      "quarter": 128,
+      "hizb": 32,
+      "juz": 16
+    },
+    {
+      "verseKey": "21:1",
+      "quarter": 129,
+      "hizb": 33,
+      "juz": 17
+    },
+    {
+      "verseKey": "21:29",
+      "quarter": 130,
+      "hizb": 33,
+      "juz": 17
+    },
+    {
+      "verseKey": "21:51",
+      "quarter": 131,
+      "hizb": 33,
+      "juz": 17
+    },
+    {
+      "verseKey": "21:83",
+      "quarter": 132,
+      "hizb": 33,
+      "juz": 17
+    },
+    {
+      "verseKey": "22:1",
+      "quarter": 133,
+      "hizb": 34,
+      "juz": 17
+    },
+    {
+      "verseKey": "22:19",
+      "quarter": 134,
+      "hizb": 34,
+      "juz": 17
+    },
+    {
+      "verseKey": "22:38",
+      "quarter": 135,
+      "hizb": 34,
+      "juz": 17
+    },
+    {
+      "verseKey": "22:60",
+      "quarter": 136,
+      "hizb": 34,
+      "juz": 17
+    },
+    {
+      "verseKey": "23:1",
+      "quarter": 137,
+      "hizb": 35,
+      "juz": 18
+    },
+    {
+      "verseKey": "23:36",
+      "quarter": 138,
+      "hizb": 35,
+      "juz": 18
+    },
+    {
+      "verseKey": "23:75",
+      "quarter": 139,
+      "hizb": 35,
+      "juz": 18
+    },
+    {
+      "verseKey": "24:1",
+      "quarter": 140,
+      "hizb": 35,
+      "juz": 18
+    },
+    {
+      "verseKey": "24:21",
+      "quarter": 141,
+      "hizb": 36,
+      "juz": 18
+    },
+    {
+      "verseKey": "24:35",
+      "quarter": 142,
+      "hizb": 36,
+      "juz": 18
+    },
+    {
+      "verseKey": "24:53",
+      "quarter": 143,
+      "hizb": 36,
+      "juz": 18
+    },
+    {
+      "verseKey": "25:1",
+      "quarter": 144,
+      "hizb": 36,
+      "juz": 18
+    },
+    {
+      "verseKey": "25:21",
+      "quarter": 145,
+      "hizb": 37,
+      "juz": 19
+    },
+    {
+      "verseKey": "25:53",
+      "quarter": 146,
+      "hizb": 37,
+      "juz": 19
+    },
+    {
+      "verseKey": "26:1",
+      "quarter": 147,
+      "hizb": 37,
+      "juz": 19
+    },
+    {
+      "verseKey": "26:52",
+      "quarter": 148,
+      "hizb": 37,
+      "juz": 19
+    },
+    {
+      "verseKey": "26:111",
+      "quarter": 149,
+      "hizb": 38,
+      "juz": 19
+    },
+    {
+      "verseKey": "26:181",
+      "quarter": 150,
+      "hizb": 38,
+      "juz": 19
+    },
+    {
+      "verseKey": "27:1",
+      "quarter": 151,
+      "hizb": 38,
+      "juz": 19
+    },
+    {
+      "verseKey": "27:27",
+      "quarter": 152,
+      "hizb": 38,
+      "juz": 19
+    },
+    {
+      "verseKey": "27:56",
+      "quarter": 153,
+      "hizb": 39,
+      "juz": 20
+    },
+    {
+      "verseKey": "27:82",
+      "quarter": 154,
+      "hizb": 39,
+      "juz": 20
+    },
+    {
+      "verseKey": "28:12",
+      "quarter": 155,
+      "hizb": 39,
+      "juz": 20
+    },
+    {
+      "verseKey": "28:29",
+      "quarter": 156,
+      "hizb": 39,
+      "juz": 20
+    },
+    {
+      "verseKey": "28:51",
+      "quarter": 157,
+      "hizb": 40,
+      "juz": 20
+    },
+    {
+      "verseKey": "28:76",
+      "quarter": 158,
+      "hizb": 40,
+      "juz": 20
+    },
+    {
+      "verseKey": "29:1",
+      "quarter": 159,
+      "hizb": 40,
+      "juz": 20
+    },
+    {
+      "verseKey": "29:26",
+      "quarter": 160,
+      "hizb": 40,
+      "juz": 20
+    },
+    {
+      "verseKey": "29:46",
+      "quarter": 161,
+      "hizb": 41,
+      "juz": 21
+    },
+    {
+      "verseKey": "30:1",
+      "quarter": 162,
+      "hizb": 41,
+      "juz": 21
+    },
+    {
+      "verseKey": "30:31",
+      "quarter": 163,
+      "hizb": 41,
+      "juz": 21
+    },
+    {
+      "verseKey": "30:54",
+      "quarter": 164,
+      "hizb": 41,
+      "juz": 21
+    },
+    {
+      "verseKey": "31:22",
+      "quarter": 165,
+      "hizb": 42,
+      "juz": 21
+    },
+    {
+      "verseKey": "32:11",
+      "quarter": 166,
+      "hizb": 42,
+      "juz": 21
+    },
+    {
+      "verseKey": "33:1",
+      "quarter": 167,
+      "hizb": 42,
+      "juz": 21
+    },
+    {
+      "verseKey": "33:18",
+      "quarter": 168,
+      "hizb": 42,
+      "juz": 21
+    },
+    {
+      "verseKey": "33:31",
+      "quarter": 169,
+      "hizb": 43,
+      "juz": 22
+    },
+    {
+      "verseKey": "33:51",
+      "quarter": 170,
+      "hizb": 43,
+      "juz": 22
+    },
+    {
+      "verseKey": "33:60",
+      "quarter": 171,
+      "hizb": 43,
+      "juz": 22
+    },
+    {
+      "verseKey": "34:10",
+      "quarter": 172,
+      "hizb": 43,
+      "juz": 22
+    },
+    {
+      "verseKey": "34:24",
+      "quarter": 173,
+      "hizb": 44,
+      "juz": 22
+    },
+    {
+      "verseKey": "34:46",
+      "quarter": 174,
+      "hizb": 44,
+      "juz": 22
+    },
+    {
+      "verseKey": "35:15",
+      "quarter": 175,
+      "hizb": 44,
+      "juz": 22
+    },
+    {
+      "verseKey": "35:41",
+      "quarter": 176,
+      "hizb": 44,
+      "juz": 22
+    },
+    {
+      "verseKey": "36:28",
+      "quarter": 177,
+      "hizb": 45,
+      "juz": 23
+    },
+    {
+      "verseKey": "36:60",
+      "quarter": 178,
+      "hizb": 45,
+      "juz": 23
+    },
+    {
+      "verseKey": "37:22",
+      "quarter": 179,
+      "hizb": 45,
+      "juz": 23
+    },
+    {
+      "verseKey": "37:83",
+      "quarter": 180,
+      "hizb": 45,
+      "juz": 23
+    },
+    {
+      "verseKey": "37:145",
+      "quarter": 181,
+      "hizb": 46,
+      "juz": 23
+    },
+    {
+      "verseKey": "38:21",
+      "quarter": 182,
+      "hizb": 46,
+      "juz": 23
+    },
+    {
+      "verseKey": "38:52",
+      "quarter": 183,
+      "hizb": 46,
+      "juz": 23
+    },
+    {
+      "verseKey": "39:8",
+      "quarter": 184,
+      "hizb": 46,
+      "juz": 23
+    },
+    {
+      "verseKey": "39:32",
+      "quarter": 185,
+      "hizb": 47,
+      "juz": 24
+    },
+    {
+      "verseKey": "39:53",
+      "quarter": 186,
+      "hizb": 47,
+      "juz": 24
+    },
+    {
+      "verseKey": "40:1",
+      "quarter": 187,
+      "hizb": 47,
+      "juz": 24
+    },
+    {
+      "verseKey": "40:21",
+      "quarter": 188,
+      "hizb": 47,
+      "juz": 24
+    },
+    {
+      "verseKey": "40:41",
+      "quarter": 189,
+      "hizb": 48,
+      "juz": 24
+    },
+    {
+      "verseKey": "40:66",
+      "quarter": 190,
+      "hizb": 48,
+      "juz": 24
+    },
+    {
+      "verseKey": "41:9",
+      "quarter": 191,
+      "hizb": 48,
+      "juz": 24
+    },
+    {
+      "verseKey": "41:25",
+      "quarter": 192,
+      "hizb": 48,
+      "juz": 24
+    },
+    {
+      "verseKey": "41:47",
+      "quarter": 193,
+      "hizb": 49,
+      "juz": 25
+    },
+    {
+      "verseKey": "42:13",
+      "quarter": 194,
+      "hizb": 49,
+      "juz": 25
+    },
+    {
+      "verseKey": "42:27",
+      "quarter": 195,
+      "hizb": 49,
+      "juz": 25
+    },
+    {
+      "verseKey": "42:51",
+      "quarter": 196,
+      "hizb": 49,
+      "juz": 25
+    },
+    {
+      "verseKey": "43:24",
+      "quarter": 197,
+      "hizb": 50,
+      "juz": 25
+    },
+    {
+      "verseKey": "43:57",
+      "quarter": 198,
+      "hizb": 50,
+      "juz": 25
+    },
+    {
+      "verseKey": "44:17",
+      "quarter": 199,
+      "hizb": 50,
+      "juz": 25
+    },
+    {
+      "verseKey": "45:12",
+      "quarter": 200,
+      "hizb": 50,
+      "juz": 25
+    },
+    {
+      "verseKey": "46:1",
+      "quarter": 201,
+      "hizb": 51,
+      "juz": 26
+    },
+    {
+      "verseKey": "46:21",
+      "quarter": 202,
+      "hizb": 51,
+      "juz": 26
+    },
+    {
+      "verseKey": "47:10",
+      "quarter": 203,
+      "hizb": 51,
+      "juz": 26
+    },
+    {
+      "verseKey": "47:33",
+      "quarter": 204,
+      "hizb": 51,
+      "juz": 26
+    },
+    {
+      "verseKey": "48:18",
+      "quarter": 205,
+      "hizb": 52,
+      "juz": 26
+    },
+    {
+      "verseKey": "49:1",
+      "quarter": 206,
+      "hizb": 52,
+      "juz": 26
+    },
+    {
+      "verseKey": "49:14",
+      "quarter": 207,
+      "hizb": 52,
+      "juz": 26
+    },
+    {
+      "verseKey": "50:27",
+      "quarter": 208,
+      "hizb": 52,
+      "juz": 26
+    },
+    {
+      "verseKey": "51:31",
+      "quarter": 209,
+      "hizb": 53,
+      "juz": 27
+    },
+    {
+      "verseKey": "52:24",
+      "quarter": 210,
+      "hizb": 53,
+      "juz": 27
+    },
+    {
+      "verseKey": "53:26",
+      "quarter": 211,
+      "hizb": 53,
+      "juz": 27
+    },
+    {
+      "verseKey": "54:9",
+      "quarter": 212,
+      "hizb": 53,
+      "juz": 27
+    },
+    {
+      "verseKey": "55:1",
+      "quarter": 213,
+      "hizb": 54,
+      "juz": 27
+    },
+    {
+      "verseKey": "56:1",
+      "quarter": 214,
+      "hizb": 54,
+      "juz": 27
+    },
+    {
+      "verseKey": "56:75",
+      "quarter": 215,
+      "hizb": 54,
+      "juz": 27
+    },
+    {
+      "verseKey": "57:16",
+      "quarter": 216,
+      "hizb": 54,
+      "juz": 27
+    },
+    {
+      "verseKey": "58:1",
+      "quarter": 217,
+      "hizb": 55,
+      "juz": 28
+    },
+    {
+      "verseKey": "58:14",
+      "quarter": 218,
+      "hizb": 55,
+      "juz": 28
+    },
+    {
+      "verseKey": "59:11",
+      "quarter": 219,
+      "hizb": 55,
+      "juz": 28
+    },
+    {
+      "verseKey": "60:7",
+      "quarter": 220,
+      "hizb": 55,
+      "juz": 28
+    },
+    {
+      "verseKey": "62:1",
+      "quarter": 221,
+      "hizb": 56,
+      "juz": 28
+    },
+    {
+      "verseKey": "63:4",
+      "quarter": 222,
+      "hizb": 56,
+      "juz": 28
+    },
+    {
+      "verseKey": "65:1",
+      "quarter": 223,
+      "hizb": 56,
+      "juz": 28
+    },
+    {
+      "verseKey": "66:1",
+      "quarter": 224,
+      "hizb": 56,
+      "juz": 28
+    },
+    {
+      "verseKey": "67:1",
+      "quarter": 225,
+      "hizb": 57,
+      "juz": 29
+    },
+    {
+      "verseKey": "68:1",
+      "quarter": 226,
+      "hizb": 57,
+      "juz": 29
+    },
+    {
+      "verseKey": "69:1",
+      "quarter": 227,
+      "hizb": 57,
+      "juz": 29
+    },
+    {
+      "verseKey": "70:19",
+      "quarter": 228,
+      "hizb": 57,
+      "juz": 29
+    },
+    {
+      "verseKey": "72:1",
+      "quarter": 229,
+      "hizb": 58,
+      "juz": 29
+    },
+    {
+      "verseKey": "73:20",
+      "quarter": 230,
+      "hizb": 58,
+      "juz": 29
+    },
+    {
+      "verseKey": "75:1",
+      "quarter": 231,
+      "hizb": 58,
+      "juz": 29
+    },
+    {
+      "verseKey": "76:19",
+      "quarter": 232,
+      "hizb": 58,
+      "juz": 29
+    },
+    {
+      "verseKey": "78:1",
+      "quarter": 233,
+      "hizb": 59,
+      "juz": 30
+    },
+    {
+      "verseKey": "80:1",
+      "quarter": 234,
+      "hizb": 59,
+      "juz": 30
+    },
+    {
+      "verseKey": "82:1",
+      "quarter": 235,
+      "hizb": 59,
+      "juz": 30
+    },
+    {
+      "verseKey": "84:1",
+      "quarter": 236,
+      "hizb": 59,
+      "juz": 30
+    },
+    {
+      "verseKey": "87:1",
+      "quarter": 237,
+      "hizb": 60,
+      "juz": 30
+    },
+    {
+      "verseKey": "90:1",
+      "quarter": 238,
+      "hizb": 60,
+      "juz": 30
+    },
+    {
+      "verseKey": "94:1",
+      "quarter": 239,
+      "hizb": 60,
+      "juz": 30
+    },
+    {
+      "verseKey": "100:9",
+      "quarter": 240,
+      "hizb": 60,
+      "juz": 30
+    }
+  ],
+  "provenance": {
+    "edition": "Medina Mushaf, Hafs, 604 pages",
+    "visualSource": "https://quran.ksu.edu.sa/",
+    "divisionSource": "https://tanzil.net/res/text/metadata/quran-data.xml",
+    "divisionXmlSha256": "8867c1d88191472adec9db694b3cd9f135b1a2ef580574d32cf888dcb22c5c7a",
+    "divisionLicense": "CC-BY (Tanzil XML header)",
+    "checkedAt": "2026-10-09",
+    "notes": [
+      "Line word ranges manually inspected in full-page and enlarged scan views.",
+      "No independent end-of-hizb sign added: the next boundary denotes the following hizb.",
+      "96:19 uses scan page 598; current corpus page is 597; existing page navigation is preserved.",
+      "Stroke endpoints recorded as base-letter indices and fractional positions from enlarged scan coordinates. DOM Range adapts those anchors to the existing shaped font. This is not pixel-identical reproduction of the printed font."
+    ]
+  }
+}

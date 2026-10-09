@@ -459,7 +459,30 @@ describe("Noor end-to-end UI behavior",()=>{
     fireEvent.click(screen.getByRole("button",{name:"إعدادات التنبيه"}));
     const minutes=screen.getByRole("spinbutton",{name:"دقائق التنبيه قبل الإقامة"});
     fireEvent.change(minutes,{target:{value:"8"}});
+    fireEvent.blur(minutes);
     expect((window as any).Android.setIqamaReminderMinutes).toHaveBeenCalledWith(8);
+  });
+
+  it("lets iqama minutes be empty while editing, validates on commit and restores the saved value",()=>{
+    const setMinutes=vi.fn();
+    (window as any).Android={getIqamaReminderMinutes:()=>1,setIqamaReminderMinutes:setMinutes};
+    render(<App/>);
+    fireEvent.click(screen.getByRole("button",{name:"الإعدادات"}));
+    const field=screen.getByRole("spinbutton",{name:"دقائق التنبيه قبل الإقامة"}) as HTMLInputElement;
+    fireEvent.focus(field);expect(field.selectionEnd).toBe(1);
+    fireEvent.change(field,{target:{value:""}});expect(field.value).toBe("");expect(setMinutes).not.toHaveBeenCalled();
+    fireEvent.change(field,{target:{value:"9"}});fireEvent.blur(field);expect(setMinutes).toHaveBeenLastCalledWith(9);
+    for(const invalid of ["10","0","-1","abc","1.5",""]){
+      fireEvent.change(field,{target:{value:invalid}});fireEvent.blur(field);
+      expect(field.value).toBe(invalid);expect(screen.getByRole("alert").textContent).toContain("١ إلى ٩");
+      expect(localStorage.getItem("noor_iqama_reminder_minutes")).toBe("9");
+    }
+    fireEvent.click(screen.getByRole("button",{name:"حفظ"}));expect(field.value).toBe("");
+    fireEvent.change(field,{target:{value:"٥"}});fireEvent.blur(field);expect(setMinutes).toHaveBeenLastCalledWith(5);
+    expect(localStorage.getItem("noor_iqama_reminder_minutes")).toBe("5");
+    cleanup();delete (window as any).Android;
+    render(<App/>);fireEvent.click(screen.getByRole("button",{name:"الإعدادات"}));
+    expect((screen.getByRole("spinbutton",{name:"دقائق التنبيه قبل الإقامة"}) as HTMLInputElement).value).toBe("5");
   });
 
   it("uses a system overlay for iqama even while Noor is foreground and honors the selected lead time",async()=>{

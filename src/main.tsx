@@ -14,6 +14,7 @@ import {Overlay,OverlayTheme,dismissTopOverlay} from "./Overlay";
 import {ExpandableText} from "./ExpandableText";
 import {eligibleFlashcard,createFlashcardDeck} from "./flashcards";
 import {loadReciterCatalog,searchCatalog,readCustomReciters,resolveCatalogReciter,reciterAudioUrl,downloadAudioBatch,verifyAudioResponse,type CustomReciter,type CatalogReciter} from "./reciters";
+import {markedWords,MushafMargin} from "./mushafMarks";
 import {fetchQuranpediaAsbab} from "./asbabQuranpedia";
 const NOOR_LOGO="./noor-logo.png";
 const NOOR_LIGHT_LOGO="./noor-logo-light.png";
@@ -388,6 +389,8 @@ export function App(){
   const [khutbah,setKhutbah]=useState<KhutbahRecord|null>(()=>readKhutbahCache());
   const [khutbahDetailsOpen,setKhutbahDetailsOpen]=useState(false);
   const [iqamaReminderMinutes,setIqamaReminderMinutes]=useState(()=>window.Android?.getIqamaReminderMinutes?.()||Number(localStorage.getItem("noor_iqama_reminder_minutes")||5));
+  const [iqamaReminderDraft,setIqamaReminderDraft]=useState(()=>String(iqamaReminderMinutes));
+  const [iqamaReminderError,setIqamaReminderError]=useState("");
   const [iqamaSoundEnabled,setIqamaSoundEnabled]=useState(()=>window.Android?.getIqamaSoundEnabled?.()??localStorage.getItem("noor_iqama_sound_enabled")==="1");
   const [nextIqamaLabel,setNextIqamaLabel]=useState("");
   const [uiSoundsEnabled,setUiSoundsEnabled]=useState(()=>localStorage.getItem("noor_ui_sounds")!=="0");
@@ -401,8 +404,16 @@ export function App(){
   const loadKhutbah=async()=>{const next=await refreshKhutbah();if(next.status!=="network_error"||next.targetFridayDate===readKhutbahCache()?.targetFridayDate){saveKhutbahCache(next);setKhutbah(next);return}setKhutbah(readKhutbahCache()||next)};
   const openPrayerTimes=()=>{try{const raw=window.Android?.getDailyPrayerTimesJson?.();setDailyPrayers(raw?JSON.parse(raw).prayers||[]:[])}catch{setDailyPrayers([])}setPrayerTimesOpen(true);void loadKhutbah()};
   const openIqamaShortcut=()=>{setPrayerTimesOpen(false);setTab("settings");setAnswer(null);window.setTimeout(()=>document.querySelector(".iqamaSettings")?.scrollIntoView({behavior:"smooth",block:"center"}),120)};
-  const updateIqamaReminder=(value:number)=>{const safe=Math.max(1,Math.min(9,Math.round(value||1)));setIqamaReminderMinutes(safe);localStorage.setItem("noor_iqama_reminder_minutes",String(safe));window.Android?.setIqamaReminderMinutes?.(safe)};
+  const commitIqamaReminder=()=>{
+    const text=iqamaReminderDraft.trim().replace(/[٠-٩۰-۹]/g,d=>String(d.charCodeAt(0)-(d<="٩"?0x660:0x6f0)));
+    if(!/^[1-9]$/.test(text)){setIqamaReminderError("أدخل عددًا صحيحًا من ١ إلى ٩ دقائق");return false;}
+    const minutes=Number(text);
+    setIqamaReminderError("");setIqamaReminderDraft(text);
+    if(minutes!==iqamaReminderMinutes){setIqamaReminderMinutes(minutes);localStorage.setItem("noor_iqama_reminder_minutes",text);window.Android?.setIqamaReminderMinutes?.(minutes);refreshPrayerShortcut();}
+    return true;
+  };
   const saveIqamaSchedule=()=>{
+    if(!commitIqamaReminder())return;
     localStorage.setItem("noor_iqama_enabled",iqamaEnabled?"1":"0");
     if(!window.Android){setToast("تم حفظ الإعداد");setTimeout(()=>setToast(""),2200);return;}
     // Overlay permission is optional. Scheduling must still work as a normal Android
@@ -1809,8 +1820,9 @@ export function App(){
           {startsHere&&group.surahNumber!==1&&group.surahNumber!==9&&<div className="basmalaLine">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>}
           <div className="mushafText">
             {group.verses.map(v=>{const skip=hasBasmalaPrefix(v)?4:0;const inReview=reviewMode&&v.global_number>=Math.min(fromReviewGlobal,toReviewGlobal)&&v.global_number<=Math.max(fromReviewGlobal,toReviewGlobal);const hidden=inReview&&!revealedReview.has(v.verse_key);return <span className={`verseUnit ${hidden?"reviewHidden":""}`} id={`ayah-${v.verse_key.replace(":","-")}`} data-verse={v.verse_key} key={v.verse_key} onClick={()=>{if(inReview)toggleReviewReveal(v)}}>
-              {v.words.slice(skip).map((w,offset)=>{const wi=offset+skip;return <React.Fragment key={`${v.verse_key}-${wi}`}><WordSpan text={cleanQuranDisplay(w.text)} onLong={()=>{learnGuidanceTip("word");setWordAction({verse:v,index:wi,text:w.text})}} onDouble={()=>{learnGuidanceTip("audio");playAyah(v)}}/>{' '}</React.Fragment>})}
-              {(v.surahNumber!==1||v.number!==1||skip===0)&&<AyahButton bookmarked={bookmarks.includes(v.verse_key)} number={v.number} onClick={()=>toggleBookmark(v.verse_key)} onLong={()=>askVerse(v)}/>}{' '}
+              <MushafMargin verseKey={v.verse_key} kind="division"/>
+              {markedWords(v.verse_key,v.words.slice(skip),(w,offset)=>{const wi=offset+skip;return <React.Fragment key={`${v.verse_key}-${wi}`}><WordSpan text={cleanQuranDisplay(w.text)} onLong={()=>{learnGuidanceTip("word");setWordAction({verse:v,index:wi,text:w.text})}} onDouble={()=>{learnGuidanceTip("audio");playAyah(v)}}/></React.Fragment>})}
+              <MushafMargin verseKey={v.verse_key} kind="sajda"/>{(v.surahNumber!==1||v.number!==1||skip===0)&&<AyahButton bookmarked={bookmarks.includes(v.verse_key)} number={v.number} onClick={()=>toggleBookmark(v.verse_key)} onLong={()=>askVerse(v)}/>}{' '}
             </span>})}
           </div>
         </section>})}
@@ -1848,8 +1860,9 @@ export function App(){
             {startsHere&&group.surahNumber!==1&&group.surahNumber!==9&&<div className="basmalaLine pageBasmala">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>}
             <div className="mushafText pageMushafText">
               {group.verses.map(v=>{const skip=hasBasmalaPrefix(v)?4:0;return <span className="verseUnit" id={`ayah-${v.verse_key.replace(":","-")}`} data-verse={v.verse_key} key={v.verse_key}>
-                {v.words.slice(skip).map((w,offset)=>{const wi=offset+skip;return <React.Fragment key={`${v.verse_key}-${wi}`}><WordSpan text={cleanQuranDisplay(w.text)} onLong={()=>{learnGuidanceTip("word");setWordAction({verse:v,index:wi,text:w.text})}} onDouble={()=>{learnGuidanceTip("audio");playAyah(v)}}/>{' '}</React.Fragment>})}
-                {(v.surahNumber!==1||v.number!==1||skip===0)&&<AyahButton bookmarked={bookmarks.includes(v.verse_key)} number={v.number} onClick={()=>toggleBookmark(v.verse_key)} onLong={()=>askVerse(v)}/>} {' '}
+                <MushafMargin verseKey={v.verse_key} kind="division"/>
+                {markedWords(v.verse_key,v.words.slice(skip),(w,offset)=>{const wi=offset+skip;return <React.Fragment key={`${v.verse_key}-${wi}`}><WordSpan text={cleanQuranDisplay(w.text)} onLong={()=>{learnGuidanceTip("word");setWordAction({verse:v,index:wi,text:w.text})}} onDouble={()=>{learnGuidanceTip("audio");playAyah(v)}}/></React.Fragment>})}
+                <MushafMargin verseKey={v.verse_key} kind="sajda"/>{(v.surahNumber!==1||v.number!==1||skip===0)&&<AyahButton bookmarked={bookmarks.includes(v.verse_key)} number={v.number} onClick={()=>toggleBookmark(v.verse_key)} onLong={()=>askVerse(v)}/>} {' '}
               </span>})}
             </div>
           </section>
@@ -2018,7 +2031,7 @@ export function App(){
           <b>تنبيه إقامة الصلاة</b>
           <small>يظهر تنبيه الإقامة فوق أي تطبيق قبلها بالمدة التي تختارها. يعيد نور حساب المواقيت محليًا كل يوم بعد العشاء، ويمكنك تحديثها يدويًا في أي وقت. كما يصلك تذكير الجمعة قبل وقت الظهر بـ45 دقيقة.</small>
           <div className="setting"><span>تشغيل التنبيه</span><button onClick={()=>setIqamaEnabled(v=>!v)}>{iqamaEnabled?"مفعّل":"متوقف"}</button></div><div className="setting"><div><span>صوت الإقامة</span><small>ينطق «الله أكبر، الله أكبر» عند وصول التنبيه إذا كان الصوت مسموحًا في الهاتف.</small></div><button className={iqamaSoundEnabled?"isOn":""} onClick={()=>{const next=!iqamaSoundEnabled;setIqamaSoundEnabled(next);localStorage.setItem("noor_iqama_sound_enabled",next?"1":"0");window.Android?.setIqamaSoundEnabled?.(next)}}>{iqamaSoundEnabled?"مفعّل":"متوقف"}</button></div>
-          <label className="iqamaLeadSetting"><span>التنبيه قبل الإقامة</span><div><input aria-label="دقائق التنبيه قبل الإقامة" type="number" inputMode="numeric" min="1" max="9" value={iqamaReminderMinutes} onChange={e=>updateIqamaReminder(Number(e.target.value))}/><b>دقائق</b></div><small>اختر من ١ إلى ٩ دقائق، لضمان أن يكون التنبيه بعد الأذان وقبل أقصر إقامة.</small></label>
+          <label className="iqamaLeadSetting"><span>التنبيه قبل الإقامة</span><div><input aria-label="دقائق التنبيه قبل الإقامة" type="text" role="spinbutton" inputMode="numeric" aria-valuemin={1} aria-valuemax={9} aria-valuenow={iqamaReminderMinutes} aria-invalid={Boolean(iqamaReminderError)} aria-describedby={iqamaReminderError?"iqamaReminderError":undefined} value={iqamaReminderDraft} onFocus={e=>e.currentTarget.select()} onChange={e=>{setIqamaReminderDraft(e.target.value);setIqamaReminderError("")}} onBlur={commitIqamaReminder}/><b>دقائق</b></div>{iqamaReminderError&&<small id="iqamaReminderError" role="alert">{iqamaReminderError}</small>}<small>اختر من ١ إلى ٩ دقائق، لضمان أن يكون التنبيه بعد الأذان وقبل أقصر إقامة.</small></label>
           {nextIqamaLabel&&<div className="nextIqamaState"><span>التنبيه القادم</span><b>{nextIqamaLabel}</b></div>}<small>تُحسب مواقيت الأذان تلقائيًا على الجهاز من موقعك الدقيق بطريقة أم القرى. لا يُرسل موقعك إلى خادم نور. الإقامة: الفجر +25 دقيقة، المغرب +10، وبقية الصلوات +20.</small>
           <div className="editorActions"><button onClick={saveIqamaSchedule}>{iqamaEnabled?"تفعيل الموقع وجدولة الإقامة":"حفظ"}</button>{iqamaEnabled&&<button onClick={saveIqamaSchedule}>تحديث الأوقات الآن</button>}{window.Android&&<button onClick={()=>window.Android?.previewIqamaOverlay?.("العشاء",dark)}>معاينة المربع</button>}{window.Android&&<button onClick={()=>{const ok=window.Android?.previewIqamaSound?.();setToast(ok===false?"تعذر تشغيل صوت الإقامة":"تشغيل تجربة صوت الإقامة…");window.setTimeout(()=>setToast(""),2200)}}>تجربة الصوت</button>}</div>
           {window.Android&&!window.Android.canDrawIqamaOverlay?.()&&<button onClick={()=>window.Android?.requestIqamaOverlayPermission?.()}>السماح بالظهور فوق التطبيقات</button>}
