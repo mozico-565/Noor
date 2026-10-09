@@ -1,0 +1,1946 @@
+[
+  {
+    "font": "hafs",
+    "dark": false,
+    "key": "7:206",
+    "lines": 1,
+    "startError": 0.018749999999997158,
+    "endError": 0.005378125000000011,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "يَسْجُدُونَ",
+    "strokes": [
+      {
+        "left": 37.546875,
+        "right": 124.265625,
+        "top": 424.640625,
+        "width": 86.71875
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": false,
+    "key": "13:15",
+    "lines": 1,
+    "startError": 0.01737500000001546,
+    "endError": 0.0023515624999959073,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَلِلَّهِ يَسْجُدُ",
+    "strokes": [
+      {
+        "left": 215.6875,
+        "right": 327.796875,
+        "top": 300.5625,
+        "width": 112.109375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": false,
+    "key": "16:49",
+    "lines": 1,
+    "startError": 0.026600000000001955,
+    "endError": 0.01135468750000257,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَلِلَّهِ يَسْجُدُ",
+    "strokes": [
+      {
+        "left": 34.140625,
+        "right": 134.890625,
+        "top": 301.03125,
+        "width": 100.75
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": false,
+    "key": "17:107",
+    "lines": 1,
+    "startError": 0.015625,
+    "endError": 0.0031499999999979877,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "يَخِرُّونَ لِلْأَذْقَانِ سُجَّدًا",
+    "strokes": [
+      {
+        "left": 32.28125,
+        "right": 257.390625,
+        "top": 486.609375,
+        "width": 225.109375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": false,
+    "key": "19:58",
+    "lines": 2,
+    "startError": 0.004740624999996612,
+    "endError": 0.012499999999988631,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "خَرُّوا۟ سُجَّدًا",
+    "strokes": [
+      {
+        "left": 29.0625,
+        "right": 76.625,
+        "top": 607.03125,
+        "width": 47.5625
+      },
+      {
+        "left": 277.53125,
+        "right": 334.375,
+        "top": 669.078125,
+        "width": 56.84375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": false,
+    "key": "22:18",
+    "lines": 1,
+    "startError": 0.019182812500005753,
+    "endError": 0.009765625,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "يَسْجُدُ لَهُۥ",
+    "strokes": [
+      {
+        "left": 36.546875,
+        "right": 126.609375,
+        "top": 300.609375,
+        "width": 90.0625
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": false,
+    "key": "22:77",
+    "lines": 1,
+    "startError": 0.012500000000002842,
+    "endError": 0.011099999999999,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَٱسْجُدُوا۟",
+    "strokes": [
+      {
+        "left": 31.6875,
+        "right": 118.109375,
+        "top": 362.890625,
+        "width": 86.421875
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": false,
+    "key": "25:60",
+    "lines": 1,
+    "startError": 0.02580000000000382,
+    "endError": 0.013599999999996726,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "ٱسْجُدُوا۟",
+    "strokes": [
+      {
+        "left": 254.09375,
+        "right": 333.140625,
+        "top": 362.796875,
+        "width": 79.046875
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": false,
+    "key": "27:25",
+    "lines": 2,
+    "startError": 0.006799999999998363,
+    "endError": 0.01017500000000382,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "أَلَّا يَسْجُدُوا۟",
+    "strokes": [
+      {
+        "left": 29.0625,
+        "right": 49.984375,
+        "top": 300.5625,
+        "width": 20.921875
+      },
+      {
+        "left": 250.0625,
+        "right": 334.359375,
+        "top": 362.609375,
+        "width": 84.296875
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": false,
+    "key": "32:15",
+    "lines": 1,
+    "startError": 0.026509374999989177,
+    "endError": 0.011099999999999,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "خَرُّوا۟ سُجَّدًا",
+    "strokes": [
+      {
+        "left": 142.46875,
+        "right": 276.625,
+        "top": 424.84375,
+        "width": 134.15625
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": false,
+    "key": "38:24",
+    "lines": 1,
+    "startError": 0.006206249999991087,
+    "endError": 0.001953125,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَخَرَّ رَاكِعًا",
+    "strokes": [
+      {
+        "left": 231.140625,
+        "right": 311.03125,
+        "top": 407.40625,
+        "width": 79.890625
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": false,
+    "key": "41:37",
+    "lines": 1,
+    "startError": 0.024400000000014188,
+    "endError": 0.011750000000006366,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَٱسْجُدُوا۟ لِلَّهِ",
+    "strokes": [
+      {
+        "left": 201.046875,
+        "right": 325.984375,
+        "top": 486.359375,
+        "width": 124.9375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": false,
+    "key": "53:62",
+    "lines": 2,
+    "startError": 0.002178125000000364,
+    "endError": 0,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "فَٱسْجُدُوا۟ لِلَّهِ",
+    "strokes": [
+      {
+        "left": 29.0625,
+        "right": 113.953125,
+        "top": 300.078125,
+        "width": 84.890625
+      },
+      {
+        "left": 311.921875,
+        "right": 334.40625,
+        "top": 362.125,
+        "width": 22.484375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": false,
+    "key": "84:21",
+    "lines": 2,
+    "startError": 0.006250000000001421,
+    "endError": 0.00405781250000814,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "لَا يَسْجُدُونَ",
+    "strokes": [
+      {
+        "left": 29.0625,
+        "right": 40.828125,
+        "top": 362.96875,
+        "width": 11.765625
+      },
+      {
+        "left": 246.375,
+        "right": 334.375,
+        "top": 425.015625,
+        "width": 88
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": false,
+    "key": "96:19",
+    "lines": 1,
+    "startError": 0.015625,
+    "endError": 0.014374999999972715,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَٱسْجُدْ",
+    "strokes": [
+      {
+        "left": 258.828125,
+        "right": 320.171875,
+        "top": 362.25,
+        "width": 61.34375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": true,
+    "key": "7:206",
+    "lines": 1,
+    "startError": 0.012499999999988631,
+    "endError": 0.004656249999996476,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "يَسْجُدُونَ",
+    "strokes": [
+      {
+        "left": 47.46875,
+        "right": 145.5625,
+        "top": 540.390625,
+        "width": 98.09375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": true,
+    "key": "13:15",
+    "lines": 1,
+    "startError": 0.0186484375000191,
+    "endError": 0.006468750000010459,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَلِلَّهِ يَسْجُدُ",
+    "strokes": [
+      {
+        "left": 236.28125,
+        "right": 358.859375,
+        "top": 325.890625,
+        "width": 122.578125
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": true,
+    "key": "16:49",
+    "lines": 1,
+    "startError": 0.018026562500011778,
+    "endError": 0.00668124999999975,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَلِلَّهِ يَسْجُدُ",
+    "strokes": [
+      {
+        "left": 81.265625,
+        "right": 198.203125,
+        "top": 325.640625,
+        "width": 116.9375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": true,
+    "key": "17:107",
+    "lines": 2,
+    "startError": 0,
+    "endError": 0.01352499999998713,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "يَخِرُّونَ لِلْأَذْقَانِ سُجَّدًا",
+    "strokes": [
+      {
+        "left": 37.875,
+        "right": 116.8125,
+        "top": 540.453125,
+        "width": 78.9375
+      },
+      {
+        "left": 204.703125,
+        "right": 366.28125,
+        "top": 612.015625,
+        "width": 161.578125
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": true,
+    "key": "19:58",
+    "lines": 1,
+    "startError": 0.01593750000000682,
+    "endError": 0.012500000000002842,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "خَرُّوا۟ سُجَّدًا",
+    "strokes": [
+      {
+        "left": 43.59375,
+        "right": 178.25,
+        "top": 448.078125,
+        "width": 134.65625
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": true,
+    "key": "22:18",
+    "lines": 1,
+    "startError": 0.015231249999999363,
+    "endError": 0.009765625,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "يَسْجُدُ لَهُۥ",
+    "strokes": [
+      {
+        "left": 175.921875,
+        "right": 294.0625,
+        "top": 448.015625,
+        "width": 118.140625
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": true,
+    "key": "22:77",
+    "lines": 1,
+    "startError": 0.021875000000022737,
+    "endError": 0.00822499999998172,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَٱسْجُدُوا۟",
+    "strokes": [
+      {
+        "left": 258.875,
+        "right": 356.625,
+        "top": 468.953125,
+        "width": 97.75
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": true,
+    "key": "25:60",
+    "lines": 1,
+    "startError": 0.023164062500001137,
+    "endError": 0.009162500000002183,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "ٱسْجُدُوا۟",
+    "strokes": [
+      {
+        "left": 41.375,
+        "right": 130.796875,
+        "top": 325.703125,
+        "width": 89.421875
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": true,
+    "key": "27:25",
+    "lines": 1,
+    "startError": 0.02020625000000109,
+    "endError": 0.010143749999997453,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "أَلَّا يَسْجُدُوا۟",
+    "strokes": [
+      {
+        "left": 163.109375,
+        "right": 301.234375,
+        "top": 447.453125,
+        "width": 138.125
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": true,
+    "key": "32:15",
+    "lines": 1,
+    "startError": 0.015312499999993179,
+    "endError": 0.00822500000001014,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "خَرُّوا۟ سُجَّدًا",
+    "strokes": [
+      {
+        "left": 226.015625,
+        "right": 361.59375,
+        "top": 468.828125,
+        "width": 135.578125
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": true,
+    "key": "38:24",
+    "lines": 2,
+    "startError": 0.010771875000003206,
+    "endError": 0.001953125,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَخَرَّ رَاكِعًا",
+    "strokes": [
+      {
+        "left": 37.875,
+        "right": 63.34375,
+        "top": 412.578125,
+        "width": 25.46875
+      },
+      {
+        "left": 313.046875,
+        "right": 366.265625,
+        "top": 484.140625,
+        "width": 53.21875
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": true,
+    "key": "41:37",
+    "lines": 1,
+    "startError": 0.00884062500000482,
+    "endError": 0.0028984374999936335,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَٱسْجُدُوا۟ لِلَّهِ",
+    "strokes": [
+      {
+        "left": 103.796875,
+        "right": 244.4375,
+        "top": 541.015625,
+        "width": 140.640625
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": true,
+    "key": "53:62",
+    "lines": 1,
+    "startError": 0.01644531250002501,
+    "endError": 0.001953125,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "فَٱسْجُدُوا۟ لِلَّهِ",
+    "strokes": [
+      {
+        "left": 222.625,
+        "right": 353.046875,
+        "top": 448.203125,
+        "width": 130.421875
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": true,
+    "key": "84:21",
+    "lines": 1,
+    "startError": 0.021875000000022737,
+    "endError": 0.015515625000006139,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "لَا يَسْجُدُونَ",
+    "strokes": [
+      {
+        "left": 142.3125,
+        "right": 265.4375,
+        "top": 397.859375,
+        "width": 123.125
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "hafs",
+    "dark": true,
+    "key": "96:19",
+    "lines": 1,
+    "startError": 0.015625,
+    "endError": 0.011874999999974989,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَٱسْجُدْ",
+    "strokes": [
+      {
+        "left": 280.828125,
+        "right": 350.203125,
+        "top": 447.703125,
+        "width": 69.375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": false,
+    "key": "7:206",
+    "lines": 1,
+    "startError": 0.45937500000002274,
+    "endError": 0.3104749999999967,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "يَسْجُدُونَ",
+    "strokes": [
+      {
+        "left": 228.609375,
+        "right": 318.625,
+        "top": 489.9375,
+        "width": 90.015625
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": false,
+    "key": "13:15",
+    "lines": 2,
+    "startError": 0.07029687499999682,
+    "endError": 0.35704687499998045,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَلِلَّهِ يَسْجُدُ",
+    "strokes": [
+      {
+        "left": 36.078125,
+        "right": 72.234375,
+        "top": 451.625,
+        "width": 36.15625
+      },
+      {
+        "left": 255.921875,
+        "right": 320.28125,
+        "top": 529.0625,
+        "width": 64.359375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": false,
+    "key": "16:49",
+    "lines": 1,
+    "startError": 0.43140312499997435,
+    "endError": 0.2253656249999949,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَلِلَّهِ يَسْجُدُ",
+    "strokes": [
+      {
+        "left": 176.515625,
+        "right": 309.265625,
+        "top": 742,
+        "width": 132.75
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": false,
+    "key": "17:107",
+    "lines": 1,
+    "startError": 0.4453125,
+    "endError": 0.02567499999999967,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "يَخِرُّونَ لِلْأَذْقَانِ سُجَّدًا",
+    "strokes": [
+      {
+        "left": 39.734375,
+        "right": 309.140625,
+        "top": 744.1875,
+        "width": 269.40625
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": false,
+    "key": "19:58",
+    "lines": 1,
+    "startError": 0.4556718750000073,
+    "endError": 0.2593750000000057,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "خَرُّوا۟ سُجَّدًا",
+    "strokes": [
+      {
+        "left": 193.859375,
+        "right": 314.015625,
+        "top": 492.3125,
+        "width": 120.15625
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": false,
+    "key": "22:18",
+    "lines": 1,
+    "startError": 0.27315937500000587,
+    "endError": 0.115234375,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "يَسْجُدُ لَهُۥ",
+    "strokes": [
+      {
+        "left": 104.46875,
+        "right": 207.921875,
+        "top": 605.9375,
+        "width": 103.453125
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": false,
+    "key": "22:77",
+    "lines": 1,
+    "startError": 0.15000000000000568,
+    "endError": 0.030949999999997146,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَٱسْجُدُوا۟",
+    "strokes": [
+      {
+        "left": 39.0625,
+        "right": 118.203125,
+        "top": 742.6875,
+        "width": 79.140625
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": false,
+    "key": "25:60",
+    "lines": 1,
+    "startError": 0.13774531250000166,
+    "endError": 0.020324999999999704,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "ٱسْجُدُوا۟",
+    "strokes": [
+      {
+        "left": 39.609375,
+        "right": 110.765625,
+        "top": 683.5625,
+        "width": 71.15625
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": false,
+    "key": "27:25",
+    "lines": 1,
+    "startError": 0.34164531249999186,
+    "endError": 0.10909999999999798,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "أَلَّا يَسْجُدُوا۟",
+    "strokes": [
+      {
+        "left": 95.03125,
+        "right": 239.78125,
+        "top": 606.453125,
+        "width": 144.75
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": false,
+    "key": "32:15",
+    "lines": 1,
+    "startError": 0.3724531249999927,
+    "endError": 0.18719999999999004,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "خَرُّوا۟ سُجَّدًا",
+    "strokes": [
+      {
+        "left": 148.0625,
+        "right": 268.25,
+        "top": 743,
+        "width": 120.1875
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": false,
+    "key": "38:24",
+    "lines": 2,
+    "startError": 0.05396874999999568,
+    "endError": 0.35546875,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَخَرَّ رَاكِعًا",
+    "strokes": [
+      {
+        "left": 36.078125,
+        "right": 59.0625,
+        "top": 451.9375,
+        "width": 22.984375
+      },
+      {
+        "left": 254.75,
+        "right": 320.28125,
+        "top": 529.375,
+        "width": 65.53125
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": false,
+    "key": "41:37",
+    "lines": 1,
+    "startError": 0.3295812499999897,
+    "endError": 0.13227031249999754,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَٱسْجُدُوا۟ لِلَّهِ",
+    "strokes": [
+      {
+        "left": 113.953125,
+        "right": 237.171875,
+        "top": 490.75,
+        "width": 123.21875
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": false,
+    "key": "53:62",
+    "lines": 1,
+    "startError": 0.4514484375000052,
+    "endError": 0.224609375,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "فَٱسْجُدُوا۟ لِلَّهِ",
+    "strokes": [
+      {
+        "left": 167.671875,
+        "right": 309.984375,
+        "top": 492.25,
+        "width": 142.3125
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": false,
+    "key": "84:21",
+    "lines": 1,
+    "startError": 0.265625,
+    "endError": 0.03447500000000048,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "لَا يَسْجُدُونَ",
+    "strokes": [
+      {
+        "left": 47.40625,
+        "right": 191.15625,
+        "top": 491.625,
+        "width": 143.75
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": false,
+    "key": "96:19",
+    "lines": 1,
+    "startError": 0.09375,
+    "endError": 0.013125000000002274,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَٱسْجُدْ",
+    "strokes": [
+      {
+        "left": 36.796875,
+        "right": 88.734375,
+        "top": 491.75,
+        "width": 51.9375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": true,
+    "key": "7:206",
+    "lines": 1,
+    "startError": 0.36250000000001137,
+    "endError": 0.2033593749999909,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "يَسْجُدُونَ",
+    "strokes": [
+      {
+        "left": 181.140625,
+        "right": 282.96875,
+        "top": 538.875,
+        "width": 101.828125
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": true,
+    "key": "13:15",
+    "lines": 1,
+    "startError": 0.319171874999995,
+    "endError": 0.11592968749999955,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَلِلَّهِ يَسْجُدُ",
+    "strokes": [
+      {
+        "left": 118.765625,
+        "right": 260.15625,
+        "top": 585.84375,
+        "width": 141.390625
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": true,
+    "key": "16:49",
+    "lines": 1,
+    "startError": 0.44555312500000355,
+    "endError": 0.22986406250001323,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَلِلَّهِ يَسْجُدُ",
+    "strokes": [
+      {
+        "left": 193.671875,
+        "right": 337.6875,
+        "top": 541.0625,
+        "width": 144.015625
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": true,
+    "key": "17:107",
+    "lines": 2,
+    "startError": 0.125,
+    "endError": 0.1679875000000095,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "يَخِرُّونَ لِلْأَذْقَانِ سُجَّدًا",
+    "strokes": [
+      {
+        "left": 47.078125,
+        "right": 118.5,
+        "top": 497.6875,
+        "width": 71.421875
+      },
+      {
+        "left": 149.296875,
+        "right": 350.1875,
+        "top": 587,
+        "width": 200.890625
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": true,
+    "key": "19:58",
+    "lines": 1,
+    "startError": 0.25482031249998727,
+    "endError": 0.02499999999999858,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "خَرُّوا۟ سُجَّدًا",
+    "strokes": [
+      {
+        "left": 53.609375,
+        "right": 208.96875,
+        "top": 541.25,
+        "width": 155.359375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": true,
+    "key": "22:18",
+    "lines": 2,
+    "startError": 0.1298937500000079,
+    "endError": 0.421875,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "يَسْجُدُ لَهُۥ",
+    "strokes": [
+      {
+        "left": 47.078125,
+        "right": 116.828125,
+        "top": 729.75,
+        "width": 69.75
+      },
+      {
+        "left": 326.75,
+        "right": 350.1875,
+        "top": 819.0625,
+        "width": 23.4375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": true,
+    "key": "22:77",
+    "lines": 1,
+    "startError": 0.16249999999999432,
+    "endError": 0.02238750000000067,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَٱسْجُدُوا۟",
+    "strokes": [
+      {
+        "left": 50.46875,
+        "right": 139.984375,
+        "top": 541.734375,
+        "width": 89.515625
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": true,
+    "key": "25:60",
+    "lines": 1,
+    "startError": 0.1429171874999895,
+    "endError": 0.020356249999998965,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "ٱسْجُدُوا۟",
+    "strokes": [
+      {
+        "left": 51.078125,
+        "right": 131.578125,
+        "top": 541.8125,
+        "width": 80.5
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": true,
+    "key": "27:25",
+    "lines": 2,
+    "startError": 0.07380468750000091,
+    "endError": 0.3173968749999858,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "أَلَّا يَسْجُدُوا۟",
+    "strokes": [
+      {
+        "left": 47.078125,
+        "right": 81.8125,
+        "top": 673.9375,
+        "width": 34.734375
+      },
+      {
+        "left": 253.109375,
+        "right": 350.171875,
+        "top": 763.25,
+        "width": 97.0625
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": true,
+    "key": "32:15",
+    "lines": 1,
+    "startError": 0.45611718750001273,
+    "endError": 0.22551250000000778,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "خَرُّوا۟ سُجَّدًا",
+    "strokes": [
+      {
+        "left": 191.328125,
+        "right": 344.859375,
+        "top": 817.875,
+        "width": 153.53125
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": true,
+    "key": "38:24",
+    "lines": 1,
+    "startError": 0.41239062500000045,
+    "endError": 0.208984375,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَخَرَّ رَاكِعًا",
+    "strokes": [
+      {
+        "left": 181.71875,
+        "right": 321.296875,
+        "top": 539.625,
+        "width": 139.578125
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": true,
+    "key": "41:37",
+    "lines": 1,
+    "startError": 0.27174687499999095,
+    "endError": 0.022970312500000034,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَٱسْجُدُوا۟ لِلَّهِ",
+    "strokes": [
+      {
+        "left": 49.234375,
+        "right": 222.40625,
+        "top": 540.25,
+        "width": 173.171875
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": true,
+    "key": "53:62",
+    "lines": 1,
+    "startError": 0.44879531250001037,
+    "endError": 0.224609375,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "فَٱسْجُدُوا۟ لِلَّهِ",
+    "strokes": [
+      {
+        "left": 186.75,
+        "right": 338.546875,
+        "top": 541.0625,
+        "width": 151.796875
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": true,
+    "key": "84:21",
+    "lines": 1,
+    "startError": 0.26249999999998863,
+    "endError": 0.041835937500003695,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "لَا يَسْجُدُونَ",
+    "strokes": [
+      {
+        "left": 59.890625,
+        "right": 213.328125,
+        "top": 540,
+        "width": 153.4375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "amiri",
+    "dark": true,
+    "key": "96:19",
+    "lines": 1,
+    "startError": 0.109375,
+    "endError": 0.013750000000001705,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَٱسْجُدْ",
+    "strokes": [
+      {
+        "left": 47.890625,
+        "right": 106.640625,
+        "top": 541.625,
+        "width": 58.75
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": false,
+    "key": "7:206",
+    "lines": 1,
+    "startError": 0.36874999999997726,
+    "endError": 0.20631249999999568,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "يَسْجُدُونَ",
+    "strokes": [
+      {
+        "left": 157.5625,
+        "right": 264.6875,
+        "top": 498.0625,
+        "width": 107.125
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": false,
+    "key": "13:15",
+    "lines": 1,
+    "startError": 0.23496875000000728,
+    "endError": 0.01742968749999818,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَلِلَّهِ يَسْجُدُ",
+    "strokes": [
+      {
+        "left": 36.96875,
+        "right": 172.96875,
+        "top": 451.3125,
+        "width": 136
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": false,
+    "key": "16:49",
+    "lines": 2,
+    "startError": 0.06918124999999975,
+    "endError": 0.33371406250000746,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَلِلَّهِ يَسْجُدُ",
+    "strokes": [
+      {
+        "left": 36.078125,
+        "right": 71.1875,
+        "top": 680.1875,
+        "width": 35.109375
+      },
+      {
+        "left": 241.9375,
+        "right": 320.28125,
+        "top": 757.625,
+        "width": 78.34375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": false,
+    "key": "17:107",
+    "lines": 2,
+    "startError": 0.1484375,
+    "endError": 0.14026875000000416,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "يَخِرُّونَ لِلْأَذْقَانِ سُجَّدًا",
+    "strokes": [
+      {
+        "left": 36.078125,
+        "right": 116.078125,
+        "top": 681.953125,
+        "width": 80
+      },
+      {
+        "left": 117.703125,
+        "right": 320.28125,
+        "top": 759.390625,
+        "width": 202.578125
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": false,
+    "key": "19:58",
+    "lines": 1,
+    "startError": 0.263768749999997,
+    "endError": 0.03281249999999858,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "خَرُّوا۟ سُجَّدًا",
+    "strokes": [
+      {
+        "left": 41.671875,
+        "right": 191.75,
+        "top": 499.5,
+        "width": 150.078125
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": false,
+    "key": "22:18",
+    "lines": 2,
+    "startError": 0.14420781249999948,
+    "endError": 0.41015625,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "يَسْجُدُ لَهُۥ",
+    "strokes": [
+      {
+        "left": 36.078125,
+        "right": 117.609375,
+        "top": 606.4375,
+        "width": 81.53125
+      },
+      {
+        "left": 298.109375,
+        "right": 320.296875,
+        "top": 683.875,
+        "width": 22.1875
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": false,
+    "key": "22:77",
+    "lines": 1,
+    "startError": 0.19062500000001137,
+    "endError": 0.023856250000001467,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَٱسْجُدُوا۟",
+    "strokes": [
+      {
+        "left": 38.984375,
+        "right": 143.296875,
+        "top": 500.09375,
+        "width": 104.3125
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": false,
+    "key": "25:60",
+    "lines": 1,
+    "startError": 0.17942031250001378,
+    "endError": 0.02924687499999834,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "ٱسْجُدُوا۟",
+    "strokes": [
+      {
+        "left": 39.5,
+        "right": 135.8125,
+        "top": 684.28125,
+        "width": 96.3125
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": false,
+    "key": "27:25",
+    "lines": 2,
+    "startError": 0.06931093750000628,
+    "endError": 0.2966078125000138,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "أَلَّا يَسْجُدُوا۟",
+    "strokes": [
+      {
+        "left": 36.078125,
+        "right": 66.203125,
+        "top": 528.6875,
+        "width": 30.125
+      },
+      {
+        "left": 217.515625,
+        "right": 320.296875,
+        "top": 606.1875,
+        "width": 102.78125
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": false,
+    "key": "32:15",
+    "lines": 2,
+    "startError": 0.111231250000003,
+    "endError": 0.33635624999999436,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "خَرُّوا۟ سُجَّدًا",
+    "strokes": [
+      {
+        "left": 36.078125,
+        "right": 89.65625,
+        "top": 462.203125,
+        "width": 53.578125
+      },
+      {
+        "left": 241.984375,
+        "right": 320.265625,
+        "top": 539.65625,
+        "width": 78.28125
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": false,
+    "key": "38:24",
+    "lines": 2,
+    "startError": 0.06310937499999625,
+    "endError": 0.34375,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَخَرَّ رَاكِعًا",
+    "strokes": [
+      {
+        "left": 36.078125,
+        "right": 63.0625,
+        "top": 460,
+        "width": 26.984375
+      },
+      {
+        "left": 256.265625,
+        "right": 320.296875,
+        "top": 537.4375,
+        "width": 64.03125
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": false,
+    "key": "41:37",
+    "lines": 1,
+    "startError": 0.45091250000001537,
+    "endError": 0.18366718749999222,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَٱسْجُدُوا۟ لِلَّهِ",
+    "strokes": [
+      {
+        "left": 142.234375,
+        "right": 311.203125,
+        "top": 499,
+        "width": 168.96875
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": false,
+    "key": "53:62",
+    "lines": 1,
+    "startError": 0.4358109374999799,
+    "endError": 0.197265625,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "فَٱسْجُدُوا۟ لِلَّهِ",
+    "strokes": [
+      {
+        "left": 157.734375,
+        "right": 309.671875,
+        "top": 499.875,
+        "width": 151.9375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": false,
+    "key": "84:21",
+    "lines": 2,
+    "startError": 0.05624999999999858,
+    "endError": 0.2783437500000048,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "لَا يَسْجُدُونَ",
+    "strokes": [
+      {
+        "left": 36.078125,
+        "right": 53.15625,
+        "top": 459.875,
+        "width": 17.078125
+      },
+      {
+        "left": 212.234375,
+        "right": 320.28125,
+        "top": 537.375,
+        "width": 108.046875
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": false,
+    "key": "96:19",
+    "lines": 1,
+    "startError": 0.15625,
+    "endError": 0.023749999999999716,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَٱسْجُدْ",
+    "strokes": [
+      {
+        "left": 36.890625,
+        "right": 117.265625,
+        "top": 499.875,
+        "width": 80.375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": true,
+    "key": "7:206",
+    "lines": 1,
+    "startError": 0.36562500000002274,
+    "endError": 0.184018750000007,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "يَسْجُدُونَ",
+    "strokes": [
+      {
+        "left": 166.078125,
+        "right": 287.25,
+        "top": 546.75,
+        "width": 121.171875
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": true,
+    "key": "13:15",
+    "lines": 2,
+    "startError": 0.07879687499999477,
+    "endError": 0.3062109374999977,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَلِلَّهِ يَسْجُدُ",
+    "strokes": [
+      {
+        "left": 47.078125,
+        "right": 91.4375,
+        "top": 584.375,
+        "width": 44.359375
+      },
+      {
+        "left": 254.375,
+        "right": 350.171875,
+        "top": 673.6875,
+        "width": 95.796875
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": true,
+    "key": "16:49",
+    "lines": 2,
+    "startError": 0.07622812500000009,
+    "endError": 0.3290078124999809,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَلِلَّهِ يَسْجُدُ",
+    "strokes": [
+      {
+        "left": 47.078125,
+        "right": 86.796875,
+        "top": 505.1875,
+        "width": 39.71875
+      },
+      {
+        "left": 261.546875,
+        "right": 350.171875,
+        "top": 594.5,
+        "width": 88.625
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": true,
+    "key": "17:107",
+    "lines": 2,
+    "startError": 0.15625,
+    "endError": 0.13675000000000637,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "يَخِرُّونَ لِلْأَذْقَانِ سُجَّدًا",
+    "strokes": [
+      {
+        "left": 47.078125,
+        "right": 137.578125,
+        "top": 506.75,
+        "width": 90.5
+      },
+      {
+        "left": 129.28125,
+        "right": 350.171875,
+        "top": 596.0625,
+        "width": 220.890625
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": true,
+    "key": "19:58",
+    "lines": 1,
+    "startError": 0.26158593750000136,
+    "endError": 0.03125,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "خَرُّوا۟ سُجَّدًا",
+    "strokes": [
+      {
+        "left": 53.40625,
+        "right": 213.96875,
+        "top": 548.90625,
+        "width": 160.5625
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": true,
+    "key": "22:18",
+    "lines": 2,
+    "startError": 0.1571859375000031,
+    "endError": 0.416015625,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "يَسْجُدُ لَهُۥ",
+    "strokes": [
+      {
+        "left": 47.078125,
+        "right": 139.3125,
+        "top": 674,
+        "width": 92.234375
+      },
+      {
+        "left": 325.09375,
+        "right": 350.1875,
+        "top": 763.3125,
+        "width": 25.09375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": true,
+    "key": "22:77",
+    "lines": 1,
+    "startError": 0.20625000000001137,
+    "endError": 0.02949999999999875,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَٱسْجُدُوا۟",
+    "strokes": [
+      {
+        "left": 50.359375,
+        "right": 168.359375,
+        "top": 834.8125,
+        "width": 118
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": true,
+    "key": "25:60",
+    "lines": 1,
+    "startError": 0.45803124999997635,
+    "endError": 0.2904374999999959,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "ٱسْجُدُوا۟",
+    "strokes": [
+      {
+        "left": 239.734375,
+        "right": 348.671875,
+        "top": 549.9375,
+        "width": 108.9375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": true,
+    "key": "27:25",
+    "lines": 1,
+    "startError": 0.4577187500000264,
+    "endError": 0.16115625000000477,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "أَلَّا يَسْجُدُوا۟",
+    "strokes": [
+      {
+        "left": 141.140625,
+        "right": 347.578125,
+        "top": 672.75,
+        "width": 206.4375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": true,
+    "key": "32:15",
+    "lines": 1,
+    "startError": 0.44935156249999864,
+    "endError": 0.20137500000001296,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "خَرُّوا۟ سُجَّدًا",
+    "strokes": [
+      {
+        "left": 175.859375,
+        "right": 343.8125,
+        "top": 550.71875,
+        "width": 167.953125
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": true,
+    "key": "38:24",
+    "lines": 2,
+    "startError": 0.07042187499999386,
+    "endError": 0.34765625,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَخَرَّ رَاكِعًا",
+    "strokes": [
+      {
+        "left": 47.078125,
+        "right": 77.59375,
+        "top": 503.25,
+        "width": 30.515625
+      },
+      {
+        "left": 277.75,
+        "right": 350.1875,
+        "top": 592.5625,
+        "width": 72.4375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": true,
+    "key": "41:37",
+    "lines": 2,
+    "startError": 0.1936312500000099,
+    "endError": 0.41142812499998627,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَٱسْجُدُوا۟ لِلَّهِ",
+    "strokes": [
+      {
+        "left": 47.078125,
+        "right": 168.578125,
+        "top": 503.1875,
+        "width": 121.5
+      },
+      {
+        "left": 317.546875,
+        "right": 350.140625,
+        "top": 592.5,
+        "width": 32.59375
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": true,
+    "key": "53:62",
+    "lines": 1,
+    "startError": 0.43706250000002456,
+    "endError": 0.19921875,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "فَٱسْجُدُوا۟ لِلَّهِ",
+    "strokes": [
+      {
+        "left": 175.484375,
+        "right": 338.15625,
+        "top": 549,
+        "width": 162.671875
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": true,
+    "key": "84:21",
+    "lines": 1,
+    "startError": 0.27812499999998863,
+    "endError": 0.044534374999997794,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "لَا يَسْجُدُونَ",
+    "strokes": [
+      {
+        "left": 60.140625,
+        "right": 218.40625,
+        "top": 548.375,
+        "width": 158.265625
+      }
+    ],
+    "errors": []
+  },
+  {
+    "font": "scheherazade",
+    "dark": true,
+    "key": "96:19",
+    "lines": 1,
+    "startError": 0.4375,
+    "endError": 0.3031249999999943,
+    "positive": true,
+    "marginOverlap": false,
+    "text": "وَٱسْجُدْ",
+    "strokes": [
+      {
+        "left": 241.828125,
+        "right": 332.75,
+        "top": 549.75,
+        "width": 90.921875
+      }
+    ],
+    "errors": []
+  }
+]
