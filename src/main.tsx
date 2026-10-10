@@ -522,6 +522,7 @@ export function App(){
   const [voiceStatus,setVoiceStatus]=useState("");
   const voicePurposeRef=useRef<"quran"|"recitation"|null>(null);
   const voiceHandlerRef=useRef<(text:string,error:string)=>void>(()=>{});
+  const [journeyReturn,setJourneyReturn]=useState(false);
   const [toolPage,setToolPage]=useState<null|"qibla"|"adhkar"|"topics"|"revelation"|"stories"|"related">(null);
   const [homeOrder,setHomeOrder]=useState(()=>{try{return mergeOrder(JSON.parse(localStorage.getItem("noor_home_order")||"null"),HOME_TOOLS)}catch{return [...HOME_TOOLS]}});
   const [resetOrderOpen,setResetOrderOpen]=useState(false);
@@ -753,14 +754,15 @@ export function App(){
       if(recitationActive){finishRecitation();return true;}
       if(repeatOpen){setRepeatOpen(false);return true;}
       if(orderOpen){setOrderOpen(false);buildReviewSummary("ترتيب الآيات",reviewSessionCorrect,reviewSessionAssisted,reviewSessionCorrect+reviewSessionAssisted);return true;}
-      if(toolPage){closeTool();return true;}
+      if(journeyReturn&&tab==="quran"){setJourneyReturn(false);setTab("home");setToolPage("revelation");return true;}
+      if(toolPage){if(toolPage==="revelation"&&!window.dispatchEvent(new Event("noor-journey-back",{cancelable:true})))return true;closeTool();return true;}
       if(sirahPage){setSirahPage(false);return true;}
       if(answer){setAnswer(null);return true;}
       if(tab!=="home"){setTab("home");return true;}
       return false;
     };
     return()=>{window.noorHandleBack=undefined;};
-  },[focusMode,surahPicker,wordInfo,wordAction,asbabDetail,sources,reviewSummary,flashcardActive,recitationActive,toolPage,sirahPage,answer,tab,reviewSessionCorrect,reviewSessionAssisted,reviewSessionStarted,repeatOpen,orderOpen]);
+  },[focusMode,surahPicker,wordInfo,wordAction,asbabDetail,sources,reviewSummary,flashcardActive,recitationActive,toolPage,sirahPage,answer,tab,reviewSessionCorrect,reviewSessionAssisted,reviewSessionStarted,repeatOpen,orderOpen,journeyReturn]);
 
   useEffect(()=>{
     localStorage.setItem("noor_tab",tab);
@@ -1961,9 +1963,9 @@ export function App(){
     <section className="content">
       {tab==="home" && <>
         {toolPage&&<Glass className="page toolPage pageEnter">
-          <button className="toolBack" onClick={closeTool}><ChevronRight/> رجوع</button>
+          <button className="toolBack" onClick={()=>{if(toolPage==="revelation"&&!window.dispatchEvent(new Event("noor-journey-back",{cancelable:true})))return;closeTool()}}><ChevronRight/> رجوع</button>
           {toolPage==="related"&&<div className="relatedPage"><h2>آيات وأحاديث مرتبطة</h2><small>سورة {relatedSource?.surahName} · الآية {arNum(relatedSource?.number||0)}</small><p className="featureNotice">روابط موضوعية مقترحة أو تشابه لفظي بحسب الوسم، وليست أسباب نزول أو نسبة حديث إلى آية بعينها. الأحاديث هنا من الصحيحين مع تخريج مطابق، ولا يعرض البحث روايات غير متحققة.</p>{relatedLoading?<p role="status"><span className="miniSpinner"/> جارٍ البحث في الآيات والأحاديث…</p>:<>{relatedError&&<p role="alert">{relatedError}<button onClick={()=>relatedAction.current&&void runRelated(relatedAction.current)}>إعادة المحاولة</button></p>}{!relatedResults.length&&<p role="status">لا توجد نتائج موثوقة كافية.</p>}{relatedResults.map(r=><article key={r.id} className="featureCard glassPanel"><small>ارتباط {r.association} · {r.kind==="quran"?"آية":"حديث صحيح"}</small><h3>{r.title}</h3><ExpandableText text={r.text} className={r.kind==="quran"?"storyVerse":""}/><small>{r.source}</small>{r.verseKey&&<button onClick={()=>{const v=verseByKey.get(r.verseKey!);if(v){setToolPage(null);jumpToVerse(v,true)}}}>افتح الآية في المصحف</button>}{r.url&&<a href={r.url} target="_blank" rel="noreferrer">راجع تخريج الحديث</a>}</article>)}{relatedResults.length>0&&!relatedResults.some(r=>r.kind==="hadith")&&<p>لا توجد أحاديث موثوقة كافية في نتائج هذا البحث المحلي.</p>}</>}</div>}
-          {toolPage==="revelation"&&<RevelationJourney surahs={quran?.surahs||[]} onOpen={key=>{const v=verseByKey.get(key);if(v){closeTool();jumpToVerse(v,true)}}}/>}
+          {toolPage==="revelation"&&<RevelationJourney surahs={quran?.surahs||[]} onOpen={key=>{const v=verseByKey.get(key);if(v){setJourneyReturn(true);setToolPage(null);jumpToVerse(v,true)}}}/>}
           {toolPage==="stories"&&<QuranStories surahs={quran?.surahs||[]} onOpen={key=>{const v=verseByKey.get(key);if(v){closeTool();jumpToVerse(v,true)}}}/>}
           {toolPage==="qibla"&&<div className="qiblaPage">
             <div className="toolTitle"><Compass/><div><small>اتجاه محلي على الجهاز</small><h2>القبلة</h2></div></div>
@@ -2037,6 +2039,7 @@ export function App(){
 
       {quranMounted&&<div aria-hidden={tab!=="quran"} className={`readerShell continuousReader ${focusMode?"focusReader":""}`}>
         {focusMode&&<button className="focusExit glass" onClick={()=>setFocusMode(false)} aria-label="الخروج من وضع التركيز"><Minimize2/></button>}
+        {journeyReturn&&<button className="journeyReaderReturn glass" onClick={()=>{setJourneyReturn(false);setTab("home");setToolPage("revelation")}}><ChevronRight size={17}/>العودة إلى رحلة النزول</button>}
         <div className="readerToolbar glass continuousToolbar">
           <button className="recitationOpen" aria-label="تكرار مقطع التلاوة" onClick={()=>setRepeatOpen(true)}><Repeat2/></button>
           <button className="surahPickerButton" aria-label="اختر السورة أو الجزء أو الصفحة" onClick={()=>setSurahPicker(true)}><List/><span>انتقال</span></button>

@@ -1927,8 +1927,146 @@ html.theme-crossfade #root{animation:noorThemeFallback .36s ease both}
 .sessionActions button,.featureFilters button,.featureCard button,.journeyProgress button,.settingsChoiceCard>button{background:var(--satin-standard-bg)!important;border:1px solid var(--satin-border);border-radius:14px;min-height:44px;padding:8px 14px;color:inherit}
 .featureFilters button.active{background:rgba(67,153,111,.20)!important}
 .relatedPage h3{font-size:17px;margin:0}.relatedPage a,.journey a{color:inherit;text-decoration:underline;text-underline-offset:3px}
-@media(max-width:360px){.continuousToolbar{gap:3px;padding-inline:5px!important}.continuousToolbar .surahPickerButton{font-size:12px!important}.continuousToolbar .recitationOpen,.continuousToolbar .focusButton{flex-basis:30px;min-width:30px}.continuousToolbar .surahPickerButton>svg{width:17px}.sessionFields{grid-template-columns:1fr}.noorTools{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:360px){.continuousToolbar{gap:3px;padding-inline:5px!important}.continuousToolbar .surahPickerButton{font-size:12px!important}.continuousToolbar .recitationOpen,.continuousToolbar .focusButton{flex-basis:30px;min-width:30px}.continuousToolbar .surahPickerButton>svg{width:17px}.sessionFields{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.sortableCard{transition:none!important}.journeyTimeline{scroll-behavior:auto}}
 
 /* Keep the Unicode sajda and rub symbols legible even in decorative Amiri. */
 .mushafInlineMark{font-family:"Noor Default Quran","Noor Scheherazade Quran",serif!important}
+
+/* Release 48: keep the original home grid and full-width header. */
+.app[data-tab="home"] > header{width:100%;margin:0 auto;min-height:74px;align-self:stretch;gap:14px;}
+.app[data-tab="home"] > .content{width:100%;margin:0 auto;}
+.app[data-tab="home"] .brand{flex:none;min-width:54px;}
+.app[data-tab="home"] .headerContinue{margin:0;flex:0 1 auto;max-width:calc(100% - 80px);}
+.noorTools{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;}
+.noorTools .toolTile{height:auto;min-height:96px!important;border-radius:22px!important;padding:12px 5px!important;}
+.noorTools .toolTile>span{width:34px!important;height:34px!important;}
+.noorTools .toolTile b{font-size:12px;line-height:1.65;overflow-wrap:normal;}
+.noorTools .toolTile small{display:block!important;font-size:9px;line-height:1.6;}
+.continuousToolbar .surahPickerButton{order:0;margin-right:auto;}
+.continuousToolbar .focusButton{order:1;}
+.continuousToolbar .recitationOpen{order:2;}
+.continuousToolbar .autoScrollControls{order:3;flex:0 1 43%;direction:ltr;}
+.continuousToolbar .autoScrollControls>button{flex:none;}
+.continuousToolbar .speedSlider{flex:1;min-width:0;}
+@media(max-width:360px){.noorTools .toolTile b{font-size:11px}.noorTools .toolTile small{font-size:8px}.continuousToolbar .surahPickerButton{padding-inline:6px!important}.continuousToolbar .focusButton,.continuousToolbar .recitationOpen{padding:4px!important;min-width:32px;flex-basis:32px}}
+
+/* Journey 48 shares Noor's Satin Glass tokens; content owns one vertical scroll. */
+.journey48{--journey-accent:var(--green);--journey-gold:#93723d;max-width:650px;margin:0 auto;min-width:0;padding:4px 0 18px;}
+.dark .journey48{--journey-accent:#8ac9aa;--journey-gold:#d5bd83;}
+.journey48 h1,.journey48 h2,.journey48 h3,.journey48 p{margin:0;}
+.journey48 h1{font-size:clamp(28px,7.5vw,38px);line-height:1.45;letter-spacing:-.6px;}
+.journey48 h2{font-size:21px;line-height:1.65;}
+.journey48 h3{font-size:17px;line-height:1.6;}
+.journey48 p{font-size:14px;line-height:1.95;opacity:.84;}
+.journey48 button{position:relative;color:inherit;min-height:44px;}
+.journey48 button:focus-visible,.journey48 a:focus-visible{outline:2px solid var(--journey-accent);outline-offset:3px;}
+.journey48 a{display:inline-flex;align-items:center;gap:7px;color:var(--journey-accent);font-size:12px;line-height:1.9;overflow-wrap:anywhere;text-underline-offset:4px;}
+.journeyEyebrow{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:650;line-height:1.8;letter-spacing:.1px;color:var(--journey-accent);}
+.journeyMast{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 17px;}
+.journeyMast>svg{width:30px;height:30px;color:var(--journey-accent);opacity:.75;}
+.journeyModes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));background:var(--satin-standard-bg);border:1px solid var(--satin-border);border-radius:18px;padding:4px;gap:4px;}
+.journeyModes button{background:transparent;border-radius:14px;font-weight:700;font-size:13px;}
+.journeyModes button[aria-pressed="true"]{background:rgba(79,145,112,.14);box-shadow:inset 0 0 0 1px var(--satin-border);}
+.journeyProgressLine{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:16px 0 22px;}
+.journeyProgressLine>span{font-size:11px;opacity:.7;}
+.journeyProgressLine progress{height:4px;flex:1;min-width:50px;max-width:130px;accent-color:var(--journey-accent);}
+.journeyProgressLine button{padding:6px 0;background:transparent;font-size:11px;text-decoration:underline;text-underline-offset:4px;}
+.journeyIntro{position:relative;isolation:isolate;overflow:hidden;padding:24px 19px 107px;border-radius:24px;background:var(--satin-standard-bg);border:1px solid var(--satin-border);}
+.journeyIntro h1{margin:12px 0;}
+.journeyScene{display:block;width:100%;color:var(--journey-accent);pointer-events:none;}
+.journeyIntro>.journeyScene,.journeyDetailHero>.journeyScene{position:absolute;bottom:-3px;left:0;z-index:-1;}
+.journeyMethod{margin:18px 0;font-size:12px;border-bottom:1px solid var(--satin-border);padding-bottom:12px;}
+.journey48 summary{cursor:pointer;min-height:44px;display:list-item;list-style-position:inside;padding:10px 0;font-size:12px;line-height:1.9;}
+.journeyMethod p{font-size:12px;margin:8px 0;}
+.journey48 .journeyControls{gap:11px;margin:20px 0 8px;}
+.journeySearch{display:flex;align-items:center;gap:10px;min-height:50px;padding:0 14px;background:var(--satin-standard-bg);border:1px solid var(--satin-border);border-radius:16px;}
+.journeySearch svg{flex:none;opacity:.65;}
+.journeySearch input{background:transparent;color:inherit;border:0;outline:0;width:100%;min-width:0;font:inherit;font-size:13px;min-height:48px;}
+.journey48 .featureFilters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;}
+.journey48 .featureFilters button{border-radius:14px;font-size:12px;padding:8px;}
+.journeySort{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:11px;margin:0 0 12px;}
+.journeySort>span{margin-inline-end:auto;opacity:.7;}
+.journeySort button{border-radius:10px;padding:6px 9px;background:transparent;font-size:11px;}
+.journeySort button[aria-pressed="true"]{color:var(--journey-accent);background:rgba(79,145,112,.1);}
+.journeyTimeline48{padding-inline-start:27px;position:relative;}
+.journeyStop{position:relative;margin:0 0 20px;background:var(--satin-standard-bg);border:1px solid var(--satin-border);border-radius:23px;content-visibility:auto;contain-intrinsic-size:auto 168px;}
+.journeyStop.insetStop{margin-inline-start:16px;border-radius:23px 23px 9px 23px;}
+.journey48 .journeyHeading{display:flex!important;flex-direction:column;align-items:stretch;gap:8px;width:100%;padding:17px 16px!important;background:transparent!important;text-align:right;border-radius:23px;}
+.journey48 .journeyHeading h3{font-size:23px;font-weight:700;}
+.journey48 .journeyHeading p{font-size:12px;line-height:1.85;}
+.journey48 .journeyHeading span{font-size:11px;white-space:normal;opacity:1;}
+.journeyStopFoot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:4px;opacity:.8!important;}
+.journeyStopFoot>span{display:flex;gap:3px;align-items:center;color:var(--journey-accent);}
+.journeyPathSegment{position:absolute;inset-inline-start:-28px;top:0;height:calc(100% + 22px);width:24px;color:var(--journey-accent);opacity:.65;pointer-events:none;}
+.insetStop .journeyPathSegment{width:35px;inset-inline-start:-43px;}
+.journeyStopNumber{position:absolute;inset-inline-start:-27px;top:26px;width:22px;height:22px;display:grid;place-items:center;color:var(--journey-accent);background:var(--satin-solid-bg,#e5eee8);border:1px solid var(--satin-border);border-radius:50%;font-size:10px;z-index:1;}
+.dark .journeyStopNumber{background:#14352a;}
+.insetStop .journeyStopNumber{inset-inline-start:-43px;}
+.journeyStop.Medinan .journeyEyebrow,.journeyStop.Medinan .journeyStopNumber,.journeyChapter.Medinan>span{color:var(--journey-gold);}
+.journeyStop.visited{border-color:rgba(91,166,128,.4);}
+.journeyFavoriteMark{position:absolute;top:19px;left:18px;color:var(--journey-accent);pointer-events:none;}
+.journeyChapter{position:relative;padding:23px 0 12px;margin-bottom:22px;}
+.journeyChapter>span{font-size:11px;color:var(--journey-accent);font-weight:700;}
+.journeyChapter>h2{font-size:24px;margin-top:6px;}
+.journeyChapter>p{font-size:12px;margin-top:8px;}
+.journeyChapter>.journeyScene{max-height:112px;margin:2px 0 8px;}
+.journeyChapter .journeyEvidence{padding:14px;margin:0;font-size:12px;}
+.journeyEvidence{display:grid;gap:8px;padding:17px 16px;margin:14px 0;border-radius:19px;background:var(--satin-standard-bg);border:1px solid var(--satin-border);}
+.journeyEvidence p{font-size:13px;}
+.journeyMilestone{margin:16px 0 23px;}
+.journeyMilestone .journeyEvidence{border-inline-start:3px solid var(--journey-gold);}
+.journeyHijra{padding:14px 0 0;border-top:1px dashed var(--satin-border);margin:15px 0;}
+.journeyHijra>span{font-size:11px;color:var(--journey-gold);}
+.journeyCaution{padding:12px;border-radius:12px;border:1px solid rgba(172,144,88,.35);background:rgba(172,144,88,.06);font-size:12px!important;}
+.journeyDetail{display:grid;gap:22px;}
+.journeyBack,.journeyBottomBack{display:flex;align-items:center;justify-content:center;gap:8px;background:transparent;border:1px solid var(--satin-border);border-radius:14px;padding:9px 14px;font-size:12px;}
+.journeyBack{justify-self:start;}
+.journeyDetailHero{position:relative;isolation:isolate;padding:23px 18px 113px;background:var(--satin-standard-bg);border:1px solid var(--satin-border);border-radius:24px;overflow:hidden;}
+.journeyDetailHero h1{margin:8px 0 12px;}
+.journeyFacts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-block:1px solid var(--satin-border);padding:13px 0;}
+.journeyFacts>div{display:grid;gap:6px;text-align:center;}
+.journeyFacts>div+div{border-inline-start:1px solid var(--satin-border);}
+.journeyFacts span{font-size:10px;opacity:.65;}
+.journeyFacts b{font-size:23px;color:var(--journey-accent);}
+.journeyDetailActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.journeyDetailActions button{display:flex;align-items:center;justify-content:center;gap:6px;background:var(--satin-standard-bg);border:1px solid var(--satin-border);border-radius:14px;font-size:11px;padding:8px;}
+.journeyDetail section{min-width:0;}
+.journeyDetail section>h2{margin-bottom:10px;}
+.journey48 .journeySmall{font-size:11px;line-height:1.9;opacity:.66;}
+.journeyThemes>article{display:flex;gap:11px;margin:22px 0;padding-bottom:17px;border-bottom:1px solid var(--satin-border);}
+.themeNumber{display:grid;place-items:center;flex:0 0 29px;height:29px;border-radius:10px;font-size:12px;background:rgba(100,150,121,.13);color:var(--journey-accent);margin-top:5px;}
+.journeyThemes>article>div{min-width:0;}
+.journeyThemes h3{margin-bottom:9px;}
+.journeyTextButton{display:flex;align-items:center;gap:6px;font-size:11px!important;line-height:1.8;background:transparent;text-align:right;padding:8px 0!important;color:var(--journey-accent)!important;}
+.journeyReferences{display:grid;gap:6px;}
+.journeyReferences a{min-height:44px;padding:8px 12px;border:1px solid var(--satin-border);border-radius:10px;}
+.journeySelections article{border:1px solid var(--satin-border);border-radius:18px;margin:12px 0;padding:16px;}
+.journeySelections small{opacity:.65;font-size:11px;}
+.journey48 .journeyQuran{font-family:var(--quran-font);font-size:25px;line-height:2.05;opacity:1;margin:13px 0;text-align:right;}
+.journeySelections button{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--journey-accent);background:transparent;padding:8px 0;}
+.journeyComparison>p{margin:12px 0;}
+.journeyComparison article{padding:14px 0;border-bottom:1px solid var(--satin-border);}
+.journeyComparison article p{margin:8px 0;}
+.journeyMapPage,.journeyMyProgress{display:grid;gap:14px;}
+.journeyMap{height:330px;position:relative;border-radius:24px;background:var(--satin-standard-bg);border:1px solid var(--satin-border);color:var(--journey-accent);}
+.journeyMap>svg{height:100%;width:100%;}
+.journeyMap>button{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;gap:5px;padding:7px 10px;border-radius:14px;border:1px solid var(--satin-border);background:var(--satin-solid-bg,#edf3ef);font-size:11px;white-space:nowrap;}
+.dark .journeyMap>button{background:#173b2d;}
+.journeyMap>button[aria-pressed="true"]{box-shadow:0 0 0 3px rgba(120,180,144,.18);border-color:var(--journey-accent);}
+.journeyMapNorth{position:absolute;left:14px;top:14px;font-size:10px;}
+.journeyPlaceChoices{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.journeyPlaceChoices>button{padding:8px;border:1px solid var(--satin-border);border-radius:12px;background:var(--satin-standard-bg);font-size:12px;}
+.journeyPlaceChoices>button[aria-pressed="true"]{color:var(--journey-accent);border-color:var(--journey-accent);}
+.journeyStats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;}
+.journeyStats>div{padding:18px 5px;background:var(--satin-standard-bg);border:1px solid var(--satin-border);border-radius:16px;display:grid;gap:7px;text-align:center;}
+.journeyStats b{font-size:26px;color:var(--journey-accent);}
+.journeyStats span{font-size:10px;}
+.journeyMyProgress h2{display:flex;align-items:center;gap:8px;margin-top:15px;}
+.journeyRecord{display:flex;align-items:center;gap:10px;padding:10px 14px;text-align:right;border:1px solid var(--satin-border);border-radius:14px;background:var(--satin-standard-bg);}
+.journeyRecord>b{flex:1;}
+.journeyRecord small{font-size:10px;opacity:.65;}
+.journeyReaderReturn{min-height:44px;display:flex;align-items:center;gap:7px;justify-content:center;border-radius:15px;font-size:12px;color:inherit;background:var(--satin-standard-bg);}
+.journeyReaderReturn{flex:none;}
+@media(prefers-reduced-motion:reduce){.journey48 *{animation:none!important;transition:none!important;scroll-behavior:auto!important;}}
+@media(max-width:360px){.journey48 h1{font-size:29px}.journey48 h2{font-size:19px}.journeyTimeline48{padding-inline-start:25px}.journeyStop.insetStop{margin-inline-start:10px}.journey48 .journeyHeading{padding:16px 12px!important}.insetStop .journeyStopNumber{inset-inline-start:-37px}.journeyDetailActions{grid-template-columns:1fr}.journeyMap>button{font-size:10px;padding-inline:8px}}

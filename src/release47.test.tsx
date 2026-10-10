@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import React from 'react';
-import {describe,it,expect,vi,afterEach} from 'vitest';
+import {describe,it,expect,vi,afterEach,beforeAll} from 'vitest';
 import {render,screen,fireEvent,cleanup} from '@testing-library/react';
 import {readFileSync} from 'node:fs';
 import {mergeOrder,validateRanks} from './SortableItems';
@@ -11,6 +11,7 @@ import topics from './journeyTopics.json';
 const q=JSON.parse(readFileSync('public/data/quran.json','utf8'));
 const verses=q.surahs.flatMap((s:any)=>s.ayahs.map((v:any)=>({...v,surahName:s.name_arabic,surahNumber:s.number})));
 const h=JSON.parse(readFileSync('public/data/hadith_index.json','utf8'));
+beforeAll(()=>{vi.stubGlobal("requestAnimationFrame",(cb:FrameRequestCallback)=>setTimeout(cb,0));vi.stubGlobal("cancelAnimationFrame",clearTimeout)});
 afterEach(()=>{cleanup();localStorage.clear()});
 describe('Release 47 data and interactions',()=>{
  it('retains saved home order, removes obsolete and duplicate ids and adds future tools',()=>{expect(mergeOrder(['b','b','gone','a'],['a','b','new'])).toEqual(['b','a','new']);expect(mergeOrder({bad:true},['a','b'])).toEqual(['a','b'])});
