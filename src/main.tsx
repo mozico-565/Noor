@@ -4,7 +4,7 @@ import { flushSync,createPortal } from "react-dom";
 import {useVirtualizer} from "@tanstack/react-virtual";
 import {
   Search, Send, BookOpen, Bookmark, BookmarkCheck, Settings, Sparkles, Moon, Sun,
-  ChevronLeft, ChevronRight, ChevronDown, Quote, Info, X, List, RotateCcw, LibraryBig, Play, Pause, Share2, Eye, EyeOff, Download, Focus, CalendarDays, Minimize2, Check, ImageIcon, Mic, Compass, MapPinned, BarChart3, Layers3, Smartphone, Volume2, Target, Trophy, CircleCheck, CircleHelp, BookMarked
+  ChevronLeft, ChevronRight, ChevronDown, Quote, Info, X, List, RotateCcw, LibraryBig, Play, Pause, Share2, Eye, EyeOff, Download, Focus, CalendarDays, Minimize2, Check, ImageIcon, Mic, Compass, MapPinned, BarChart3, Layers3, Smartphone, Volume2, Target, Trophy, Repeat2, Maximize2, CircleCheck, CircleHelp, BookMarked
 } from "lucide-react";
 import "./styles.css";
 import {ADHKAR, type DhikrCategory} from "./featureData";
@@ -17,7 +17,10 @@ import {loadReciterCatalog,searchCatalog,readCustomReciters,resolveCatalogRecite
 import {RepeatPanel,RevelationJourney,QuranStories,OrderQuiz} from "./NoorFeatures";
 import {RecitationSession,type RepeatSettings,type SessionState} from "./recitationSession";
 import {markedWords,MushafMargin} from "./mushafMarks";
+import {SortableItems,mergeOrder} from "./SortableItems";
+import {relatedEvidence,type RelatedResult} from "./relatedEvidence";
 import {fetchQuranpediaAsbab} from "./asbabQuranpedia";
+const HOME_TOOLS=["revelation","stories","qibla","adhkar","topics","flashcards","prayer","review"];
 const NOOR_LOGO="./noor-logo.png";
 const NOOR_LIGHT_LOGO="./noor-logo-light.png";
 const NOOR_CIRCLE="./noor-logo-circle.png";
@@ -519,7 +522,15 @@ export function App(){
   const [voiceStatus,setVoiceStatus]=useState("");
   const voicePurposeRef=useRef<"quran"|"recitation"|null>(null);
   const voiceHandlerRef=useRef<(text:string,error:string)=>void>(()=>{});
-  const [toolPage,setToolPage]=useState<null|"qibla"|"adhkar"|"topics"|"revelation"|"stories">(null);
+  const [toolPage,setToolPage]=useState<null|"qibla"|"adhkar"|"topics"|"revelation"|"stories"|"related">(null);
+  const [homeOrder,setHomeOrder]=useState(()=>{try{return mergeOrder(JSON.parse(localStorage.getItem("noor_home_order")||"null"),HOME_TOOLS)}catch{return [...HOME_TOOLS]}});
+  const [resetOrderOpen,setResetOrderOpen]=useState(false);
+  const [relatedSource,setRelatedSource]=useState<ReaderVerse|null>(null);
+  const relatedAction=useRef<WordAction|null>(null);
+  const [relatedResults,setRelatedResults]=useState<RelatedResult[]>([]);
+  const [relatedLoading,setRelatedLoading]=useState(false),[relatedError,setRelatedError]=useState("");
+  const relatedRequest=useRef(0);
+  function saveHomeOrder(ids:string[]){const order=mergeOrder(ids,HOME_TOOLS);setHomeOrder(order);localStorage.setItem("noor_home_order",JSON.stringify(order))}
   const [qiblaHeading,setQiblaHeading]=useState(0);
   const [qiblaBearing,setQiblaBearing]=useState<number|null>(null);
   const [qiblaStatus,setQiblaStatus]=useState("جاهز لتحديد اتجاه القبلة");
@@ -742,7 +753,7 @@ export function App(){
       if(recitationActive){finishRecitation();return true;}
       if(repeatOpen){setRepeatOpen(false);return true;}
       if(orderOpen){setOrderOpen(false);buildReviewSummary("ترتيب الآيات",reviewSessionCorrect,reviewSessionAssisted,reviewSessionCorrect+reviewSessionAssisted);return true;}
-      if(toolPage){if(toolPage==="qibla")window.Android?.stopQiblaCompass?.();setToolPage(null);return true;}
+      if(toolPage){closeTool();return true;}
       if(sirahPage){setSirahPage(false);return true;}
       if(answer){setAnswer(null);return true;}
       if(tab!=="home"){setTab("home");return true;}
@@ -942,8 +953,12 @@ export function App(){
     if(window.Android?.requestQiblaLocation)window.Android.requestQiblaLocation();
     else setQiblaStatus("ميزة القبلة الدقيقة متاحة داخل تطبيق Android");
   }
-  function closeTool(){if(toolPage==="qibla")window.Android?.stopQiblaCompass?.();setToolPage(null)}
+  function closeTool(){if(toolPage==="related"){relatedRequest.current++;setTab("quran")}if(toolPage==="qibla")window.Android?.stopQiblaCompass?.();setToolPage(null)}
 
+  async function runRelated(action:WordAction){
+    const request=++relatedRequest.current;relatedAction.current=action;setRelatedSource(action.verse);setRelatedResults([]);setRelatedError("");setRelatedLoading(true);setWordAction(null);setAnswer(null);setToolPage("related");setTab("home");
+    try{const response=await fetch("./data/hadith_index.json");if(!response.ok)throw new Error("hadith-unavailable");const hadith=await response.json();if(!Array.isArray(hadith))throw new Error("invalid-index");const results=relatedEvidence(action.verse,action.text,Array.from(verseByKey.values()),hadith);if(relatedRequest.current===request)setRelatedResults(results)}catch{if(relatedRequest.current===request){setRelatedResults(relatedEvidence(action.verse,action.text,Array.from(verseByKey.values()),[]));setRelatedError("تعذر تحميل فهرس الأحاديث. الآيات المتاحة أدناه؛ أعد المحاولة لتحميل الأحاديث.")}}finally{if(relatedRequest.current===request)setRelatedLoading(false)}
+  }
   async function runTopicSearch(){
     const raw=topicQuery.trim();const terms=extractTerms(raw);if(!raw||!terms.length)return;setTopicLoading(true);
     try{
@@ -1947,6 +1962,7 @@ export function App(){
       {tab==="home" && <>
         {toolPage&&<Glass className="page toolPage pageEnter">
           <button className="toolBack" onClick={closeTool}><ChevronRight/> رجوع</button>
+          {toolPage==="related"&&<div className="relatedPage"><h2>آيات وأحاديث مرتبطة</h2><small>سورة {relatedSource?.surahName} · الآية {arNum(relatedSource?.number||0)}</small><p className="featureNotice">روابط موضوعية مقترحة أو تشابه لفظي بحسب الوسم، وليست أسباب نزول أو نسبة حديث إلى آية بعينها. الأحاديث هنا من الصحيحين مع تخريج مطابق، ولا يعرض البحث روايات غير متحققة.</p>{relatedLoading?<p role="status"><span className="miniSpinner"/> جارٍ البحث في الآيات والأحاديث…</p>:<>{relatedError&&<p role="alert">{relatedError}<button onClick={()=>relatedAction.current&&void runRelated(relatedAction.current)}>إعادة المحاولة</button></p>}{!relatedResults.length&&<p role="status">لا توجد نتائج موثوقة كافية.</p>}{relatedResults.map(r=><article key={r.id} className="featureCard glassPanel"><small>ارتباط {r.association} · {r.kind==="quran"?"آية":"حديث صحيح"}</small><h3>{r.title}</h3><ExpandableText text={r.text} className={r.kind==="quran"?"storyVerse":""}/><small>{r.source}</small>{r.verseKey&&<button onClick={()=>{const v=verseByKey.get(r.verseKey!);if(v){setToolPage(null);jumpToVerse(v,true)}}}>افتح الآية في المصحف</button>}{r.url&&<a href={r.url} target="_blank" rel="noreferrer">راجع تخريج الحديث</a>}</article>)}{relatedResults.length>0&&!relatedResults.some(r=>r.kind==="hadith")&&<p>لا توجد أحاديث موثوقة كافية في نتائج هذا البحث المحلي.</p>}</>}</div>}
           {toolPage==="revelation"&&<RevelationJourney surahs={quran?.surahs||[]} onOpen={key=>{const v=verseByKey.get(key);if(v){closeTool();jumpToVerse(v,true)}}}/>}
           {toolPage==="stories"&&<QuranStories surahs={quran?.surahs||[]} onOpen={key=>{const v=verseByKey.get(key);if(v){closeTool();jumpToVerse(v,true)}}}/>}
           {toolPage==="qibla"&&<div className="qiblaPage">
@@ -1988,16 +2004,16 @@ export function App(){
               <span>{s}</span><ChevronLeft/>
             </button>)}
           </div>
-          <div className="noorTools" aria-label="أدوات نور">
-            <button className="toolTile glass" onClick={()=>{setToolPage("revelation");setAnswer(null)}}><span><CalendarDays/></span><b>رحلة نزول القرآن</b><small>ترتيب ومصادر</small></button>
-            <button className="toolTile glass" onClick={()=>{setToolPage("stories");setAnswer(null)}}><span><BookOpen/></span><b>قصص القرآن</b><small>فصول وآيات</small></button>
-            <button className="toolTile glass" onClick={openQibla}><span><Compass/></span><b>القبلة</b><small>اتجاه مباشر</small></button>
-            <button className="toolTile glass" onClick={()=>{setToolPage("adhkar");setAnswer(null)}}><span><BookMarked/></span><b>الأذكار</b><small>بالمصادر</small></button>
-            <button className="toolTile glass" onClick={()=>{setToolPage("topics");setAnswer(null)}}><span><Layers3/></span><b>موضوعات</b><small>بحث مترابط</small></button>
-            <button className="toolTile glass" onClick={openFlashcardShortcut}><span><Target/></span><b>اختبار البطاقات</b><small>ابدأ مباشرة</small></button>
-            <button className="toolTile glass prayerShortcut" onClick={iqamaEnabled&&prayerLocationReady?openPrayerTimes:openIqamaShortcut} aria-label={iqamaEnabled&&prayerLocationReady&&nextPrayer?`الصلاة القادمة ${nextPrayer.name} ${nextPrayerTime}، عرض جميع المواقيت`:"ضبط أوقات الإقامة"}><span><CalendarDays/></span><b>{iqamaEnabled&&prayerLocationReady&&nextPrayer?nextPrayer.name:"ضبط الإقامة"}</b><small className="prayerTimeValue">{iqamaEnabled&&prayerLocationReady&&nextPrayer?nextPrayerTime:"اضبطها مرة واحدة"}</small></button>
-            <button className="toolTile glass" onClick={openReviewShortcut}><span><EyeOff/></span><b>مراجعة الحفظ</b><small>اختر نطاقك</small></button>
-          </div>
+          <SortableItems ids={homeOrder} onChange={saveHomeOrder} className="noorTools" grid label="أدوات نور">{id=>({
+              'revelation': (<button className="toolTile glass" onClick={()=>{setToolPage("revelation");setAnswer(null)}}><span><CalendarDays/></span><b>رحلة نزول القرآن</b><small>ترتيب ومصادر</small></button>),
+              'stories': (<button className="toolTile glass" onClick={()=>{setToolPage("stories");setAnswer(null)}}><span><BookOpen/></span><b>قصص القرآن</b><small>فصول وآيات</small></button>),
+              'qibla': (<button className="toolTile glass" onClick={openQibla}><span><Compass/></span><b>القبلة</b><small>اتجاه مباشر</small></button>),
+              'adhkar': (<button className="toolTile glass" onClick={()=>{setToolPage("adhkar");setAnswer(null)}}><span><BookMarked/></span><b>الأذكار</b><small>بالمصادر</small></button>),
+              'topics': (<button className="toolTile glass" onClick={()=>{setToolPage("topics");setAnswer(null)}}><span><Layers3/></span><b>موضوعات</b><small>بحث مترابط</small></button>),
+              'flashcards': (<button className="toolTile glass" onClick={openFlashcardShortcut}><span><Target/></span><b>اختبار البطاقات</b><small>ابدأ مباشرة</small></button>),
+              'prayer': (<button className="toolTile glass prayerShortcut" onClick={iqamaEnabled&&prayerLocationReady?openPrayerTimes:openIqamaShortcut} aria-label={iqamaEnabled&&prayerLocationReady&&nextPrayer?`الصلاة القادمة ${nextPrayer.name} ${nextPrayerTime}، عرض جميع المواقيت`:"ضبط أوقات الإقامة"}><span><CalendarDays/></span><b>{iqamaEnabled&&prayerLocationReady&&nextPrayer?nextPrayer.name:"ضبط الإقامة"}</b><small className="prayerTimeValue">{iqamaEnabled&&prayerLocationReady&&nextPrayer?nextPrayerTime:"اضبطها مرة واحدة"}</small></button>),
+              'review': (<button className="toolTile glass" onClick={openReviewShortcut}><span><EyeOff/></span><b>مراجعة الحفظ</b><small>اختر نطاقك</small></button>),
+            }[id])}</SortableItems>
         </div> :
         <div className="answer pageEnter">
           <button className="back glass" onClick={()=>{setAnswer(null);setQ("")}}><X/> سؤال جديد</button>
@@ -2022,9 +2038,9 @@ export function App(){
       {quranMounted&&<div aria-hidden={tab!=="quran"} className={`readerShell continuousReader ${focusMode?"focusReader":""}`}>
         {focusMode&&<button className="focusExit glass" onClick={()=>setFocusMode(false)} aria-label="الخروج من وضع التركيز"><Minimize2/></button>}
         <div className="readerToolbar glass continuousToolbar">
-          <button className="recitationOpen" aria-label="تلاوة A–B" onClick={()=>setRepeatOpen(true)}>A–B</button>
+          <button className="recitationOpen" aria-label="تكرار مقطع التلاوة" onClick={()=>setRepeatOpen(true)}><Repeat2/></button>
           <button className="surahPickerButton" aria-label="اختر السورة أو الجزء أو الصفحة" onClick={()=>setSurahPicker(true)}><List/><span>انتقال</span></button>
-          <button className="focusButton" onClick={()=>setFocusMode(v=>!v)} aria-label="وضع التركيز"><Focus/></button>
+          <button className="focusButton" onClick={()=>setFocusMode(v=>!v)} aria-label="وضع التركيز"><Maximize2/></button>
           <div className="autoScrollControls" aria-label="التمرير التلقائي">
             <button className={autoScroll?"autoActive":""} onClick={()=>{setFollowAudio(false);setAutoScroll(v=>!v)}} aria-label={autoScroll?"إيقاف التمرير التلقائي":"تشغيل التمرير التلقائي"}>{autoScroll?<Pause/>:<Play/>}</button>
             <input className="speedSlider" type="range" min="1" max="6" step="0.1" value={autoScrollSpeed} onInput={e=>setAutoScrollSpeed(Number((e.target as HTMLInputElement).value))} onChange={e=>setAutoScrollSpeed(Number(e.target.value))} aria-label="سرعة التمرير"/>
@@ -2061,6 +2077,7 @@ export function App(){
 
       {tab==="settings" && <Glass className="page settingsPage pageEnter">
         <Settings/><h2>الإعدادات</h2>
+        <div className="settingsChoiceCard glassPanel"><b>ترتيب أدوات نور</b><p className="featureNotice">اضغط مطولًا على البطاقة في الصفحة الرئيسية لإعادة ترتيبها.</p><button onClick={()=>setResetOrderOpen(true)}>استعادة الترتيب الافتراضي</button></div>
         <div className="settingsChoiceCard themeModeSetting glassPanel"><div className="settingsChoiceHead"><div><span>المظهر</span><small>اختر شكل التطبيق حسب تفضيلك</small></div><Smartphone/></div><div className="themeModeButtons settingsSegmented"><button className={themeMode==="system"?"active":""} onClick={e=>chooseTheme("system",e)}><Smartphone/> حسب الهاتف</button><button className={themeMode==="light"?"active":""} onClick={e=>chooseTheme("light",e)}><Sun/> فاتح</button><button className={themeMode==="dark"?"active":""} onClick={e=>chooseTheme("dark",e)}><Moon/> داكن</button></div></div>
         <div className="settingsChoiceCard quranFontSetting glassPanel"><div className="settingsChoiceHead"><div><span>خط المصحف</span><small>الخط الحالي هو الافتراضي. الخطوط القرآنية الإضافية تعمل دون إنترنت مع رجوع آمن للمحارف.</small></div><BookOpen/></div><div className="themeModeButtons settingsSegmented"><button className={quranFont==="hafs"?"active":""} onClick={()=>setQuranFont("hafs")}>الافتراضي</button><button className={quranFont==="amiri"?"active":""} onClick={()=>setQuranFont("amiri")}>أميري قرآن</button><button className={quranFont==="scheherazade"?"active":""} onClick={()=>setQuranFont("scheherazade")}>شهرزاد الجديدة</button></div></div>
         <div className="settingsInfoCard lastPageInfo glassPanel" aria-label={`آخر صفحة ${arNum(readerPage)}`}><div className="settingsInfoIcon"><BookOpen/></div><div><span>آخر صفحة</span><small>الصفحة التي توقفت عندها آخر مرة</small></div><b>{arNum(readerPage)}</b></div>
@@ -2152,11 +2169,12 @@ export function App(){
       <Glass className="sheet" onClick={e=>e.stopPropagation()}><button onClick={()=>setSources(false)}><X/></button><h2>المصادر</h2><p>{answer?.source}</p></Glass>
     </Overlay>}
 
+    {resetOrderOpen&&<Overlay className="modal" onClose={()=>setResetOrderOpen(false)}><Glass className="sheet" onClick={e=>e.stopPropagation()}><h2>استعادة ترتيب الأدوات؟</h2><p>سيعود ترتيب البطاقات إلى ترتيب نور الافتراضي.</p><div className="sessionActions"><button onClick={()=>{saveHomeOrder(HOME_TOOLS);setResetOrderOpen(false)}}>استعادة</button><button onClick={()=>setResetOrderOpen(false)}>إلغاء</button></div></Glass></Overlay>}
     {wordAction&&<Overlay className="modal wordModal" onClose={()=>setWordAction(null)}>
       <Glass className="sheet wordChoiceSheet" onClick={e=>e.stopPropagation()}>
         <button className="sheetIconButton closeSheet" aria-label="إغلاق" onClick={()=>setWordAction(null)}><X/></button><small>سورة {wordAction.verse.surahName} · الآية {arNum(wordAction.verse.number)}</small><h2 className="quranTextSurface">{readableQuranPreview(wordAction.text)}</h2>
         <button className="sheetIconButton shareTop" aria-label="مشاركة الآية" onClick={()=>shareVerse(wordAction.verse)}><Share2/></button>
-        <div className="wordChoiceActions"><button aria-label={`استماع بصوت ${reciterNames[reciter]}`} onClick={()=>playAyah(wordAction.verse)}><Play/> استماع بصوت {reciterNames[reciter]}</button><button onClick={()=>{const a=wordAction;setWordAction(null);void openWord(a.verse,a.index,a.text)}}><BookOpen/> معنى الكلمة</button><button onClick={()=>void openAsbab(wordAction.verse)}>سبب النزول</button><button onClick={()=>{setQ(`ما الآيات والأحاديث الصحيحة المرتبطة بموضوع الآية ${wordAction.verse.verse_key}؟`);setVerseContext(wordAction.verse);setWordAction(null);setTab("home")}}>آيات وأحاديث مرتبطة</button><button onClick={()=>shareVerse(wordAction.verse)}><Share2/> مشاركة نص</button><button onClick={()=>void shareVerseImage(wordAction.verse)}><ImageIcon/> مشاركة كصورة</button></div>
+        <div className="wordChoiceActions"><button aria-label={`استماع بصوت ${reciterNames[reciter]}`} onClick={()=>playAyah(wordAction.verse)}><Play/> استماع بصوت {reciterNames[reciter]}</button><button onClick={()=>{const a=wordAction;setWordAction(null);void openWord(a.verse,a.index,a.text)}}><BookOpen/> معنى الكلمة</button><button onClick={()=>void openAsbab(wordAction.verse)}>سبب النزول</button><button onClick={()=>void runRelated(wordAction)}>آيات وأحاديث مرتبطة</button><button onClick={()=>shareVerse(wordAction.verse)}><Share2/> مشاركة نص</button><button onClick={()=>void shareVerseImage(wordAction.verse)}><ImageIcon/> مشاركة كصورة</button></div>
       </Glass>
     </Overlay>}
 

@@ -1881,3 +1881,54 @@ html.theme-crossfade #root{animation:noorThemeFallback .36s ease both}
 .reciterSheet .reciterChoice,.reciterSheet>button{border-radius:10px!important;min-height:48px}
 
 .sessionPanel input[type="checkbox"]{accent-color:#438b69;flex:none;vertical-align:middle}.featureTitle .sheetIconButton{flex:none;background:rgba(127,127,127,.08);color:inherit;border:1px solid rgba(127,127,127,.16);border-radius:12px;min-width:42px;min-height:42px}
+
+/* Release 47: one reachable home scroller and Satin Glass interactions. */
+.app[data-tab="home"]{display:flex;flex-direction:column;padding-bottom:0!important}
+.app[data-tab="home"] header{flex:none;min-height:64px}
+.app[data-tab="home"]>.content{flex:1;min-height:0;height:auto!important;overflow-y:auto!important;overflow-x:hidden!important;padding-bottom:calc(206px + env(safe-area-inset-bottom));scrollbar-width:none;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y}
+.app[data-tab="home"]>.content::-webkit-scrollbar,.featureSheet::-webkit-scrollbar,.toolPage::-webkit-scrollbar{display:none}
+.app[data-tab="home"] .hero{height:auto!important;min-height:0;padding-bottom:16px!important;flex-shrink:0}
+.app[data-tab="home"] .toolPage{height:auto;min-height:100%;margin:0;overflow:visible;padding-bottom:24px!important}
+.app[data-tab="home"] .content:has(>.toolPage){padding-bottom:calc(112px + env(safe-area-inset-bottom))}
+.app[data-tab="home"] .answer{height:auto!important;overflow:visible!important}
+.sortableCard{min-width:0;position:relative;touch-action:manipulation;outline-offset:3px}
+.sortableCard.dragging{filter:drop-shadow(0 10px 18px rgba(0,40,25,.22));opacity:.92}
+.noorTools>.sortableCard{display:flex}
+.noorTools .toolTile{width:100%;height:100%;min-width:0}
+.sortableCard:focus-visible{outline:2px solid var(--green)}
+.continuousToolbar{direction:ltr;gap:6px;padding-inline:9px!important;align-items:center}
+.continuousToolbar .surahPickerButton{order:0;flex:0 0 auto!important;direction:rtl;font-size:14px!important;gap:5px}
+.continuousToolbar .recitationOpen{order:1;flex:0 0 36px;min-width:36px}
+.continuousToolbar .focusButton{order:2;flex:0 0 36px;min-width:36px}
+.continuousToolbar .autoScrollControls{order:3;min-width:0;flex:1;justify-content:flex-end}
+.continuousToolbar .speedSlider{width:100%;max-width:130px;min-width:32px}
+.continuousToolbar button>svg{width:20px;height:20px;flex:none}
+.orderList{gap:10px;margin:12px 0;}
+.orderVerseCard{padding:14px 16px!important;border-radius:22px!important;border:1px solid var(--satin-border)!important;background:var(--satin-standard-bg)!important;box-shadow:var(--satin-shadow);display:grid;gap:8px}
+.orderVerseCard p{margin:0!important;font-size:clamp(22px,5.8vw,27px);line-height:1.9;overflow-wrap:anywhere;}
+.verseRank{display:flex!important;align-items:center;justify-content:flex-start;gap:10px;font-size:12px}
+.verseRank input{width:58px;min-height:44px;border:1px solid var(--satin-border);border-radius:13px;background:var(--satin-standard-bg);color:inherit;text-align:center;font:inherit;font-size:17px}
+.orderVerseCard.correct{border-color:#419570!important}.orderVerseCard.incorrect{border-color:#bd7064!important}
+.orderVerify{width:100%;min-height:48px;margin:8px 0}
+.journey{min-width:0}.journeyProgress{display:flex;align-items:center;flex-wrap:wrap;gap:12px;padding:14px;border-radius:22px;margin:12px 0}
+.journeyProgress label{flex:1;min-width:160px;font-size:13px;display:grid;gap:7px}
+.journeyProgress progress{width:100%;height:6px;accent-color:var(--green)}
+.journeyControls{display:grid;gap:10px;margin:16px 0}
+.journeyTimeline{position:relative;padding-inline-start:17px}
+.journeyTimeline:before{content:"";position:absolute;inset-inline-start:3px;top:26px;bottom:20px;width:2px;background:linear-gradient(#80bda1,#bbab74);opacity:.6}
+.journeyPhase{position:relative;padding:12px 0;margin:16px 0 4px;display:flex;align-items:center;gap:9px;flex-wrap:wrap;font-size:19px}
+.journeyPhase small{font-size:11px;font-weight:400;opacity:.65}
+.journeyHeading{display:flex;justify-content:space-between;align-items:center;gap:8px;text-align:right;background:transparent!important;min-width:0;padding-inline:0!important}
+.journeyHeading span{font-size:12px;opacity:.75;white-space:nowrap}
+.timelineCard{position:relative;border-inline-start:2px solid #80bda1}.timelineCard.Medinan{border-inline-start-color:#b7a56e}
+.timelineCard:before{content:"";position:absolute;inset-inline-start:-19px;top:30px;width:8px;height:8px;border-radius:50%;background:#80bda1;box-shadow:0 0 0 4px rgba(90,160,127,.1)}
+.timelineCard.Medinan:before{background:#b7a56e}.timelineCard.visited:before{box-shadow:0 0 0 4px rgba(90,160,127,.25)}
+.featureCard,.sessionPanel,.journeyProgress{background:var(--satin-standard-bg)!important;border:1px solid var(--satin-border);box-shadow:var(--satin-shadow)}
+.sessionActions button,.featureFilters button,.featureCard button,.journeyProgress button,.settingsChoiceCard>button{background:var(--satin-standard-bg)!important;border:1px solid var(--satin-border);border-radius:14px;min-height:44px;padding:8px 14px;color:inherit}
+.featureFilters button.active{background:rgba(67,153,111,.20)!important}
+.relatedPage h3{font-size:17px;margin:0}.relatedPage a,.journey a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+@media(max-width:360px){.continuousToolbar{gap:3px;padding-inline:5px!important}.continuousToolbar .surahPickerButton{font-size:12px!important}.continuousToolbar .recitationOpen,.continuousToolbar .focusButton{flex-basis:30px;min-width:30px}.continuousToolbar .surahPickerButton>svg{width:17px}.sessionFields{grid-template-columns:1fr}.noorTools{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(prefers-reduced-motion:reduce){.sortableCard{transition:none!important}.journeyTimeline{scroll-behavior:auto}}
+
+/* Keep the Unicode sajda and rub symbols legible even in decorative Amiri. */
+.mushafInlineMark{font-family:"Noor Default Quran","Noor Scheherazade Quran",serif!important}

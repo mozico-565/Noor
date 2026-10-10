@@ -13,9 +13,10 @@ export function divisionLabel(verseKey:string){
   if(quarter===0)return `${(mark.quarter-1)%8===0?`الجزء ${arabic(mark.juz)} · `:""}الحزب ${arabic(mark.hizb)}`;
   return `${["","ربع","نصف","ثلاثة أرباع"][quarter]} الحزب ${arabic(mark.hizb)}`;
 }
+export function divisionKind(verseKey:string){const mark=divisions.get(verseKey);return !mark?null:(mark.quarter-1)%8===0?"juz":(mark.quarter-1)%4===0?"hizb":"quarter"}
 export function MushafMargin({verseKey,kind}:{verseKey:string;kind:"division"|"sajda"}){
-  const label=kind==="division"?divisionLabel(verseKey):sajdaMargins.has(verseKey)?"سجدة":null;
-  return label?<span className={`mushafInlineMark ${kind}`} data-mark={`${kind}-${verseKey}`} aria-label={label} title={label}>{kind==="division"?"۞":"۩"}</span>:null;
+  const label=kind==="division"?(verseKey==="1:1"?null:divisionLabel(verseKey)):sajdaMargins.has(verseKey)?"سجدة":null;
+  return label?<span className={`mushafInlineMark ${kind}`} data-mark={`${kind}-${verseKey}`} data-division-kind={kind==="division"?divisionKind(verseKey):undefined} aria-label={label} title={label}>{kind==="division"?"۞":"۩"}</span>:null;
 }
 
 type LetterAnchor={letter:number;fraction:number};
@@ -56,7 +57,10 @@ function SajdaPhrase({verseKey,children}:{verseKey:string;children:React.ReactNo
       const end=letterBoundary(measured[measured.length-1].node,mark.endAnchor);
       if(!start||!end)return;
       const origin=text.getBoundingClientRect(),scale=origin.width/text.offsetWidth||1;
-      const fontSize=parseFloat(getComputedStyle(phrase).fontSize);
+      const computed=getComputedStyle(phrase),fontSize=parseFloat(computed.fontSize);
+      const amiri=!!phrase.closest(".quran-font-amiri");
+      const canvas=amiri?document.createElement("canvas"):null,context=canvas?.getContext("2d");
+      if(context)context.font=`${computed.fontWeight} ${fontSize}px ${computed.fontFamily}`;
       const lines:Array<{left:number;right:number;top:number;first:number;last:number}>=[];
       measured.forEach(({rect},i)=>{
         let line=lines.find(l=>Math.abs(l.top-rect.top)<2*scale);
@@ -66,7 +70,12 @@ function SajdaPhrase({verseKey,children}:{verseKey:string;children:React.ReactNo
       const next=lines.map(line=>{
         const right=line.first===0?start.x:line.right;
         const left=line.last===measured.length-1?end.x:line.left;
-        return {left:(left-origin.left)/scale-text.clientLeft,top:(line.top-origin.top)/scale-text.clientTop+fontSize*.08,width:Math.max(0,(right-left)/scale)};
+        let top=(line.top-origin.top)/scale-text.clientTop+fontSize*.08;
+        // Amiri's text range includes a tall ascender box. Locate the actual
+        // shaped ink relative to its baseline rather than moving every font.
+        if(context){const wordsOnLine=measured.slice(line.first,line.last+1),metric=context.measureText(wordsOnLine.map(w=>w.node.data).join(" ")),box=metric.fontBoundingBoxAscent+metric.fontBoundingBoxDescent;
+          if(box>0&&metric.actualBoundingBoxAscent>0){const height=wordsOnLine[0].rect.height/scale,baseline=(line.top-origin.top)/scale-text.clientTop+height*metric.fontBoundingBoxAscent/box;top=baseline-metric.actualBoundingBoxAscent-fontSize*.10;}}
+        return {left:(left-origin.left)/scale-text.clientLeft,top,width:Math.max(0,(right-left)/scale)};
       });
       setStrokes(old=>old.length===next.length&&old.every((s,i)=>["left","top","width"].every(k=>Math.abs(s[k as keyof Stroke]-next[i][k as keyof Stroke])<.05))?old:next);
     };

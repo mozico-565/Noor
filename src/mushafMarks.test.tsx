@@ -53,7 +53,7 @@ describe("Medina Hafs marks",()=>{
     expect(divisionLabel("2:142")).toContain("الجزء ٢");
     for(const mark of data.quarters){
       const view=render(<MushafMargin verseKey={mark.verseKey} kind="division"/>);
-      expect(view.container.querySelectorAll("[data-mark]")).toHaveLength(1);
+      expect(view.container.querySelectorAll("[data-mark]")).toHaveLength(mark.verseKey==="1:1"?0:1);
       expect(view.container.textContent).not.toContain("نهاية");cleanup();
     }
   });
