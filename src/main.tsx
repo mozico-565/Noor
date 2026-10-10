@@ -1,3 +1,4 @@
+import {splitOpeningBasmala} from './QuranVerseText';
 import React, {useEffect, useLayoutEffect, useMemo, useRef, useState} from "react";
 import { createRoot } from "react-dom/client";
 import { flushSync,createPortal } from "react-dom";
@@ -1442,23 +1443,11 @@ export function App(){
     setReciterManageId(null);setToast("تم حذف القارئ من قائمتك. ملفات التلاوة المحفوظة باقية.");setTimeout(()=>setToast(""),4000);
   }
 
-  function normalizeOpeningBasmalaWord(value:string){
-    return String(value||"").normalize("NFKD")
-      .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g,"")
-      .replace(/[إأآٱ]/g,"ا")
-      .replace(/[\u200B-\u200F\u2066-\u2069\uFEFF]/g,"")
-      .trim();
-  }
   function hasEmbeddedBasmalaPrefix(v:ReaderVerse){
-    if(v.surahNumber===9||v.number!==1||v.words.length<4)return false;
-    const first=v.words.slice(0,4).map(w=>normalizeOpeningBasmalaWord(w.text));
-    return first[0]==="بسم"&&first[1]==="الله"&&first[2]==="الرحمن"&&first[3]==="الرحيم";
+    return v.surahNumber===1?v.number===1:Boolean(splitOpeningBasmala(v.text,v.surahNumber,v.number).opening);
   }
   function hasBasmalaPrefix(v:ReaderVerse){return v.surahNumber!==1&&hasEmbeddedBasmalaPrefix(v)}
-  function verseDisplayText(v:ReaderVerse){
-    if(!hasBasmalaPrefix(v))return readableQuranPreview(v.text);
-    return v.words.slice(4).map(w=>readableQuranPreview(w.text)).filter(Boolean).join(" ");
-  }
+  function verseDisplayText(v:ReaderVerse){return readableQuranPreview(splitOpeningBasmala(v.text,v.surahNumber,v.number).text)}
   function VersePreview({verse,compact=false}:{verse:ReaderVerse;compact?:boolean}){
     const text=compact?compactText(verseDisplayText(verse),105):verseDisplayText(verse);
     return <>{hasBasmalaPrefix(verse)&&<em className="resultBasmala quranTextSurface">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</em>}<span className="quranTextSurface">{text}</span></>;
