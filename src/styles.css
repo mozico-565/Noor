@@ -2153,6 +2153,8 @@ html.theme-crossfade #root{animation:noorThemeFallback .36s ease both}
 .continuousToolbar .recitationOpen{order:2}
 .continuousToolbar .autoScrollControls>button{order:3;flex:none}
 .continuousToolbar .surahPickerButton{order:4;margin-right:0}
+.continuousToolbar>button.recitationOpen{flex:0 0 36px;justify-content:center}
+@media(max-width:360px){.continuousToolbar>button.recitationOpen{flex-basis:32px}}
 .separatedBasmala{display:block;text-align:center;font-size:.7em;line-height:2;margin:0 0 1em;padding-bottom:.5em;border-bottom:1px solid var(--satin-border)}
 .stories50{min-width:0;line-height:1.8;padding-bottom:18px;color:inherit}
 .storiesMast{margin:20px 0}.storiesMast h2{font-size:26px;line-height:1.6;margin:5px 0 10px}.storiesMast p{font-size:15px;margin:0;opacity:.8}
