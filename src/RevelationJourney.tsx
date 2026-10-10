@@ -18,7 +18,7 @@ export function cleanJourneyProgress(p:any){const valid=(a:unknown)=>Array.isArr
 function read(key:string){try{return JSON.parse(localStorage.getItem(key)||'null')}catch{return null}}
 function write(key:string,value:unknown){try{localStorage.setItem(key,JSON.stringify(value))}catch{/* Read-only/private storage must not block reading. */}}
 const sceneAssets={hira:hiraArt,makkah:makkahArt,madinah:madinahArt,night:travelArt};
-function Scene({kind}:{kind:keyof typeof sceneAssets}){return <img className={`journeyScene ${kind}`} src={sceneAssets[kind]} alt="" aria-hidden="true" loading="lazy" decoding="async"/>}
+function Scene({kind}:{kind:keyof typeof sceneAssets}){return <img className={`journeyScene ${kind}`} src={sceneAssets[kind]} alt="" aria-hidden="true" loading="eager" decoding="async"/>}
 const sceneFor=(n:number,type:string):keyof typeof sceneAssets=>n===96?'hira':n===73?'night':type==='Medinan'?'madinah':'makkah';
 function Chapter({title,kicker,kind,children}:{title:string;kicker:string;kind:keyof typeof sceneAssets;children?:React.ReactNode}){return <section className="journeyChapter"><div className="journeyChapterArt"><Scene kind={kind}/><div><span>{kicker}</span><h2>{title}</h2></div><span className="artCaption">تصوّر فني</span></div>{children}</section>}
 

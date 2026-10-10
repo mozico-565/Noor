@@ -11,7 +11,7 @@ for(const [width,height] of [[390,844],[430,932],[320,640]])for(const theme of [
  const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.addInitScript(({theme})=>{localStorage.setItem('noor_guidance_seen','1');localStorage.setItem('noor_guidance_enabled','0');localStorage.setItem('noor_theme_mode',theme);localStorage.setItem('noor_ui_sounds','0');localStorage.setItem('noor_last_tab','home');localStorage.setItem('noor_last_verse','1:1');}, {theme});
  const key=`${width}x${height}-${theme}`;
- const shot=async name=>page.screenshot({path:`${output}/${key}-${name}.png`});
+ const shot=async name=>{await page.waitForFunction(()=>Array.from(document.images).filter(i=>{const r=i.getBoundingClientRect();return r.bottom>0&&r.top<innerHeight&&r.width>0}).every(i=>i.complete&&i.naturalWidth>0),{},{timeout:10000});await page.evaluate(()=>Promise.all(Array.from(document.images).filter(i=>i.complete&&i.naturalWidth).map(i=>i.decode())));return page.screenshot({path:`${output}/${key}-${name}.png`})};
  const showMap=async()=>scroller.evaluate(e=>{const map=e.querySelector('.atlas49');e.scrollTop+=map.getBoundingClientRect().top-e.getBoundingClientRect().top-16});
  const checkWidth=async()=>assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'horizontal document overflow');
  try{
