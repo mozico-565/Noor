@@ -4,7 +4,7 @@ import {afterEach,beforeEach,describe,expect,it,vi} from "vitest";
 import {act,cleanup,fireEvent,render,screen,waitFor,within} from "@testing-library/react";
 import {readFile} from "node:fs/promises";
 import {resolve} from "node:path";
-import {App} from "./main";
+import {App,guardLongPressRelease} from "./main";
 import {buildQuranSearchIndex,classifyQuranQuery,extractQueryTerm,runLexicalQuery} from "./quranQuery";
 
 const projectRoot=resolve(process.cwd());
@@ -629,3 +629,6 @@ describe("Noor native recitation integration",()=>{
     localStorage.setItem("noor_ab_settings",JSON.stringify({a:"1:1",b:"1:2",count:0,gap:0}));const request=vi.fn(),play=vi.fn(()=>true),stop=vi.fn();(window as any).Android={getReaderPage:()=>1,setAudioRequest:request,playReciterAyah:play,stopDownloadedAyah:stop};render(<App/>);fireEvent.click(screen.getByRole("button",{name:"القرآن"}));await waitForQuran();fireEvent.click(screen.getByRole("button",{name:"تكرار مقطع التلاوة"}));fireEvent.click(screen.getByRole("button",{name:"بدء التكرار"}));await waitFor(()=>expect(play).toHaveBeenCalledOnce());const token=request.mock.calls.at(-1)![0];act(()=>window.noorAudioEvent!(token,"001001","error"));act(()=>window.noorAudioEvent!(token,"001001","ended"));expect(play).toHaveBeenCalledOnce();expect(stop).toHaveBeenCalled();expect(document.querySelector(".recitationActive")).toBeNull();
   });
 });
+
+// Native touch release must not accidentally activate the newly opened sheet.
+describe("long press release ownership",()=>{it("consumes the old finger release but allows the next intentional action",()=>{const click=vi.fn();const el=document.createElement("button");document.body.appendChild(el);el.addEventListener("click",click);guardLongPressRelease();fireEvent.pointerUp(document);fireEvent.click(el);expect(click).not.toHaveBeenCalled();fireEvent.pointerDown(el);fireEvent.click(el);expect(click).toHaveBeenCalledOnce();el.remove()})});

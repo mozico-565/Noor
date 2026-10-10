@@ -2215,6 +2215,16 @@ export function App(){
 
 function AyahButton({bookmarked,number,onClick,onLong}:{bookmarked:boolean;number:number;onClick:()=>void;onLong:()=>void}){const t=useRef<number>(0);const fired=useRef(false);return <button className={`ayahNumber ${bookmarked?"bookmarked":""}`} onPointerDown={e=>{e.stopPropagation();fired.current=false;t.current=window.setTimeout(()=>{fired.current=true;onLong()},520)}} onPointerUp={e=>{e.stopPropagation();clearTimeout(t.current);if(!fired.current)onClick()}} onPointerCancel={()=>clearTimeout(t.current)} onContextMenu={e=>e.preventDefault()}><span>{arNum(number)}</span></button>}
 
+// A long press can open a sheet under the still-held finger. Consume only
+// that release click; the next intentional pointer/key action remains active.
+let clearLongPressRelease:(()=>void)|null=null;
+export function guardLongPressRelease(){
+  clearLongPressRelease?.();let timer=0;
+  const clear=()=>{window.clearTimeout(timer);document.removeEventListener("click",consume,true);document.removeEventListener("pointerdown",clear,true);document.removeEventListener("keydown",clear,true);document.removeEventListener("pointerup",released,true);document.removeEventListener("pointercancel",clear,true);if(clearLongPressRelease===clear)clearLongPressRelease=null};
+  const consume=(e:MouseEvent)=>{e.preventDefault();e.stopImmediatePropagation();clear()};
+  const released=()=>{window.clearTimeout(timer);timer=window.setTimeout(clear,700)};
+  document.addEventListener("click",consume,true);document.addEventListener("pointerdown",clear,true);document.addEventListener("keydown",clear,true);document.addEventListener("pointerup",released,true);document.addEventListener("pointercancel",clear,true);timer=window.setTimeout(clear,5000);clearLongPressRelease=clear;
+}
 function WordSpan({text,onLong,onDouble}:{text:string;onLong:()=>void;onDouble:()=>void}){
   const timer=useRef<number>(0);
   const origin=useRef<{x:number;y:number}|null>(null);
@@ -2225,7 +2235,7 @@ function WordSpan({text,onLong,onDouble}:{text:string;onLong:()=>void;onDouble:(
     origin.current={x:e.clientX,y:e.clientY};
     longPressed.current=false;
     clearTimeout(timer.current);
-    timer.current=window.setTimeout(()=>{longPressed.current=true;lastTap.current=null;onLong(); if(navigator.vibrate)navigator.vibrate(18);},520);
+    timer.current=window.setTimeout(()=>{longPressed.current=true;lastTap.current=null;guardLongPressRelease();onLong(); if(navigator.vibrate)navigator.vibrate(18);},520);
   };
   const move=(e:React.PointerEvent<HTMLSpanElement>)=>{
     if(!origin.current)return;
