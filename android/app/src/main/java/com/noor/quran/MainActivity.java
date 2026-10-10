@@ -279,18 +279,24 @@ public class MainActivity extends Activity {
         });
 
         webView.addJavascriptInterface(new NoorBridge(), "Android");
-        // Use actual system-bar and cutout insets in WebView coordinates on
-        // Android 15/16 edge-to-edge and older phones. Do not guess status height.
+        // WebView does not reliably inset its HTML viewport with setPadding.
+        // Inset a native parent so the viewport, fixed HTML bars and touch area
+        // all occupy the same safe rectangle on older phones and edge-to-edge.
+        android.widget.FrameLayout safeFrame = new android.widget.FrameLayout(this);
+        safeFrame.setBackgroundColor(themeChromeColor(startupDark));
+        safeFrame.addView(webView, new android.widget.FrameLayout.LayoutParams(
+                android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                android.view.ViewGroup.LayoutParams.MATCH_PARENT));
         androidx.core.view.WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
-        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(webView, (view, insets) -> {
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(safeFrame, (view, insets) -> {
             androidx.core.graphics.Insets bars = insets.getInsets(
                 androidx.core.view.WindowInsetsCompat.Type.systemBars() |
                 androidx.core.view.WindowInsetsCompat.Type.displayCutout());
             view.setPadding(bars.left, bars.top, bars.right, bars.bottom);
-            return insets;
+            return androidx.core.view.WindowInsetsCompat.CONSUMED;
         });
-        setContentView(webView);
-        androidx.core.view.ViewCompat.requestApplyInsets(webView);
+        setContentView(safeFrame);
+        androidx.core.view.ViewCompat.requestApplyInsets(safeFrame);
 
         // Private local origin. No internet connection is required.
         webView.loadUrl(
