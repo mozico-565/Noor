@@ -2141,3 +2141,8 @@ html.theme-crossfade #root{animation:noorThemeFallback .36s ease both}
 .atlasAttribution{border-top:1px solid var(--satin-border);padding-top:10px;}.atlasAttribution a{margin-inline-end:14px;}
 @media(max-width:360px){.journey49 .journeyTimeline48{padding-inline-start:48px}.journey49 .journeyStopNumber{inset-inline-start:-48px;width:40px;height:40px;font-size:20px}.journey49 .journeyChapter{margin-right:-48px}.journey49 .journeyHeading h3{font-size:21px}.journey49 .journeyHeroCopy h1{font-size:30px}.journey49 .atlasPin{font-size:13px;padding-inline:7px}.journeyDetailNav{grid-template-columns:repeat(2,minmax(0,1fr))}.atlasNorth{font-size:11px;top:9px;left:9px}}
 .journeyJump{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:12px 0 22px;font-size:14px}.journeyJump label{flex:1}.journeyJump input{width:75px;min-width:0;min-height:44px;text-align:center;font:inherit;color:inherit;background:var(--satin-standard-bg);border:1px solid var(--satin-border);border-radius:12px}.journeyJump button{display:flex;gap:4px;align-items:center;padding:8px 12px;border-radius:12px;background:var(--satin-standard-bg);border:1px solid var(--satin-border)}.journeyJump p{flex-basis:100%;color:var(--journey-accent)}
+
+/* Keep geographic labels clear of orientation and atlas captions at 320px. */
+.atlasLegend{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px;color:var(--journey-accent);font-size:13px;}
+.atlasLegend .atlasNorth{position:static;background:none;color:inherit;padding:0;flex-shrink:0;}
+.atlasLegend .atlasScale{position:static;background:none;color:inherit;padding:0;font-size:13px;text-align:end;}

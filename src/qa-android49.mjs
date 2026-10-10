@@ -22,7 +22,7 @@ try{
   await page.getByLabel('البحث في رحلة النزول').fill('العلق');await page.locator('[data-journey="96"] .journeyHeading').click();await page.locator('.journeyDetail').waitFor();await shot(`android-${theme}-detail`);
   await page.getByRole('button',{name:'افتح السورة في المصحف',exact:true}).click();await page.locator('.journeyReaderReturn').waitFor();await device.shell('input keyevent 4');await page.locator('.journeyDetail').waitFor();
   await device.shell('input keyevent 4');await page.locator('.journeyTimeline48').waitFor();
-  await page.getByRole('button',{name:'الخريطة',exact:true}).click();await page.getByRole('button',{name:'الحجاز',exact:true}).click();await page.locator('.content').evaluate(e=>{const map=e.querySelector('.atlas49');e.scrollTop+=map.getBoundingClientRect().top-e.getBoundingClientRect().top-16});await shot(`android-${theme}-map`);
+  await page.getByRole('button',{name:'الخريطة',exact:true}).click();await page.getByRole('button',{name:'الحجاز',exact:true}).click();await page.locator('.content').evaluate(e=>{const legend=e.querySelector('.atlasLegend');e.scrollTop+=legend.getBoundingClientRect().top-e.getBoundingClientRect().top-12});await shot(`android-${theme}-map`);
   await page.getByRole('button',{name:'تقدمي',exact:true}).click();await shot(`android-${theme}-progress`);
   await device.shell('input keyevent 4');await page.locator('.noorTools').waitFor();await page.locator('.headerContinue').waitFor();await page.evaluate(()=>document.fonts.ready);
   result.checks.push({theme,bounds,controls,nativeBack:'reader -> detail -> list -> home'});
