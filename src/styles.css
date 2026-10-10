@@ -1990,7 +1990,7 @@ html.theme-crossfade #root{animation:noorThemeFallback .36s ease both}
 .journeySort button{border-radius:10px;padding:6px 9px;background:transparent;font-size:11px;}
 .journeySort button[aria-pressed="true"]{color:var(--journey-accent);background:rgba(79,145,112,.1);}
 .journeyTimeline48{padding-inline-start:27px;position:relative;}
-.journeyStop{position:relative;margin:0 0 20px;background:var(--satin-standard-bg);border:1px solid var(--satin-border);border-radius:23px;content-visibility:auto;contain-intrinsic-size:auto 168px;}
+.journeyStop{position:relative;margin:0 0 20px;background:var(--satin-standard-bg);border:1px solid var(--satin-border);border-radius:23px;}
 .journeyStop.insetStop{margin-inline-start:16px;border-radius:23px 23px 9px 23px;}
 .journey48 .journeyHeading{display:flex!important;flex-direction:column;align-items:stretch;gap:8px;width:100%;padding:17px 16px!important;background:transparent!important;text-align:right;border-radius:23px;}
 .journey48 .journeyHeading h3{font-size:23px;font-weight:700;}

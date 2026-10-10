@@ -21,16 +21,17 @@ export function RevelationJourney({surahs,onOpen}:{surahs:FeatureSurah[];onOpen:
  const [active,setActive]=useState<number|null>(ids.has(initial.current?.active)?initial.current.active:null),[sort,setSort]=useState<'revelation'|'mushaf'>(initial.current?.sort==='mushaf'?'mushaf':'revelation');
  const [progress,setProgress]=useState(()=>cleanJourneyProgress(read(progressKey))),[place,setPlace]=useState('hira');
  const root=useRef<HTMLDivElement>(null),listScroll=useRef(Number(initial.current?.scroll)||0),pendingScroll=useRef(Number(initial.current?.scroll)||0);
+ const listAnchor=useRef<{id:number;offset:number}|null>(ids.has(initial.current?.anchor?.id)&&Number.isFinite(initial.current?.anchor?.offset)?initial.current.anchor:null);
  const byId=useMemo(()=>new Map(surahs.map(s=>[s.number,s])),[surahs]);
- const saveView=(scroll:number,selected=active)=>write(stateKey,{mode,query,phase,active:selected,sort,scroll});
+ const saveView=(scroll:number,selected=active)=>write(stateKey,{mode,query,phase,active:selected,sort,scroll,anchor:listAnchor.current});
  const saveProgress=(next:typeof progress)=>{setProgress(next);write(progressKey,next)};
  const owner=()=>root.current?.closest('.content') as HTMLElement|null;
- useEffect(()=>{const scroller=owner();if(!scroller)return;let raf=0;const fn=()=>{if(active===null)listScroll.current=scroller.scrollTop;cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>saveView(active===null?scroller.scrollTop:listScroll.current))};scroller.addEventListener('scroll',fn,{passive:true});return()=>{scroller.removeEventListener('scroll',fn);cancelAnimationFrame(raf)}},[mode,query,phase,active,sort]);
- useEffect(()=>{saveView(listScroll.current);const raf=requestAnimationFrame(()=>{const scroller=owner();if(scroller)scroller.scrollTop=active!==null?0:pendingScroll.current});return()=>cancelAnimationFrame(raf)},[active,mode]);
+ useEffect(()=>{const scroller=owner();if(!scroller)return;let raf=0;const fn=()=>{if(active===null){listScroll.current=scroller.scrollTop;listAnchor.current=null;}cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>saveView(active===null?scroller.scrollTop:listScroll.current))};scroller.addEventListener('scroll',fn,{passive:true});return()=>{scroller.removeEventListener('scroll',fn);cancelAnimationFrame(raf)}},[mode,query,phase,active,sort]);
+ useEffect(()=>{saveView(listScroll.current);const raf=requestAnimationFrame(()=>{const scroller=owner();if(scroller){scroller.scrollTop=active!==null?0:pendingScroll.current;if(active===null&&listAnchor.current){const card=root.current?.querySelector(`[data-journey="${listAnchor.current.id}"]`);if(card)scroller.scrollTop+=card.getBoundingClientRect().top-scroller.getBoundingClientRect().top-listAnchor.current.offset}}});return()=>cancelAnimationFrame(raf)},[active,mode]);
  useEffect(()=>{const onBack=(e:Event)=>{if(active!==null){e.preventDefault();back()}};window.addEventListener('noor-journey-back',onBack);return()=>window.removeEventListener('noor-journey-back',onBack)},[active]);
- function open(n:number){listScroll.current=owner()?.scrollTop||0;saveProgress({...progress,visited:[...new Set([...progress.visited,n])],last:n});saveView(listScroll.current,n);setActive(n)}
+ function open(n:number){const scroller=owner(),card=root.current?.querySelector(`[data-journey="${n}"]`);listScroll.current=scroller?.scrollTop||0;listAnchor.current=scroller&&card?{id:n,offset:card.getBoundingClientRect().top-scroller.getBoundingClientRect().top}:null;saveProgress({...progress,visited:[...new Set([...progress.visited,n])],last:n});saveView(listScroll.current,n);setActive(n)}
  function back(){pendingScroll.current=listScroll.current;setActive(null)}
- function switchMode(next:typeof mode){pendingScroll.current=0;setActive(null);setMode(next);setQuery('');setPhase('all')}
+ function switchMode(next:typeof mode){pendingScroll.current=0;listAnchor.current=null;setActive(null);setMode(next);setQuery('');setPhase('all')}
  function toggleFavorite(n:number){saveProgress({...progress,favorites:progress.favorites.includes(n)?progress.favorites.filter(id=>id!==n):[...progress.favorites,n]})}
  function readVerse(key:string){saveView(listScroll.current);onOpen(key)}
  function resume(){if(progress.last)open(progress.last)}
