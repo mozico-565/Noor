@@ -8,7 +8,7 @@ try{
  await device.shell('am start -n com.noor.quran/.MainActivity');
  const view=await device.webView({pkg:'com.noor.quran'},{timeout:60000});const page=await view.page();
  await page.waitForLoadState('domcontentloaded');
- const shot=async(name)=>{await page.waitForFunction(()=>Array.from(document.images).filter(i=>{const r=i.getBoundingClientRect();return r.bottom>0&&r.top<innerHeight&&r.width>0}).every(i=>i.complete&&i.naturalWidth>0),{},{timeout:10000});await page.evaluate(()=>document.fonts.ready);await device.screenshot({path:`${dir}/${name}.png`})};
+ const shot=async(name)=>{await page.waitForFunction(()=>Array.from(document.images).filter(i=>{const r=i.getBoundingClientRect();return r.bottom>0&&r.top<innerHeight&&r.width>0}).every(i=>i.complete&&i.naturalWidth>0),{},{timeout:10000});await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(750);await device.screenshot({path:`${dir}/${name}.png`})};
  await page.evaluate(()=>{localStorage.setItem('noor_guidance_seen','1');localStorage.setItem('noor_guidance_enabled','0');localStorage.setItem('noor_last_tab','home');localStorage.setItem('noor_last_verse','1:1');});await page.reload();await page.locator('.noorTools').waitFor();await page.locator('.headerContinue').waitFor();await page.evaluate(()=>document.fonts.ready);
  for(const theme of ['light','dark']){
   await page.evaluate(theme=>{localStorage.setItem('noor_theme_mode',theme);localStorage.setItem('noor_last_tab','home');localStorage.removeItem('noor_journey_view')},theme);await page.reload();await page.locator('.noorTools').waitFor();await page.locator('.headerContinue').waitFor();await page.evaluate(()=>document.fonts.ready);
