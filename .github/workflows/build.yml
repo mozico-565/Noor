@@ -8,10 +8,12 @@ on:
       - "Noor-GitHub-Pages-Ready-44.zip-1.part-*"
       - ".github/workflows/build.yml"
       - "src/**"
+      - "package.json"
+      - "package-lock.json"
       - "index.html"
       - "android/app/src/main/java/com/noor/quran/MainActivity.java"
       - "android/app/build.gradle"
-      - "RELEASE_NOTES_46.md"
+      - "RELEASE_NOTES_47.md"
 
 permissions:
   contents: read
@@ -53,7 +55,7 @@ jobs:
           set -euo pipefail
           if [[ -f src/Overlay.tsx ]]; then
             cp -a src/. noor/src/
-            for FILE in index.html android/app/src/main/java/com/noor/quran/MainActivity.java android/app/build.gradle; do
+            for FILE in index.html package.json package-lock.json android/app/src/main/java/com/noor/quran/MainActivity.java android/app/build.gradle; do
               test -s "$FILE" || { echo "Missing fix file: $FILE" >&2; exit 1; }
               mkdir -p "noor/$(dirname "$FILE")"
               cp "$FILE" "noor/$FILE"
@@ -193,9 +195,9 @@ jobs:
           retention-days: 30
 
   release:
-    name: Publish Noor Release 46
+    name: Publish Noor Release 47
     needs: apk
-    if: github.event_name == 'push' && contains(github.event.head_commit.message, '[release:noor-46]')
+    if: github.event_name == 'push' && contains(github.event.head_commit.message, '[release:noor-47]')
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -213,28 +215,30 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          mv output/Noor-debug.apk output/Noor-Release-46.apk
-          mv output/Noor-release-unsigned.aab output/Noor-Release-46-unsigned.aab
+          mv output/Noor-debug.apk output/Noor-Release-47.apk
+          mv output/Noor-release-unsigned.aab output/Noor-Release-47-unsigned.aab
           rm output/Noor-debug.apk.sha256 output/Noor-release-unsigned.aab.sha256
           python3 - <<'PY_ASSETS'
           import io, pathlib, zipfile
           root = pathlib.Path('.')
-          patch_files = ['.github/workflows/build.yml', 'index.html', 'android/app/src/main/java/com/noor/quran/MainActivity.java', 'android/app/build.gradle'] + [str(p) for p in sorted(root.glob('src/*')) if p.is_file()]
+          patch_files = ['.github/workflows/build.yml', 'index.html', 'package.json', 'package-lock.json', 'RELEASE_47_QA.md', 'android/app/src/main/java/com/noor/quran/MainActivity.java', 'android/app/build.gradle'] + [str(p) for p in sorted(root.glob('src/*')) if p.is_file()]
           parts = sorted(root.glob('Noor-GitHub-Pages-Ready-44.zip-1.part-*'))
           assert len(parts) == 2
-          with zipfile.ZipFile(io.BytesIO(b''.join(p.read_bytes() for p in parts))) as original, zipfile.ZipFile('output/Noor-Release-46-Source.zip', 'w', zipfile.ZIP_DEFLATED) as source:
+          with zipfile.ZipFile(io.BytesIO(b''.join(p.read_bytes() for p in parts))) as original, zipfile.ZipFile('output/Noor-Release-47-Source.zip', 'w', zipfile.ZIP_DEFLATED) as source:
               for name in original.namelist():
                   if name.endswith('/') or name in patch_files or any(part in name.split('/') for part in ['node_modules', 'dist', 'build', '.gradle', 'cache']) or name.startswith('android/app/src/main/assets/www/'):
                       continue
                   source.writestr(name, original.read(name))
               for name in patch_files:
                   source.writestr(name, (root / name).read_bytes())
-              source.writestr('RELEASE_NOTES_46.md', (root / 'RELEASE_NOTES_46.md').read_bytes())
-          with zipfile.ZipFile('output/Noor-Release-46-Patch.zip', 'w', zipfile.ZIP_DEFLATED) as patch:
+              source.writestr('RELEASE_NOTES_47.md', (root / 'RELEASE_NOTES_47.md').read_bytes())
+          with zipfile.ZipFile('output/Noor-Release-47-Patch.zip', 'w', zipfile.ZIP_DEFLATED) as patch:
               for name in patch_files:
                   patch.writestr(name, (root / name).read_bytes())
           PY_ASSETS
-          (cd output && sha256sum Noor-Release-46.apk Noor-Release-46-unsigned.aab Noor-Release-46-Source.zip Noor-Release-46-Patch.zip > SHA256SUMS.txt)
+          cp RELEASE_47_QA.md output/RELEASE_47_QA.md
+          cp Noor-Release-47-QA.zip output/Noor-Release-47-QA.zip
+          (cd output && sha256sum Noor-Release-47.apk Noor-Release-47-unsigned.aab Noor-Release-47-Source.zip Noor-Release-47-Patch.zip Noor-Release-47-QA.zip RELEASE_47_QA.md > SHA256SUMS.txt)
 
       - name: Publish this tested version
         env:
@@ -242,8 +246,8 @@ jobs:
           GH_REPO: ${{ github.repository }}
           RELEASE_TARGET: ${{ github.sha }}
         run: |
-          gh release create noor-release-46 output/* \
+          gh release create noor-release-47 output/* \
             --target "$RELEASE_TARGET" \
-            --title "Noor Release 46 — Quran Marks, A–B and Learning Tools" \
-            --notes-file RELEASE_NOTES_46.md \
+            --title "Noor Release 47 — Satin Glass, Drag Ordering and Quran Fixes" \
+            --notes-file RELEASE_NOTES_47.md \
             --latest
