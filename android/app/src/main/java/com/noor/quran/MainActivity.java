@@ -279,7 +279,18 @@ public class MainActivity extends Activity {
         });
 
         webView.addJavascriptInterface(new NoorBridge(), "Android");
+        // Use actual system-bar and cutout insets in WebView coordinates on
+        // Android 15/16 edge-to-edge and older phones. Do not guess status height.
+        androidx.core.view.WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(webView, (view, insets) -> {
+            androidx.core.graphics.Insets bars = insets.getInsets(
+                androidx.core.view.WindowInsetsCompat.Type.systemBars() |
+                androidx.core.view.WindowInsetsCompat.Type.displayCutout());
+            view.setPadding(bars.left, bars.top, bars.right, bars.bottom);
+            return insets;
+        });
         setContentView(webView);
+        androidx.core.view.ViewCompat.requestApplyInsets(webView);
 
         // Private local origin. No internet connection is required.
         webView.loadUrl(
