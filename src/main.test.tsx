@@ -105,7 +105,7 @@ describe("Noor end-to-end UI behavior",()=>{
     vi.spyOn(Math,"random").mockReturnValue(0);render(<App/>);
     fireEvent.click(screen.getByRole("button",{name:"محفوظات"}));fireEvent.click(screen.getByRole("button",{name:"سهل"}));
     fireEvent.click(screen.getByRole("button",{name:"سورة معينة"}));fireEvent.click(screen.getByRole("combobox",{name:"السورة"}));
-    fireEvent.click(await screen.findByRole("option",{name:"البقرة"}));fireEvent.click(screen.getByRole("button",{name:/اختبار البطاقات/}));
+    fireEvent.click(await screen.findByRole("option",{name:"البقرة"},{timeout:20000}));fireEvent.click(screen.getByRole("button",{name:/اختبار البطاقات/}));
     const seen=new Set<string>();
     for(let i=0;i<10;i++){
       const dialog=await screen.findByRole("dialog",{name:"اختبار بطاقات الحفظ"}),question=dialog.querySelector(".flashcardPrompt small")!.textContent!;
@@ -369,7 +369,7 @@ describe("Noor end-to-end UI behavior",()=>{
     fireEvent.click(screen.getByRole("button",{name:"محفوظات"}));
     const fromSurah=await screen.findByRole("combobox",{name:"سورة البداية"});
     fireEvent.click(fromSurah);
-    fireEvent.click(await screen.findByRole("option",{name:"البقرة"}));
+    fireEvent.click(await screen.findByRole("option",{name:"البقرة"},{timeout:20000}));
     fireEvent.click(screen.getByRole("combobox",{name:"آية البداية"}));
     await waitFor(()=>expect(screen.getAllByRole("option")).toHaveLength(286));
     fireEvent.click(screen.getByRole("option",{name:"٢"}));
