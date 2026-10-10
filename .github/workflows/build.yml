@@ -299,7 +299,7 @@ jobs:
           PY_ASSETS
           cp RELEASE_48_QA.md output/RELEASE_48_QA.md
           (cd ui-qa && zip -qr ../output/Noor-Release-48-QA.zip .)
-          (cd output && sha256sum Noor-Release-48.apk Noor-Release-48-unsigned.aab Noor-Release-48-Source.zip Noor-Release-48-Patch.zip Noor-Release-48-QA.zip RELEASE_48_QA.md > SHA256SUMS.txt)
+          (cd output && sha256sum Noor-Release-48.apk Noor-Release-48-unsigned.aab Noor-Release-48-Source.zip Noor-Release-48-Patch.zip Noor-Release-48-QA.zip RELEASE_48_QA.md Noor-package.txt Noor-signature.txt > SHA256SUMS.txt)
 
       - name: Publish this tested version
         env:
