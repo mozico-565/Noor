@@ -364,7 +364,12 @@ public class MainActivity extends Activity {
             getWindow().setStatusBarColor(color);
             getWindow().setNavigationBarColor(color);
             getWindow().getDecorView().setBackgroundColor(color);
-            if (webView != null) webView.setBackgroundColor(color);
+            if (webView != null) {
+                webView.setBackgroundColor(color);
+                if (webView.getParent() instanceof android.view.View) {
+                    ((android.view.View) webView.getParent()).setBackgroundColor(color);
+                }
+            }
             if (android.os.Build.VERSION.SDK_INT >= 28) getWindow().setNavigationBarDividerColor(color);
             int flags = getWindow().getDecorView().getSystemUiVisibility();
             if (dark) {
