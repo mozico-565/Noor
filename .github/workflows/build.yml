@@ -13,7 +13,7 @@ on:
       - "index.html"
       - "android/app/src/main/java/com/noor/quran/MainActivity.java"
       - "android/app/build.gradle"
-      - "RELEASE_NOTES_47.md"
+      - "RELEASE_NOTES_48.md"
 
 permissions:
   contents: read
@@ -114,6 +114,26 @@ jobs:
         working-directory: noor
         run: npm run build
 
+      - name: Run real browser QA in both themes and phone sizes
+        working-directory: noor
+        shell: bash
+        run: |
+          npm install --no-save --package-lock=false playwright@1.58.2
+          npx playwright install --with-deps chromium
+          npm run preview -- --host 127.0.0.1 --port 4173 > /tmp/noor-preview.log 2>&1 &
+          for i in {1..30}; do curl -fsS http://127.0.0.1:4173 >/dev/null && break || sleep 1; done
+          QA_OUTPUT=qa48/round1 node src/qa-release48.mjs
+          QA_OUTPUT=qa48/round2 node src/qa-release48.mjs
+
+      - name: Upload real UI QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Noor-Release-48-UI-QA
+          path: noor/qa48/
+          if-no-files-found: warn
+          retention-days: 30
+
       - name: Copy built web app into Android assets
         shell: bash
         run: |
@@ -167,6 +187,31 @@ jobs:
         working-directory: noor/android
         run: gradle :app:assembleDebug --stacktrace --no-daemon
 
+      - name: Enable KVM for Android runtime test
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Test actual APK on Android 15 emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          arch: x86_64
+          profile: pixel_6
+          disable-animations: true
+          script: |
+            adb install -r noor/android/app/build/outputs/apk/debug/app-debug.apk
+            cd noor && node src/qa-android48.mjs
+
+      - name: Upload native Android evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Noor-Release-48-Android-QA
+          path: noor/qa48/android/
+          if-no-files-found: warn
+
       - name: Build unsigned release AAB
         working-directory: noor/android
         run: gradle :app:bundleRelease --stacktrace --no-daemon
@@ -195,9 +240,9 @@ jobs:
           retention-days: 30
 
   release:
-    name: Publish Noor Release 47
+    name: Publish Noor Release 48
     needs: apk
-    if: github.event_name == 'push' && contains(github.event.head_commit.message, '[release:noor-47]')
+    if: github.event_name == 'push' && contains(github.event.head_commit.message, '[release:noor-48]')
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -211,34 +256,46 @@ jobs:
           name: Noor-APK
           path: output
 
+      - name: Download real UI evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: Noor-Release-48-UI-QA
+          path: ui-qa
+
+      - name: Download native Android evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: Noor-Release-48-Android-QA
+          path: ui-qa/android
+
       - name: Prepare versioned release assets
         shell: bash
         run: |
           set -euo pipefail
-          mv output/Noor-debug.apk output/Noor-Release-47.apk
-          mv output/Noor-release-unsigned.aab output/Noor-Release-47-unsigned.aab
+          mv output/Noor-debug.apk output/Noor-Release-48.apk
+          mv output/Noor-release-unsigned.aab output/Noor-Release-48-unsigned.aab
           rm output/Noor-debug.apk.sha256 output/Noor-release-unsigned.aab.sha256
           python3 - <<'PY_ASSETS'
           import io, pathlib, zipfile
           root = pathlib.Path('.')
-          patch_files = ['.github/workflows/build.yml', 'index.html', 'package.json', 'package-lock.json', 'RELEASE_47_QA.md', 'android/app/src/main/java/com/noor/quran/MainActivity.java', 'android/app/build.gradle'] + [str(p) for p in sorted(root.glob('src/*')) if p.is_file()]
+          patch_files = ['.github/workflows/build.yml', 'index.html', 'package.json', 'package-lock.json', 'RELEASE_48_QA.md', 'android/app/src/main/java/com/noor/quran/MainActivity.java', 'android/app/build.gradle'] + [str(p) for p in sorted(root.glob('src/*')) if p.is_file()]
           parts = sorted(root.glob('Noor-GitHub-Pages-Ready-44.zip-1.part-*'))
           assert len(parts) == 2
-          with zipfile.ZipFile(io.BytesIO(b''.join(p.read_bytes() for p in parts))) as original, zipfile.ZipFile('output/Noor-Release-47-Source.zip', 'w', zipfile.ZIP_DEFLATED) as source:
+          with zipfile.ZipFile(io.BytesIO(b''.join(p.read_bytes() for p in parts))) as original, zipfile.ZipFile('output/Noor-Release-48-Source.zip', 'w', zipfile.ZIP_DEFLATED) as source:
               for name in original.namelist():
                   if name.endswith('/') or name in patch_files or any(part in name.split('/') for part in ['node_modules', 'dist', 'build', '.gradle', 'cache']) or name.startswith('android/app/src/main/assets/www/'):
                       continue
                   source.writestr(name, original.read(name))
               for name in patch_files:
                   source.writestr(name, (root / name).read_bytes())
-              source.writestr('RELEASE_NOTES_47.md', (root / 'RELEASE_NOTES_47.md').read_bytes())
-          with zipfile.ZipFile('output/Noor-Release-47-Patch.zip', 'w', zipfile.ZIP_DEFLATED) as patch:
+              source.writestr('RELEASE_NOTES_48.md', (root / 'RELEASE_NOTES_48.md').read_bytes())
+          with zipfile.ZipFile('output/Noor-Release-48-Patch.zip', 'w', zipfile.ZIP_DEFLATED) as patch:
               for name in patch_files:
                   patch.writestr(name, (root / name).read_bytes())
           PY_ASSETS
-          cp RELEASE_47_QA.md output/RELEASE_47_QA.md
-          cp Noor-Release-47-QA.zip output/Noor-Release-47-QA.zip
-          (cd output && sha256sum Noor-Release-47.apk Noor-Release-47-unsigned.aab Noor-Release-47-Source.zip Noor-Release-47-Patch.zip Noor-Release-47-QA.zip RELEASE_47_QA.md > SHA256SUMS.txt)
+          cp RELEASE_48_QA.md output/RELEASE_48_QA.md
+          (cd ui-qa && zip -qr ../output/Noor-Release-48-QA.zip .)
+          (cd output && sha256sum Noor-Release-48.apk Noor-Release-48-unsigned.aab Noor-Release-48-Source.zip Noor-Release-48-Patch.zip Noor-Release-48-QA.zip RELEASE_48_QA.md > SHA256SUMS.txt)
 
       - name: Publish this tested version
         env:
@@ -246,8 +303,8 @@ jobs:
           GH_REPO: ${{ github.repository }}
           RELEASE_TARGET: ${{ github.sha }}
         run: |
-          gh release create noor-release-47 output/* \
+          gh release create noor-release-48 output/* \
             --target "$RELEASE_TARGET" \
-            --title "Noor Release 47 — Satin Glass, Drag Ordering and Quran Fixes" \
-            --notes-file RELEASE_NOTES_47.md \
+            --title "Noor Release 48 — Revelation Journey and Restored Home Layout" \
+            --notes-file RELEASE_NOTES_48.md \
             --latest
