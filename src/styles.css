@@ -2051,7 +2051,7 @@ html.theme-crossfade #root{animation:noorThemeFallback .36s ease both}
 .journeyMapPage,.journeyMyProgress{display:grid;gap:14px;}
 .journeyMap{height:330px;position:relative;border-radius:24px;background:var(--satin-standard-bg);border:1px solid var(--satin-border);color:var(--journey-accent);}
 .journeyMap>svg{height:100%;width:100%;}
-.journeyMap>button{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;gap:5px;padding:7px 10px;border-radius:14px;border:1px solid var(--satin-border);background:var(--satin-solid-bg,#edf3ef);font-size:11px;white-space:nowrap;}
+.journeyMap>button{position:absolute;translate:-50% -50%;display:flex;align-items:center;gap:5px;padding:7px 10px;border-radius:14px;border:1px solid var(--satin-border);background:var(--satin-solid-bg,#edf3ef);font-size:11px;white-space:nowrap;}
 .dark .journeyMap>button{background:#173b2d;}
 .journeyMap>button[aria-pressed="true"]{box-shadow:0 0 0 3px rgba(120,180,144,.18);border-color:var(--journey-accent);}
 .journeyMapNorth{position:absolute;left:14px;top:14px;font-size:10px;}
