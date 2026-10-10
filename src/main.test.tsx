@@ -116,6 +116,17 @@ describe("Noor end-to-end UI behavior",()=>{
     expect(seen.size).toBe(10);expect(await screen.findByRole("dialog",{name:"ملخص جلسة المراجعة"})).toBeTruthy();
   });
 
+  it("opens the journey's exact Quran verse and returns to its detail page",async()=>{
+    render(<App/>);await screen.findByRole("button",{name:/تابع القرآن من حيث توقفت/},{timeout:20000});
+    fireEvent.click(screen.getByRole("button",{name:/رحلة نزول القرآن/}));
+    fireEvent.change(screen.getByLabelText("البحث في رحلة النزول"),{target:{value:"البقرة"}});
+    fireEvent.click(screen.getByRole("button",{name:/ · البقرة$/}));
+    fireEvent.click(screen.getByRole("button",{name:"افتح السورة في المصحف"}));
+    await waitFor(()=>expect(localStorage.getItem("noor_last_verse")).toBe("2:1"));
+    fireEvent.click(screen.getByRole("button",{name:"العودة إلى رحلة النزول"}));
+    expect(screen.getByRole("region",{name:"تفاصيل سورة البقرة"})).toBeTruthy();
+  });
+
   it("reduces a one-ayah range and explicitly explains the question limit",async()=>{
     render(<App/>);fireEvent.click(screen.getByRole("button",{name:"محفوظات"}));fireEvent.click(screen.getByRole("button",{name:"سهل"}));
     fireEvent.click(screen.getByRole("button",{name:"نطاق آيات مخصص"}));fireEvent.click(screen.getAllByRole("combobox",{name:"آية النهاية"}).at(-1)!);

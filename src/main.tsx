@@ -1026,6 +1026,9 @@ export function App(){
     setQuranMounted(true);
     setTab("quran");
     setPendingVerseJump({key:v.verse_key,highlight});
+    lastVerseRef.current=v.verse_key;
+    localStorage.setItem("noor_last_verse",v.verse_key);
+    setLastVerseKey(v.verse_key);
     if(readerMode==="pages"){
       const direction=v.page>=readerPage?"next":"prev";
       setPageTurn({direction,token:Date.now()});
