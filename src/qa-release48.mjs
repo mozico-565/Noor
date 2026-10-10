@@ -22,6 +22,15 @@ for(const [width,height] of [[390,844],[430,932],[320,640]])for(const theme of [
   const scroller=page.locator('.content');await scroller.evaluate(e=>e.scrollTop=e.scrollHeight);await page.waitForTimeout(120);
   const last=await rect(page.locator('.noorTools .sortableCard').last()),composer=await rect(page.locator('.composer'));
   assert(last.y>=0&&last.y+last.height<composer.y+2,'last tool must be reachable above composer');await shot('home-scrolled');await checkWidth();
+  await page.locator('[data-sort-id="revelation"]').scrollIntoViewIfNeeded();
+  const dragFrom=await rect(page.locator('[data-sort-id="revelation"]')),dragTo=await rect(page.locator('[data-sort-id="stories"]'));
+  const cdp=await context.newCDPSession(page),a={x:dragFrom.x+dragFrom.width/2,y:dragFrom.y+dragFrom.height/2},b={x:dragTo.x+dragTo.width/2,y:dragTo.y+dragTo.height/2};
+  await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[a]});await page.waitForTimeout(450);
+  for(let i=1;i<=8;i++){await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:a.x+(b.x-a.x)*i/8,y:a.y+(b.y-a.y)*i/8}]});await page.waitForTimeout(35)}
+  await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await page.waitForTimeout(450);
+  assert.deepEqual(await page.evaluate(()=>JSON.parse(localStorage.getItem('noor_home_order')).slice(0,2)),['stories','revelation'],'touch drag ordering');
+  assert.equal(await page.locator('.toolPage').count(),0,'drag release must not open a tool');
+  await page.evaluate(()=>localStorage.removeItem('noor_home_order'));await page.reload();await page.locator('.noorTools').waitFor();
   await page.locator('.nav').getByRole('button',{name:'القرآن',exact:true}).click();await page.locator('.continuousToolbar').waitFor();
   const g=await rect(page.locator('.surahPickerButton')),f=await rect(page.locator('.continuousToolbar .focusButton')),r=await rect(page.locator('.continuousToolbar .recitationOpen')),sp=await rect(page.locator('.continuousToolbar .speedSlider'));
   assert(g.x<f.x&&f.x<r.x&&r.x<sp.x,'physical toolbar order');assert(g.y>=0&&sp.x+sp.width<=width,'toolbar clip');await shot('quran');
@@ -46,7 +55,7 @@ for(const [width,height] of [[390,844],[430,932],[320,640]])for(const theme of [
   assert(Math.abs(await scroller.evaluate(e=>e.scrollTop)-before)<60,'return scroll restoration');
   await page.getByRole('button',{name:'الخريطة',exact:true}).click();await page.getByRole('button',{name:'موضع عرفة',exact:true}).click();assert(await page.locator('.journeyMapPage').innerText().then(t=>t.includes('إكمال الدين بعرفة')));await shot('map');
   await page.getByRole('button',{name:'تقدمي',exact:true}).click();assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('noor_journey_progress')).visited.length),3);assert.deepEqual(await page.evaluate(()=>JSON.parse(localStorage.getItem('noor_journey_progress')).favorites),[28]);await shot('progress');await checkWidth();assert.deepEqual(errors,[]);
-  results.push({key,status:'passed',visited:[96,28,110],checks:['three column cards','reachable last tool','header bounds','physical toolbar order','repeat/focus/goto','114 stops','filters/search/order','first/middle/last details','exact Quran and return','scroll restoration','map','persisted favorites and progress','no page errors']});
+  results.push({key,status:'passed',visited:[96,28,110],checks:['three column cards','reachable last tool','header bounds','physical toolbar order','repeat/focus/goto','touch drag + persistent ordering','114 stops','filters/search/order','first/middle/last details','exact Quran and return','scroll restoration','map','persisted favorites and progress','no page errors']});
  }catch(e){await shot('FAILURE').catch(()=>{});results.push({key,status:'failed',error:e.stack,errors});console.error(key,e.message)}finally{await context.close();await writeFile(`${output}/results.json`,JSON.stringify(results,null,2));}
 }
 await browser.close();assert(results.every(r=>r.status==='passed'),JSON.stringify(results.filter(r=>r.status==='failed')));
