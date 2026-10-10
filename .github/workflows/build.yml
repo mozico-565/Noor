@@ -225,6 +225,8 @@ jobs:
           sha256sum output/Noor-debug.apk > output/Noor-debug.apk.sha256
           cp noor/android/app/build/outputs/bundle/release/app-release.aab output/Noor-release-unsigned.aab
           sha256sum output/Noor-release-unsigned.aab > output/Noor-release-unsigned.aab.sha256
+          "$ANDROID_SDK_ROOT/build-tools/36.0.0/aapt" dump badging output/Noor-debug.apk > output/Noor-package.txt
+          "$ANDROID_SDK_ROOT/build-tools/36.0.0/apksigner" verify --print-certs output/Noor-debug.apk > output/Noor-signature.txt
           ls -lh output/
 
       - name: Upload Noor APK
@@ -236,6 +238,8 @@ jobs:
             output/Noor-debug.apk.sha256
             output/Noor-release-unsigned.aab
             output/Noor-release-unsigned.aab.sha256
+            output/Noor-package.txt
+            output/Noor-signature.txt
           if-no-files-found: error
           retention-days: 30
 
