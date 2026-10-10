@@ -2120,7 +2120,7 @@ html.theme-crossfade #root{animation:noorThemeFallback .36s ease both}
 .journey49 .journeySelections button,.journey49 .journeyBack,.journey49 .journeyBottomBack{font-size:14px;}
 .journey49 .journeyQuran{font-size:27px;}
 .journey49 .journeyStats span,.journey49 .journeyRecord small{font-size:13px;opacity:.85;}
-.atlasTitle h1{font-size:28px;}.atlasTitle p{margin-top:8px;}
+.journey49 .atlasTitle h1{font-size:26px;line-height:1.45;}.atlasTitle p{margin-top:8px;}
 .atlasRegions{display:flex;gap:8px;}.atlasRegions button{flex:1;border:1px solid var(--satin-border);border-radius:14px;background:var(--satin-standard-bg);font-size:14px;}
 .atlasRegions button[aria-pressed="true"]{background:rgba(93,158,123,.18);border-color:var(--journey-accent);}
 .journey49 .atlas49{position:relative;width:100%;height:auto;aspect-ratio:900/1198;overflow:hidden;background:#cfba8d;isolation:isolate;}
