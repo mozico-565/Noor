@@ -3,7 +3,7 @@ name: Build Noor Android APK
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: [main, noor-51-fourteen-changes]
     paths:
       - "Noor-GitHub-Pages-Ready-44.zip-1.part-*"
       - ".github/workflows/build.yml"
@@ -11,9 +11,9 @@ on:
       - "package.json"
       - "package-lock.json"
       - "index.html"
-      - "android/app/src/main/java/com/noor/quran/MainActivity.java"
+      - "android/app/src/main/**"
       - "android/app/build.gradle"
-      - "RELEASE_NOTES_50.md"
+      - "RELEASE_NOTES_51.md"
 
 permissions:
   contents: read
@@ -57,7 +57,7 @@ jobs:
           set -euo pipefail
           if [[ -f src/Overlay.tsx ]]; then
             cp -a src/. noor/src/
-            for FILE in index.html package.json package-lock.json android/app/src/main/java/com/noor/quran/MainActivity.java android/app/build.gradle; do
+            for FILE in index.html package.json package-lock.json android/app/src/main/java/com/noor/quran/MainActivity.java android/app/src/main/java/com/noor/quran/RecitationService.java android/app/src/main/AndroidManifest.xml android/app/build.gradle; do
               test -s "$FILE" || { echo "Missing fix file: $FILE" >&2; exit 1; }
               mkdir -p "noor/$(dirname "$FILE")"
               cp "$FILE" "noor/$FILE"
@@ -102,7 +102,15 @@ jobs:
 
       - name: Type check and build web app
         working-directory: noor
-        run: npx tsc --noEmit && npm run build
+        run: npx tsc --noEmit && npm run qa:quran && npm test && npm run build
+
+      - name: Inspect responsive interfaces in Chromium
+        working-directory: noor
+        run: |
+          npm install --no-save playwright@1.57.0
+          npx playwright install --with-deps chromium
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory dist > /tmp/noor-preview.log 2>&1 &
+          node src/qa-release51.mjs
 
       - name: Copy built web app into Android assets
         shell: bash
@@ -181,9 +189,9 @@ jobs:
           retention-days: 30
 
   release:
-    name: Publish Noor Release 50
+    name: Publish Noor Release 51
     needs: apk
-    if: github.event_name == 'push' && contains(github.event.head_commit.message, '[release:noor-50]')
+    if: github.event_name == 'push' && contains(github.event.head_commit.message, '[release:noor-51]')
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -195,13 +203,13 @@ jobs:
           path: output
       - name: Prepare versioned APK
         run: |
-          mv output/Noor-debug.apk output/Noor-Release-50.apk
+          mv output/Noor-debug.apk output/Noor-Release-51.apk
           rm output/Noor-debug.apk.sha256
-          (cd output && sha256sum Noor-Release-50.apk > Noor-Release-50.apk.sha256)
+          (cd output && sha256sum Noor-Release-51.apk > Noor-Release-51.apk.sha256)
       - name: Publish built APK
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
           RELEASE_TARGET: ${{ github.sha }}
         run: |
-          gh release create noor-release-50 output/* --target "$RELEASE_TARGET" --title "Noor Release 50 — Quran Stories, Toolbar and Basmala" --notes-file RELEASE_NOTES_50.md --latest
+          gh release create noor-release-51 output/* --target "$RELEASE_TARGET" --title "Noor Release 51 — Stories, Fiqh, Tadabbur and Background Repeat" --notes-file RELEASE_NOTES_51.md --latest
