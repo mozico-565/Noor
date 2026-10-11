@@ -28,3 +28,11 @@ it('keeps the current selection when declining to end a quiz',()=>{
  const selected=screen.getByRole('button',{name:q.options[0]});fireEvent.click(selected);fireEvent.click(screen.getByRole('button',{name:'رجوع'}));
  fireEvent.click(screen.getByRole('button',{name:'متابعة الاختبار'}));expect(selected.getAttribute('aria-pressed')).toBe('true');
 });
+
+it('handles Android back without resetting the active question or its deadline',()=>{
+ vi.useFakeTimers();const exit=vi.fn();render(<FiqhLearning onBack={exit}/>);fireEvent.click(screen.getByRole('button',{name:'اختبار · ١٠ أسئلة'}));
+ const q=FIQH_QUESTIONS.find(q=>screen.queryByRole('heading',{name:q.prompt}))!,selected=screen.getByRole('button',{name:q.options[0]});fireEvent.click(selected);act(()=>vi.advanceTimersByTime(5000));
+ let cancelled=false;act(()=>{cancelled=!window.dispatchEvent(new Event('noor-fiqh-back',{cancelable:true}))});expect(cancelled).toBe(true);expect(exit).not.toHaveBeenCalled();
+ fireEvent.click(screen.getByRole('button',{name:'متابعة الاختبار'}));expect(selected.getAttribute('aria-pressed')).toBe('true');expect(screen.getByText(/15 ثانية/)).toBeTruthy();
+ act(()=>window.dispatchEvent(new Event('noor-fiqh-back',{cancelable:true})));fireEvent.click(screen.getByRole('button',{name:'إنهاء الاختبار والعودة للدروس'}));expect(screen.getByRole('button',{name:'اختبار · ١٠ أسئلة'})).toBeTruthy();
+});

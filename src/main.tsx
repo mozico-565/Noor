@@ -765,7 +765,7 @@ export function App(){
       if(orderOpen){setOrderOpen(false);buildReviewSummary("ترتيب الآيات",reviewSessionCorrect,reviewSessionAssisted,reviewSessionCorrect+reviewSessionAssisted);return true;}
       if(journeyReturn&&tab==="quran"){setJourneyReturn(false);setTab("home");setToolPage("revelation");return true;}
       if(toolPage){if(toolPage==="revelation"&&!window.dispatchEvent(new Event("noor-journey-back",{cancelable:true})))return true;closeTool();return true;}
-      if(sirahPage){setSirahPage(false);return true;}
+      if(sirahPage){if(!window.dispatchEvent(new Event("noor-fiqh-back",{cancelable:true})))return true;setSirahPage(false);return true;}
       if(answer){setAnswer(null);return true;}
       if(tab!=="home"){setTab("home");return true;}
       return false;
