@@ -27,10 +27,10 @@ try{
   await page.getByRole('button',{name:'التالي',exact:true}).click();assert.match(await page.locator('.storyEyebrow').innerText(),/٢/);await shot('next-chapter');
   await home();await page.locator('.toolTile').filter({hasText:'رحلة نزول القرآن'}).click();await page.locator('.journey48').waitFor();await shot('journey');
   await page.getByRole('button',{name:'الخريطة',exact:true}).click();await page.locator('.atlasPin').first().waitFor();await page.locator('.atlasPin').first().click();
-  const color=await page.locator('.atlasPin[aria-pressed="true"]').evaluate(e=>getComputedStyle(e).color);assert.equal(color,'rgb(255, 255, 255)');await shot('map');
+  const color=await page.locator('.atlasPin[aria-pressed="true"]').evaluate(e=>getComputedStyle(e).color);assert.equal(color,'rgb(255, 255, 255)');assert.equal(await page.locator('.atlasPin[aria-pressed="true"] span').evaluate(e=>getComputedStyle(e).webkitTextFillColor),'rgb(255, 255, 255)');await shot('map');
   assert.equal(await page.locator('.atlasChips button').count(),8);
   assert.equal(await page.locator('.atlasControls,.atlasRegions,.journeyProgressLine').count(),0);
-  const top=await page.locator('.app>header').boundingBox();await page.locator('.atlasChips').getByRole('button',{name:'مكة',exact:true}).click();await shot('makkah');
+  const top=await page.locator('.app>header').boundingBox();await page.locator('.atlasChips').getByRole('button',{name:'مكة',exact:true}).click();assert.equal(await page.locator('.atlasChips button[aria-pressed="true"]').evaluate(e=>getComputedStyle(e).webkitTextFillColor),'rgb(255, 255, 255)');await shot('makkah');await page.locator('.atlasContext').scrollIntoViewIfNeeded();await shot('makkah-card');
   await page.locator('.atlasAttribution').scrollIntoViewIfNeeded();const bottom=await page.locator('.app>header').boundingBox();assert.equal(top.y,bottom.y);assert(top.height<=64);await shot('map-bottom');
   await page.locator('.atlasClose').click();assert.equal(await page.locator('.atlasContext').count(),0);
   await page.getByRole('button',{name:'عرض جميع المواقع',exact:true}).click();await page.locator('.historicalViewport').scrollIntoViewIfNeeded();
@@ -48,13 +48,13 @@ try{
   const fiqhScroll=await page.locator('.fiqhStandalone').evaluate(e=>({scroll:e.scrollHeight,client:e.clientHeight,overflow:getComputedStyle(e).overflowY}));assert(fiqhScroll.scroll>fiqhScroll.client);assert.equal(fiqhScroll.overflow,'auto');
   await page.locator('.fiqhLessons button').last().scrollIntoViewIfNeeded();await shot('fiqh-bottom');await page.locator('.fiqhLessons button').last().click();assert.match(await page.locator('.fiqhLesson').innerText(),/أداء الأمانات/);await shot('fiqh-lesson');await page.getByRole('button',{name:'رجوع',exact:true}).click();
   await page.getByRole('button',{name:'اختبار · ١٠ أسئلة',exact:true}).click();
-  for(let i=0;i<10;i++){assert.match(await page.locator('.fiqhQuiz small').first().innerText(),new RegExp(`السؤال ${i+1} من`));await page.locator('.fiqhOptions button').first().click();await page.getByRole('button',{name:'تحقق',exact:true}).click();assert.match(await page.locator('.fiqhQuiz [role=status]').innerText(),/المصدر/);if([0,4,9].includes(i))await shot(`quiz-${i+1}`);await page.getByRole('button',{name:i===9?'عرض النتيجة':'السؤال التالي',exact:true}).click()}
+  for(let i=0;i<10;i++){assert.match(await page.locator('.fiqhQuiz small').first().innerText(),new RegExp(`السؤال ${i+1} من`));await page.locator('.fiqhOptions button').first().click();await page.getByRole('button',{name:'تحقق',exact:true}).click();assert.match(await page.locator('.fiqhQuiz [role=status]').innerText(),/المصدر/);const next=page.getByRole('button',{name:i===9?'عرض النتيجة':'السؤال التالي',exact:true});await next.scrollIntoViewIfNeeded();const box=await next.boundingBox();assert(box.y>=0&&box.y+box.height<=height);if([0,4,9].includes(i))await shot(`quiz-${i+1}`);await next.click()}
   assert.match(await page.locator('.fiqhResult').innerText(),/١٠/);await shot('quiz-score');
   await page.getByRole('button',{name:'جولة جديدة',exact:true}).click();await page.locator('.fiqhQuiz').waitFor();
   if(width===390&&theme==='light'){await page.getByText('انتهى الوقت',{exact:true}).waitFor({timeout:23000});await shot('quiz-timeout')}
 
   await page.getByRole('button',{name:'رجوع',exact:true}).click();await page.getByRole('button',{name:'متابعة الاختبار',exact:true}).click();assert(await page.locator('.fiqhQuiz').isVisible());
-  await page.locator('.fiqhLearning').evaluate(e=>e.style.zoom='1.3');await page.locator('.fiqhOptions button').last().scrollIntoViewIfNeeded();await shot('quiz-large-text');
+  await page.locator('.fiqhLearning').evaluate(e=>e.style.zoom='1.3');await page.locator('.fiqhOptions button').last().scrollIntoViewIfNeeded();await page.locator('.fiqhQuiz .primaryGlass').last().scrollIntoViewIfNeeded();await shot('quiz-large-text');
   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2));
   await home();await page.locator('.nav').getByRole('button',{name:'القرآن',exact:true}).click({force:true});await page.locator('.continuousToolbar').waitFor();
   const x=await page.evaluate(()=>['.surahPickerButton','.focusButton','.recitationOpen','.speedSlider','.autoScrollControls>button'].map(s=>document.querySelector('.continuousToolbar '+s).getBoundingClientRect().x));

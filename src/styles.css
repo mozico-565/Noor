@@ -2229,3 +2229,7 @@ html.theme-crossfade #root{animation:noorThemeFallback .36s ease both}
 .dark .historicalAtlas .atlasChips>button{background:#26382d;color:#eee3cb;border-color:#a48b61}
 .dark .historicalMap>img{filter:brightness(.65) saturate(.7)}
 .dark .historicalSea{color:#eee3cb}
+
+/* The light-theme WebKit text fill must also follow selected atlas contrast. */
+.historicalAtlas .atlasChips>button[aria-pressed=true],.dark .historicalAtlas .atlasChips>button[aria-pressed=true],.historicalMap .atlasPin[aria-pressed=true],.historicalMap .atlasPin[aria-pressed=true] span{background-color:#465e45!important;color:#fff!important;-webkit-text-fill-color:#fff!important}
+.historicalMap .atlasPin[aria-pressed=true] span{background:transparent!important}
