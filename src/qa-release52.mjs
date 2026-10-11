@@ -26,7 +26,7 @@ try{
   assert.equal(await page.locator('.storyArt img').count(),1);await shot('chapter');
   await page.getByRole('button',{name:'التالي',exact:true}).click();assert.match(await page.locator('.storyEyebrow').innerText(),/٢/);await shot('next-chapter');
   await home();await page.locator('.toolTile').filter({hasText:'رحلة نزول القرآن'}).click();await page.locator('.journey48').waitFor();await shot('journey');
-  await page.getByRole('button',{name:'الخريطة',exact:true}).click();await page.locator('.atlasPin').first().waitFor();await page.locator('.atlasPin').first().click();
+  await page.getByRole('button',{name:'الخريطة',exact:true}).click();await page.locator('.atlasPin').first().waitFor();assert(await page.locator('.atlasPin').evaluateAll(els=>{const frame=document.querySelector('.historicalViewport').getBoundingClientRect();return els.every(e=>{const r=e.getBoundingClientRect();return r.left>=frame.left-1&&r.right<=frame.right+1&&r.top>=frame.top-1&&r.bottom<=frame.bottom+1})}),'All overview pin labels must fit their map');await shot('map-overview');await page.locator('.atlasPin').first().click();
   const color=await page.locator('.atlasPin[aria-pressed="true"]').evaluate(e=>getComputedStyle(e).color);assert.equal(color,'rgb(255, 255, 255)');assert.equal(await page.locator('.atlasPin[aria-pressed="true"] span').evaluate(e=>getComputedStyle(e).webkitTextFillColor),'rgb(255, 255, 255)');await shot('map');
   assert.equal(await page.locator('.atlasChips button').count(),8);
   assert.equal(await page.locator('.atlasControls,.atlasRegions,.journeyProgressLine').count(),0);
