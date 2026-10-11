@@ -2189,3 +2189,5 @@ html.theme-crossfade #root{animation:noorThemeFallback .36s ease both}
 .journeyStop:before{right:-32px!important;width:26px}.journeyStop:nth-of-type(even):before{right:-22px!important}.journeyThemeArt{margin:24px 0;border-radius:22px;overflow:hidden}.journeyThemeArt img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block}.journeyThemeArt figcaption{padding:9px;font-size:12px;line-height:1.8;background:var(--satin-standard-bg)}
 
 .fiqhArt{display:block;width:100%;max-height:220px;object-fit:cover;border-radius:22px;margin:22px 0 14px}
+
+.answerSource{display:block;font-size:12px;line-height:1.8;margin:12px 0;color:var(--green)}.dark .answerSource{color:#9dceb8}

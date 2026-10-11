@@ -2012,7 +2012,7 @@ export function App(){
           <button className="back glass" onClick={()=>{setAnswer(null);setQ("")}}><X/> سؤال جديد</button>
           <Glass className="answerCard">
             <div className="answerHead"><Sparkles/><div><small>إجابة موثقة ومختصرة</small><h2>{answer.title}</h2></div></div>
-            <section className="answerSummary"><h3>الجواب</h3><p>{answer.meaning}</p></section>
+            <section className="answerSummary"><h3>الجواب</h3><p>{answer.meaning}</p></section><small className="answerSource">المصدر: {answer.source}</small>
             {answer.ayah && (answer.ayah.length>280
               ? <details className="ayah ayahDetails"><summary><Quote/> عرض الآية المرتبطة <small>{answer.ref}</small></summary><p>{answer.verseKey&&verseByKey.has(answer.verseKey)?<VersePreview verse={verseByKey.get(answer.verseKey)!}/>:answer.ayah}</p></details>
               : <div className="ayah"><Quote/><p>{answer.verseKey&&verseByKey.has(answer.verseKey)?<VersePreview verse={verseByKey.get(answer.verseKey)!}/>:answer.ayah}</p><small>{answer.ref}</small></div>)}
