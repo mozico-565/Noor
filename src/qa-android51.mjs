@@ -21,7 +21,7 @@ try{
  await page.waitForFunction(()=>JSON.parse(window.Android.getNativeRepeatState()).cycle>1,{},{timeout:30000});
  page=await (await device.webView({pkg:'com.noor.quran'},{timeout:60000})).page();
  const after=await page.evaluate(()=>JSON.parse(window.Android.getNativeRepeatState()));assert(after.cycle>initial.cycle);result.checks.push({repeatAdvanced:after});
- await page.getByLabel('تكرار مقطع التلاوة').click();await page.getByRole('button',{name:'إيقاف مؤقت',exact:true}).click();await page.waitForFunction(()=>JSON.parse(window.Android.getNativeRepeatState()).status==='paused');await device.screenshot({path:`${dir}/repeat-paused.png`});
+ page=await (await device.webView({pkg:'com.noor.quran'},{timeout:60000})).page();await page.locator('.nav').getByRole('button',{name:'القرآن',exact:true}).click({force:true});await page.locator('.readerShell[aria-hidden="false"] .recitationOpen').click();await page.getByRole('button',{name:'إيقاف مؤقت',exact:true}).click();await page.waitForFunction(()=>JSON.parse(window.Android.getNativeRepeatState()).status==='paused');await device.screenshot({path:`${dir}/repeat-paused.png`});
  await page.getByRole('button',{name:'استئناف',exact:true}).click();await page.waitForFunction(()=>['playing','waiting'].includes(JSON.parse(window.Android.getNativeRepeatState()).status));
  await page.locator('.sessionPanel').getByRole('button',{name:'إلغاء',exact:true}).click();await page.waitForFunction(()=>JSON.parse(window.Android.getNativeRepeatState()).status==='idle');result.checks.push('pause, resume, cancel');
  await page.getByRole('button',{name:'إغلاق',exact:true}).click().catch(()=>{});
