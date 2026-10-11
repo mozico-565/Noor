@@ -6,7 +6,7 @@ const browser=await chromium.launch({headless:true});
 const result={checks:[],errors:[]};
 try{
  for(const [width,height] of [[390,844],[430,932],[320,640]])for(const theme of ['light','dark']){
-  const page=await browser.newPage({viewport:{width,height}});
+  const page=await browser.newPage({viewport:{width,height},hasTouch:true});
   page.on('pageerror',e=>result.errors.push(e.message));
   await page.goto('http://127.0.0.1:4173');
   await page.evaluate(theme=>{localStorage.setItem('noor_guidance_seen','1');localStorage.setItem('noor_guidance_enabled','0');localStorage.setItem('noor_theme_mode',theme);localStorage.setItem('noor_quran_font','amiri');localStorage.setItem('noor_last_tab','home')},theme);
@@ -33,6 +33,14 @@ try{
   const top=await page.locator('.app>header').boundingBox();await page.locator('.atlasChips').getByRole('button',{name:'مكة',exact:true}).click();await shot('makkah');
   await page.locator('.atlasAttribution').scrollIntoViewIfNeeded();const bottom=await page.locator('.app>header').boundingBox();assert.equal(top.y,bottom.y);assert(top.height<=64);await shot('map-bottom');
   await page.locator('.atlasClose').click();assert.equal(await page.locator('.atlasContext').count(),0);
+  await page.getByRole('button',{name:'عرض جميع المواقع',exact:true}).click();await page.locator('.historicalViewport').scrollIntoViewIfNeeded();
+  const frame=await page.locator('.historicalViewport').boundingBox(),cx=frame.x+frame.width*.35,cy=Math.max(80,Math.min(height-80,frame.y+frame.height*.4));
+  const cdp=await page.context().newCDPSession(page),touch=async(type,points)=>cdp.send('Input.dispatchTouchEvent',{type,touchPoints:points.map(([x,y,id])=>({x,y,id}))});
+  await touch('touchStart',[[cx-20,cy,1],[cx+20,cy,2]]);await touch('touchMove',[[cx-60,cy,1],[cx+60,cy,2]]);await touch('touchEnd',[]);
+  await page.waitForFunction(()=>Number(document.querySelector('.historicalMap').style.transform.match(/scale\(([^)]+)\)/)?.[1])>1.5);
+  const zoomed=await page.locator('.historicalMap').getAttribute('style');await touch('touchStart',[[cx,cy,1]]);await touch('touchMove',[[cx-25,cy-25,1]]);await touch('touchEnd',[]);
+  assert.notEqual(await page.locator('.historicalMap').getAttribute('style'),zoomed);await shot('map-touch');await cdp.detach();
+
   await page.getByRole('button',{name:'تقدمي',exact:true}).click();await page.locator('.journeyStats').scrollIntoViewIfNeeded();assert(await page.locator('.journeyStats').isVisible());
   await home();await page.locator('.toolTile').filter({hasText:'تدبّر آية'}).click();await page.locator('.tadabburPage').waitFor();await shot('tadabbur');
   await home();await page.getByRole('button',{name:/تفقّه في الدين/}).first().click();await page.locator('.fiqhLearning').waitFor();await shot('fiqh');
@@ -44,6 +52,10 @@ try{
   assert.match(await page.locator('.fiqhResult').innerText(),/١٠/);await shot('quiz-score');
   await page.getByRole('button',{name:'جولة جديدة',exact:true}).click();await page.locator('.fiqhQuiz').waitFor();
   if(width===390&&theme==='light'){await page.getByText('انتهى الوقت',{exact:true}).waitFor({timeout:23000});await shot('quiz-timeout')}
+
+  await page.getByRole('button',{name:'رجوع',exact:true}).click();await page.getByRole('button',{name:'متابعة الاختبار',exact:true}).click();assert(await page.locator('.fiqhQuiz').isVisible());
+  await page.locator('.fiqhLearning').evaluate(e=>e.style.zoom='1.3');await page.locator('.fiqhOptions button').last().scrollIntoViewIfNeeded();await shot('quiz-large-text');
+  assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2));
   await home();await page.locator('.nav').getByRole('button',{name:'القرآن',exact:true}).click({force:true});await page.locator('.continuousToolbar').waitFor();
   const x=await page.evaluate(()=>['.surahPickerButton','.focusButton','.recitationOpen','.speedSlider','.autoScrollControls>button'].map(s=>document.querySelector('.continuousToolbar '+s).getBoundingClientRect().x));
   assert(x.every((n,i)=>i===0||n<x[i-1]),`RTL toolbar: ${x}`);await shot('toolbar');
