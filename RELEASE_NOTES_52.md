@@ -9,3 +9,4 @@
 Publication is gated by TypeScript, Quran/font integrity, unit/integration tests, production build, real Chromium flows, Gradle build and Android background/locked-screen playback checks. A build alone does not establish functional playback.
 
 Terrain: Mapzen Terrain Tiles, USGS SRTM/GMTED2010, NOAA ETOPO1. Coastline: Natural Earth, public domain. Modern approximate positions are educational references, not precise revelation locations.
+Official Noor 52 release build
