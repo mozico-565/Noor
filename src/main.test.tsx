@@ -64,7 +64,7 @@ async function waitForQuran(){
 }
 
 async function ask(question:string){
-  const input=screen.getByPlaceholderText("اعرف عن القرآن…");
+  const input=screen.getByLabelText("اعرف عن القرآن");
   fireEvent.change(input,{target:{value:question}});
   fireEvent.click(input.parentElement!.querySelector("button")!);
   await waitFor(()=>expect(screen.queryByText("نور يراجع المراجع قبل عرض الإجابة.")).toBeNull(),{timeout:20000});
@@ -509,7 +509,7 @@ describe("Noor end-to-end UI behavior",()=>{
   it("uses the new identity and opens the existing memorization review from its Satin shortcut",async()=>{
     render(<App/>);
     expect(screen.getByRole("heading",{name:"اعرف عن القرآن"})).toBeTruthy();
-    expect(screen.getByPlaceholderText("اعرف عن القرآن…")).toBeTruthy();
+    expect(screen.getByLabelText("اعرف عن القرآن")).toBeTruthy();
     fireEvent.click(screen.getByRole("button",{name:/مراجعة الحفظ/}));
     expect(document.querySelector("main.app")?.getAttribute("data-tab")).toBe("saved");
     expect(await screen.findByText("اختر بداية ونهاية النطاق. يمكن أن يمتد النطاق بين سورتين.")).toBeTruthy();
@@ -517,7 +517,7 @@ describe("Noor end-to-end UI behavior",()=>{
 
   it("answers COUNT from Quran data and opens the exact selected result",async()=>{
     render(<App/>);
-    await waitFor(()=>expect(screen.getByPlaceholderText("اعرف عن القرآن…")).toBeTruthy());
+    await waitFor(()=>expect(screen.getByLabelText("اعرف عن القرآن")).toBeTruthy());
     await ask("كم مرة ذُكرت الجنة؟");
     await waitFor(()=>expect(document.querySelectorAll(".quranResult").length).toBeGreaterThan(0),{timeout:20000});
     expect(screen.getByText(/لم تُضم صيغ الجذر أو المرادفات/)).toBeTruthy();
