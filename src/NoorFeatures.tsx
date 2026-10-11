@@ -24,7 +24,7 @@ export function OrderQuiz({verses,allVerses=verses,onScore}:{verses:FeatureVerse
  function next(){
  const pool=[...allVerses].sort((a,b)=>a.global_number-b.global_number), n=difficulty==="easy"?3+Math.floor(Math.random()*2):5+Math.floor(Math.random()*4);
  let recent:string[]=[];try{recent=JSON.parse(localStorage.getItem("noor_order_recent")||"[]")}catch{}
- const candidates=pool.map((v,i)=>{const available=pool.slice(i,i+n).filter(x=>x.surahNumber===v.surahNumber);return available}).filter(items=>items.length>=3&&items.every((v,i)=>v.surahNumber===items[0].surahNumber&&v.number===items[0].number+i)&&items.reduce((sum,v)=>sum+v.text.length,0)<2400);
+ const candidates=pool.map((v,i)=>{const available=pool.slice(i,i+n).filter(x=>x.surahNumber===v.surahNumber);return available}).filter(items=>items.length>=(difficulty==="easy"?3:5)&&items.every((v,i)=>v.surahNumber===items[0].surahNumber&&v.number===items[0].number+i)&&items.reduce((sum,v)=>sum+v.text.length,0)<2400);
  let available=candidates.filter(items=>!recent.includes(items.map(v=>v.verse_key).join(","))&&!used.current.has(items[0].verse_key));
  if(!available.length){if(candidates.length<=1){setCards([]);setExhausted(true);return}used.current.clear();available=candidates}
  if(!available.length){setError("لا توجد مقاطع مناسبة في البيانات الحالية");return}

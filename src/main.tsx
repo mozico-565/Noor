@@ -1749,6 +1749,19 @@ export function App(){
     try{
       const intent=classifyQuranQuery(raw);
       const queryTerm=extractQueryTerm(raw,intent);
+      const normalizedReference=normalizeArabicSearch(raw);
+      const namedSurah=quran?.surahs.find(s=>normalizedReference.includes('سوره '+normalizeArabicSearch(s.name_arabic)));
+      const referenceNumber=normalizedReference.match(/(?:ايه|الايه)\s+(\d+)/)?.[1]||normalizedReference.match(/سوره\s+\S+\s+(\d+)/)?.[1];
+      const referenceKey=normalizedReference.includes('ايه الكرسي')?'2:255':namedSurah&&referenceNumber?`${namedSurah.number}:${Number(referenceNumber)}`:null;
+      if(referenceKey){
+        const verse=verseByKey.get(referenceKey);
+        if(!verse){setAnswer({title:'تحقق من المرجع',ayah:'',ref:'',meaning:'لم أجد هذه الآية؛ تحقق من اسم السورة ورقم الآية.',details:'',context:'',sabab:'',source:'نص القرآن المحلي'});return;}
+        const tafsir=(await loadTafsirSearch()).find(t=>t.verseKey===referenceKey);
+        const occasion=findAsbab(verse.surahNumber,verse.number);
+        const wantsOccasion=/سبب|اسباب/.test(normalizedReference);
+        setAnswer({title:wantsOccasion?'سبب النزول من المرجع المحلي':'الآية وتفسيرها',ayah:verse.text,ref:`${verse.surahName} · ${arNum(verse.number)}`,meaning:tafsir?compactText(tafsir.text,700):'لم يتوفر شرح في فهرس التفسير المحلي.',details:'',context:'',sabab:wantsOccasion?(occasion?.occasions?.join('\n\n')||'لم أجد رواية خاصة بهذه الآية في مرجع أسباب النزول المحلي؛ لا يدل ذلك على نفي وجودها في مصادر أخرى.'):'',source:('القرآن · التفسير الميسر والسعدي'+(wantsOccasion&&occasion?' · '+(occasion.sources||[]).join(' · ')+'؛ ورود الرواية في الكتاب لا يعني الحكم بصحتها':'')),verseKey:referenceKey,intent:'REFERENCE'});return;
+      }
+
       if(intent==="COUNT"||intent==="WHERE"){
         const found=runLexicalQuery(quranSearchIndex,queryTerm);
         const label=queryTerm||"اللفظ المطلوب";
@@ -1807,7 +1820,7 @@ export function App(){
       setThinkingStage("أجهز النتيجة من المراجع المحلية…");
       const answerText=await composeGroundedAnswer(raw,evidence);
       const first=verses[0];
-      setAnswer({title:"جواب من مصادر نور المحلية",ayah:first?cleanQuranDisplay(first.text):"",ref:first?`${first.surahName} · ${arNum(first.number)}`:"",meaning:answerText||compactText(evidence,520),details:"",context:"",sabab:"",source:"القرآن والمراجع المحلية في نور"});
+      setAnswer({title:"جواب من مصادر نور المحلية",ayah:first?cleanQuranDisplay(first.text):"",ref:first?`${first.surahName} · ${arNum(first.number)}`:"",meaning:answerText||compactText(evidence,520),details:"",context:"",sabab:"",source:"القرآن والمراجع المحلية في نور",verseKey:first?.verse_key,results:verses});
     }finally{setThinking(false)}
   }
 

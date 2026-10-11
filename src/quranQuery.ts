@@ -40,6 +40,7 @@ export function normalizeArabicSearch(value:string){
 export function classifyQuranQuery(question:string):QuranQueryIntent{
   const q=normalizeArabicSearch(question);
   if(/كم.*(مره|عدد|ورد|ذكر)|(?:ذكر|ذكرت|اتذكرت|وردت).*كم/.test(q))return "COUNT";
+  if(/قصه|قصص/.test(q)&&/اين|ورد|مواضع/.test(q))return "TOPIC";
   if(/^(اين|في اي سوره|في اي ايه|ما مواضع)/.test(q))return "WHERE";
   if(/^(ما معني|ماذا يعني|اشرح معني|معني)/.test(q))return "MEANING";
   if(/^(ايات عن|ما الايات التي تتحدث عن|ما السور التي تتحدث عن|ماذا يقول القران عن|موضوع)/.test(q))return "TOPIC";
@@ -53,11 +54,11 @@ export function extractQueryTerm(question:string,intent=classifyQuranQuery(quest
     COUNT:[/^(كم مره\s+(ذكرت|ذكر|وردت|ورد)|كم عدد\s+(مرات\s+)?(ورود|ذكر)?|كم وردت|كم ورد|كم ذكرت|كم ذكر)\s*/,/^(كلمه|لفظ)\s*/],
     WHERE:[/^(اين ذكرت|اين ذكر|اين وردت|اين ورد|اين|في اي سوره ذكرت|في اي سوره ذكر|في اي ايه ذكرت|في اي ايه ذكر|ما مواضع)\s*/],
     MEANING:[/^(ما معني|ماذا يعني|اشرح معني|معني)\s*/],
-    TOPIC:[/^(ما الايات التي تتحدث عن|ايات تتحدث عن|ايات عن|ماذا يقول القران عن|موضوع)\s*/],
+    TOPIC:[/^(ما السور التي تتحدث عن|ما الايات التي تتحدث عن|ايات تتحدث عن|ايات عن|اين وردت قصه|اين وردت|ماذا يقول القران عن|موضوع)\s*/],
     REFERENCE:[],GENERAL:[]
   };
   for(const pattern of patterns[intent])q=q.replace(pattern,"");
-  if(intent==="COUNT")q=q.replace(/كم|مره|مرات|عدد|ذكرت|ذكر|اتذكرت|وردت|ورود|ورد|كلمه|لفظ/g," ");
+  if(intent==="COUNT")q=q.replace(/اتذكرت|ذكرت|وردت|مرات|ورود|كلمه|مره|عدد|ذكر|ورد|لفظ|كم/g," ");
   return q.replace(/في القران|بالقران|القران/g,"").replace(/\s+/g," ").trim();
 }
 
