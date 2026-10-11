@@ -177,6 +177,9 @@ jobs:
           api-level: 35
           arch: x86_64
           target: google_apis
+          profile: pixel_2
+          ram-size: 2048M
+          heap-size: 512M
           disable-animations: true
           # Avoid host Vulkan/WebView rendering instability after screen wake.
           emulator-options: -no-window -gpu swiftshader_indirect -feature -Vulkan -no-snapshot -noaudio -no-boot-anim
@@ -192,16 +195,17 @@ jobs:
             cd noor && node src/qa-android52.mjs
 
       - name: Capture independent emulator diagnostics
+        timeout-minutes: 2
         if: always()
         shell: bash
         run: |
           mkdir -p noor/qa52/android
-          adb devices -l > noor/qa52/android/adb-devices.txt 2>&1 || true
-          adb -s emulator-5554 logcat -d -b crash > noor/qa52/android/crash-log.txt 2>&1 || true
           ps -eo pid,comm,rss > noor/qa52/android/host-processes.txt
           free -m > noor/qa52/android/host-memory.txt
           sudo dmesg | tail -200 > noor/qa52/android/host-kernel.txt || true
           cp /tmp/android-runner/emu-crash-*.db noor/qa52/android/ 2>/dev/null || true
+          timeout 15 adb devices -l > noor/qa52/android/adb-devices.txt 2>&1 || true
+          timeout 15 adb -s emulator-5554 logcat -d -b crash > noor/qa52/android/crash-log.txt 2>&1 || true
 
       - name: Upload actual interface and Android QA evidence
         if: always()
