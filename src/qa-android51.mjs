@@ -13,9 +13,9 @@ try{
  await device.screenshot({path:`${dir}/repeat-playing.png`});
  const initial=await page.evaluate(()=>JSON.parse(window.Android.getNativeRepeatState()));
  await device.shell('input keyevent 3');await page.waitForTimeout(5000);
- let media=(await device.shell('dumpsys media_session')).toString();assert(media.includes('NoorRecitation'));assert.match(media,/state=3/);result.checks.push('playing after Home');
+ let media=(await device.shell('dumpsys media_session')).toString();assert(media.includes('NoorRecitation'));assert.match(media,/state=PLAYING\(3\)/);result.checks.push('playing after Home');
  await device.shell('input keyevent 223');await page.waitForTimeout(16000);
- media=(await device.shell('dumpsys media_session')).toString();assert.match(media,/state=3/);result.checks.push('playing with screen locked');
+ media=(await device.shell('dumpsys media_session')).toString();assert.match(media,/state=PLAYING\(3\)/);result.checks.push('playing with screen locked');
  await device.shell('input keyevent 224');await device.shell('wm dismiss-keyguard');await device.shell('am start -n com.noor.quran/.MainActivity');
  await page.waitForFunction(()=>JSON.parse(window.Android.getNativeRepeatState()).cycle>1,{},{timeout:30000});
  const after=await page.evaluate(()=>JSON.parse(window.Android.getNativeRepeatState()));assert(after.cycle>initial.cycle);result.checks.push({repeatAdvanced:after});
