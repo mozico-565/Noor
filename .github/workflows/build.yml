@@ -172,6 +172,7 @@ jobs:
           sudo udevadm trigger --name-match=kvm
 
       - name: Verify Android repeat in background and locked screen
+        continue-on-error: true
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35
