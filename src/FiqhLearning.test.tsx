@@ -22,3 +22,9 @@ it('expires after twenty seconds and does not credit an unsubmitted selection',(
  act(()=>vi.advanceTimersByTime(20000));expect(screen.getByRole('status').textContent).toContain('انتهى الوقت');
  expect(screen.queryByRole('button',{name:'تحقق'})).toBeNull();
 });
+it('keeps the current selection when declining to end a quiz',()=>{
+ render(<FiqhLearning onBack={()=>{}}/>);fireEvent.click(screen.getByRole('button',{name:'اختبار · ١٠ أسئلة'}));
+ const q=FIQH_QUESTIONS.find(q=>screen.queryByRole('heading',{name:q.prompt}))!;
+ fireEvent.click(screen.getByRole('button',{name:q.options[0]}));fireEvent.click(screen.getByRole('button',{name:'رجوع'}));
+ fireEvent.click(screen.getByRole('button',{name:'متابعة الاختبار'}));expect(screen.getByRole('button',{name:q.options[0]}).getAttribute('aria-pressed')).toBe('true');
+});

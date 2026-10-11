@@ -2194,3 +2194,38 @@ html.theme-crossfade #root{animation:noorThemeFallback .36s ease both}
 
   /* Keep the chapter masthead in normal flow so it cannot cover chapter cards on narrow screens. */
 .stories50 .storiesMast{height:auto;min-height:0!important;position:static;z-index:auto;width:100%;padding:0;flex:none}
+
+/* Noor 52: independent content scroll, compact stable app masthead. */
+.app[data-tab="fiqh"]{display:flex;flex-direction:column;padding-bottom:0!important}
+.app[data-tab="fiqh"]>.content{height:auto!important;flex:1;min-height:0;width:100%;overflow-y:auto!important;overflow-x:hidden!important;touch-action:pan-y;overscroll-behavior:contain;scrollbar-width:none;padding-bottom:calc(32px + env(safe-area-inset-bottom))!important}
+.app[data-tab="fiqh"]>.content::-webkit-scrollbar{display:none}
+.app>.content .fiqhLearning header{min-height:0;height:auto;flex:none}
+.fiqhLearning,.fiqhLearning section,.fiqhQuiz{min-width:0;height:auto;overflow:visible}
+.fiqhLearning .fiqhOptions button{white-space:normal;overflow-wrap:anywhere;height:auto;min-height:48px}
+.fiqhLearning .fiqhArt{height:140px;object-fit:cover}
+.app[data-tab="home"]>header,.app[data-tab="saved"]>header,.app[data-tab="settings"]>header{height:60px;min-height:60px;max-width:880px;padding:4px 0;margin:0 auto;width:100%;gap:10px;flex:none;z-index:30}
+.app>header .brand b{font-size:20px;line-height:1.25}
+.app>header .brand small{font-size:10px;line-height:1.4}
+.app>header .headerContinue{min-height:40px;padding:7px 10px;font-size:11px;max-width:60%;line-height:1.5}
+.app[data-tab="home"]>.content{width:100%;scroll-padding-top:12px}
+@media(prefers-reduced-motion:reduce){.historicalMap{transition:none!important}}
+/* Original geographic ink atlas; interactive pins remain separate from terrain. */
+.historicalAtlas{--atlas-paper:#e8d9b8;--atlas-ink:#26382d}
+.historicalAtlas .atlasChips{display:flex!important;flex-wrap:wrap;gap:6px;margin:12px 0}
+.historicalAtlas .atlasChips>button{width:auto;flex:0 0 auto;padding:8px 12px;font-size:14px;min-height:44px;border:1px solid #a48b61;border-radius:14px;background:#eee3cb;color:#26382d}
+.historicalAtlas .atlasChips>button[aria-pressed=true]{background:#465e45;color:#fff!important}
+.historicalViewport{position:relative;overflow:hidden;border-radius:22px;background:#e8d9b8;aspect-ratio:900/1198;touch-action:none;border:1px solid #a48b61;isolation:isolate}
+.historicalViewport:has(.makkah){aspect-ratio:900/703}
+.historicalMap{position:absolute;inset:0;transform-origin:0 0;direction:ltr;will-change:transform}
+.historicalMap>img{width:100%;height:100%;position:absolute;inset:0;pointer-events:none}
+.historicalMap .atlasPin{transform:translate(-50%,-50%);font-size:12px!important;padding:5px 7px!important;min-height:36px!important;display:flex;align-items:center;gap:3px;border-radius:12px;color:#26382d!important;background:#eee3cb!important}
+.historicalMap .atlasPin[aria-pressed=true]{background:#465e45!important;color:#fff!important}
+.historicalMap .atlasPin[aria-pressed=true] span{color:#fff!important}
+.historicalMap .atlasPoint{width:5px;height:5px;box-shadow:0 0 0 2px #e8d9b8}
+.historicalSea{position:absolute;left:6%;top:55%;writing-mode:vertical-rl;color:#465e45;font-size:14px;pointer-events:none}
+.historicalAtlas .atlasLegend button{background:var(--satin-standard-bg);border:1px solid var(--satin-border);border-radius:12px;padding:7px 10px;font-size:12px;min-height:44px}
+.historicalAtlas .atlasContext{position:relative;margin-top:14px;padding-top:45px}
+.atlasClose{position:absolute;left:12px;top:8px;display:grid;place-items:center;width:44px;height:44px;background:transparent}
+.dark .historicalAtlas .atlasChips>button{background:#26382d;color:#eee3cb;border-color:#a48b61}
+.dark .historicalMap>img{filter:brightness(.65) saturate(.7)}
+.dark .historicalSea{color:#eee3cb}

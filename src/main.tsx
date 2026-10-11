@@ -1944,7 +1944,7 @@ export function App(){
     </div>;
   },[pages,readerPage,pageTurn,quran,bookmarks,currentSurahs,pageFontSize,pageScreen,pageScreens,playingVerse]);
 
-  if(sirahPage){return <OverlayTheme.Provider value={{dark,quranFont}}><main className={`${dark?"app dark":"app"} quran-font-${quranFont}`}><div className="aurora a1"/><section className="content fiqhStandalone"><FiqhLearning onBack={()=>{setSirahPage(false);setAnswer(null);setQ("")}}/></section></main></OverlayTheme.Provider>}
+  if(sirahPage){return <OverlayTheme.Provider value={{dark,quranFont}}><main className={`${dark?"app dark":"app"} quran-font-${quranFont}`} data-tab="fiqh"><div className="aurora a1"/><section className="content fiqhStandalone"><FiqhLearning onBack={()=>{setSirahPage(false);setAnswer(null);setQ("")}}/></section></main></OverlayTheme.Provider>}
 
   return <OverlayTheme.Provider value={{dark,quranFont}}><main className={`${dark?"app dark":"app"} quran-font-${quranFont}`} data-tab={tab}>
     <div className="aurora a1"/><div className="aurora a2"/>
