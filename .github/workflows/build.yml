@@ -165,6 +165,38 @@ jobs:
         working-directory: noor/android
         run: gradle :app:assembleDebug --stacktrace --no-daemon
 
+      - name: Enable emulator acceleration
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Verify Android repeat in background and locked screen
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          arch: x86_64
+          target: google_apis
+          disable-animations: true
+          script: |
+            adb install noor/android/app/build/outputs/apk/debug/app-debug.apk
+            mkdir -p /tmp/noor-audio
+            curl --fail --retry 2 -L https://everyayah.com/data/Abdurrahmaan_As-Sudais_192kbps/001001.mp3 -o /tmp/noor-audio/001001.mp3
+            curl --fail --retry 2 -L https://everyayah.com/data/Abdurrahmaan_As-Sudais_192kbps/001002.mp3 -o /tmp/noor-audio/001002.mp3
+            adb push /tmp/noor-audio/ /data/local/tmp/noor-audio/
+            adb shell run-as com.noor.quran mkdir -p files/sudais
+            adb shell run-as com.noor.quran cp /data/local/tmp/noor-audio/001001.mp3 files/sudais/001001.mp3
+            adb shell run-as com.noor.quran cp /data/local/tmp/noor-audio/001002.mp3 files/sudais/001002.mp3
+            cd noor && node src/qa-android51.mjs
+
+      - name: Upload actual interface and Android QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Noor-QA-51
+          path: noor/qa51/
+          if-no-files-found: warn
+
       - name: Prepare install package
         shell: bash
         run: |
