@@ -152,6 +152,7 @@ public class MainActivity extends Activity {
     @SuppressLint({"SetJavaScriptEnabled", "JavascriptInterface"})
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
+        RecitationService.listener=json -> evalJs("window.noorNativeRepeat&&window.noorNativeRepeat("+json+")");
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         prefs = getSharedPreferences("noor", MODE_PRIVATE);
@@ -588,11 +589,13 @@ private void emitSudaisProgress(int done, int total, String message) {
         stopVoiceRecognitionNative();
         if (localQuranAsr != null) localQuranAsr.close();
         unregisterQiblaCompass(true);
+        RecitationService.listener=null;
         super.onDestroy();
     }
 
     @Override protected void onResume() {
         super.onResume();
+        RecitationService.sync();
         activityForeground = true;
         activeInstance = new WeakReference<>(this);
         dispatchSystemTheme();
@@ -1086,6 +1089,11 @@ private void emitSudaisProgress(int done, int total, String message) {
             return reciterBaseUrl(reciter) != null && globalAyahNumber(id) > 0 &&
                     isMp3File(new File(new File(getFilesDir(), reciter), id + ".mp3"));
         }
+        @JavascriptInterface public boolean startNativeRepeat(String reciter,String keysJson,int count,int gap) {
+            try {org.json.JSONArray keys=new org.json.JSONArray(keysJson),items=new org.json.JSONArray();for(int n=0;n<keys.length();n++){String key=keys.getString(n);String[] bits=key.split(":");String id=String.format(java.util.Locale.US,"%03d%03d",Integer.parseInt(bits[0]),Integer.parseInt(bits[1]));File local=new File(new File(getFilesDir(),reciter),id+".mp3");String source=isMp3File(local)?Uri.fromFile(local).toString():reciterAyahUrl(reciter,id);if(source==null)return false;org.json.JSONObject item=new org.json.JSONObject();item.put("key",key);item.put("source",source);items.put(item);}runOnUiThread(()->{releaseDownloadedPlayer();Intent i=new Intent(MainActivity.this,RecitationService.class).setAction("start").putExtra("items",items.toString()).putExtra("count",count).putExtra("gap",gap);startForegroundService(i);});return true;}catch(Exception e){return false;}
+        }
+        @JavascriptInterface public void nativeRepeatControl(String action){if(!action.equals("stop")&&!action.equals("pause")&&!action.equals("resume"))return;runOnUiThread(()->{if(action.equals("stop"))stopService(new Intent(MainActivity.this,RecitationService.class));else startService(new Intent(MainActivity.this,RecitationService.class).setAction(action));});}
+        @JavascriptInterface public String getNativeRepeatState(){return RecitationService.snapshot;}
         @JavascriptInterface public void setAudioRequest(int token) {recitationRequest=token;}
         @JavascriptInterface public void stopDownloadedAyah() {runOnUiThread(() -> releaseDownloadedPlayer());}
         @JavascriptInterface public void pauseRecitation() {runOnUiThread(() -> {recitationPaused=true;try{if(downloadedPlayer!=null&&recitationPrepared&&downloadedPlayer.isPlaying())downloadedPlayer.pause();}catch(Exception ignored){}});}
