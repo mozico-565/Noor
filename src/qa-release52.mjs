@@ -3,10 +3,10 @@ import {mkdir,writeFile} from 'node:fs/promises';
 import assert from 'node:assert/strict';
 const dir='qa52/web';await mkdir(dir,{recursive:true});
 const browser=await chromium.launch({headless:true});
-const result={checks:[],errors:[]};
+const result={checks:[],errors:[]};let currentPage;
 try{
  for(const [width,height] of [[390,844],[430,932],[320,640]])for(const theme of ['light','dark']){
-  const page=await browser.newPage({viewport:{width,height},hasTouch:true});
+  const page=currentPage=await browser.newPage({viewport:{width,height},hasTouch:true});
   page.on('pageerror',e=>result.errors.push(e.message));
   await page.goto('http://127.0.0.1:4173');
   await page.evaluate(theme=>{localStorage.setItem('noor_guidance_seen','1');localStorage.setItem('noor_guidance_enabled','0');localStorage.setItem('noor_theme_mode',theme);localStorage.setItem('noor_quran_font','amiri');localStorage.setItem('noor_last_tab','home')},theme);
@@ -63,5 +63,5 @@ try{
   result.checks.push({width,height,theme,tiles:9,quiz:10,toolbar:x});await page.close();
  }
  assert.equal(result.errors.length,0);result.status='passed';
-}catch(e){result.status='failed';result.error=e.stack;throw e}
+}catch(e){result.status='failed';result.error=e.stack;if(currentPage&&!currentPage.isClosed()){await currentPage.screenshot({path:`${dir}/FAILURE.png`}).catch(()=>{});result.ui=await currentPage.evaluate(()=>({text:document.body.innerText,pins:[...document.querySelectorAll('.atlasPin')].map(e=>({title:e.textContent,selected:e.getAttribute('aria-pressed'),transform:getComputedStyle(e).transform})),card:!!document.querySelector('.atlasContext')})).catch(()=>null)}throw e}
 finally{await writeFile(`${dir}/result.json`,JSON.stringify(result,null,2));await browser.close()}
