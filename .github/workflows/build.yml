@@ -3,7 +3,7 @@ name: Build Noor Android APK
 on:
   workflow_dispatch:
   push:
-    branches: [main, noor-51-fourteen-changes]
+    branches: [main, noor-51-fourteen-changes, noor-52-resume]
     paths:
       - "Noor-GitHub-Pages-Ready-44.zip-1.part-*"
       - ".github/workflows/build.yml"
@@ -13,7 +13,7 @@ on:
       - "index.html"
       - "android/app/src/main/**"
       - "android/app/build.gradle"
-      - "RELEASE_NOTES_51.md"
+      - "RELEASE_NOTES_52.md"
 
 permissions:
   contents: read
@@ -110,7 +110,7 @@ jobs:
           npm install --no-save playwright@1.57.0
           npx playwright install --with-deps chromium
           python3 -m http.server 4173 --bind 127.0.0.1 --directory dist > /tmp/noor-preview.log 2>&1 &
-          node src/qa-release51.mjs
+          node src/qa-release52.mjs
 
       - name: Copy built web app into Android assets
         shell: bash
@@ -187,14 +187,14 @@ jobs:
             adb shell run-as com.noor.quran mkdir -p files/sudais
             adb shell run-as com.noor.quran cp /data/local/tmp/noor-audio/001001.mp3 files/sudais/001001.mp3
             adb shell run-as com.noor.quran cp /data/local/tmp/noor-audio/001002.mp3 files/sudais/001002.mp3
-            cd noor && node src/qa-android51.mjs
+            cd noor && node src/qa-android52.mjs
 
       - name: Upload actual interface and Android QA evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: Noor-QA-51
-          path: noor/qa51/
+          name: Noor-QA-52
+          path: noor/qa52/
           if-no-files-found: warn
 
       - name: Prepare install package
@@ -221,9 +221,9 @@ jobs:
           retention-days: 30
 
   release:
-    name: Publish Noor Release 51
+    name: Publish Noor Release 52
     needs: apk
-    if: github.event_name == 'push' && contains(github.event.head_commit.message, '[release:noor-51]')
+    if: github.event_name == 'push' && contains(github.event.head_commit.message, '[release:noor-52]')
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -235,13 +235,13 @@ jobs:
           path: output
       - name: Prepare versioned APK
         run: |
-          mv output/Noor-debug.apk output/Noor-Release-51.apk
+          mv output/Noor-debug.apk output/Noor-Release-52.apk
           rm output/Noor-debug.apk.sha256
-          (cd output && sha256sum Noor-Release-51.apk > Noor-Release-51.apk.sha256)
+          (cd output && sha256sum Noor-Release-52.apk > Noor-Release-52.apk.sha256)
       - name: Publish built APK
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
           RELEASE_TARGET: ${{ github.sha }}
         run: |
-          gh release create noor-release-51 output/* --target "$RELEASE_TARGET" --title "Noor Release 51 — Stories, Fiqh, Tadabbur and Background Repeat" --notes-file RELEASE_NOTES_51.md --latest
+          gh release create noor-release-52 output/* --target "$RELEASE_TARGET" --title "Noor Release 52 — Fiqh scrolling, historical atlas and compact header" --notes-file RELEASE_NOTES_52.md --latest
