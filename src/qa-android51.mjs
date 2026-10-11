@@ -5,7 +5,7 @@ const dir='qa51/android';await mkdir(dir,{recursive:true});const [device]=await 
 const result={checks:[],status:'running'};
 try{
  await device.shell('am start -n com.noor.quran/.MainActivity');
- const page=await (await device.webView({pkg:'com.noor.quran'},{timeout:60000})).page();
+ let page=await (await device.webView({pkg:'com.noor.quran'},{timeout:60000})).page();
  await page.waitForLoadState('domcontentloaded');
  await page.evaluate(()=>{localStorage.setItem('noor_guidance_seen','1');localStorage.setItem('noor_guidance_enabled','0');localStorage.setItem('noor_reciter','sudais');localStorage.setItem('noor_ab_settings',JSON.stringify({a:'1:1',b:'1:2',count:0,gap:1}));localStorage.setItem('noor_last_tab','quran');localStorage.setItem('noor_quran_font','amiri')});
  await page.reload();await page.locator('.continuousToolbar').waitFor();await page.getByLabel('تكرار مقطع التلاوة').click();await page.getByRole('button',{name:'بدء التكرار',exact:true}).click();
@@ -18,6 +18,7 @@ try{
  media=(await device.shell('dumpsys media_session')).toString();assert.match(media,/state=PLAYING\(3\)/);result.checks.push('playing with screen locked');
  await device.shell('input keyevent 224');await device.shell('wm dismiss-keyguard');await device.shell('am start -n com.noor.quran/.MainActivity');
  await page.waitForFunction(()=>JSON.parse(window.Android.getNativeRepeatState()).cycle>1,{},{timeout:30000});
+ page=await (await device.webView({pkg:'com.noor.quran'},{timeout:60000})).page();
  const after=await page.evaluate(()=>JSON.parse(window.Android.getNativeRepeatState()));assert(after.cycle>initial.cycle);result.checks.push({repeatAdvanced:after});
  await page.getByLabel('تكرار مقطع التلاوة').click();await page.getByRole('button',{name:'إيقاف مؤقت',exact:true}).click();await page.waitForFunction(()=>JSON.parse(window.Android.getNativeRepeatState()).status==='paused');await device.screenshot({path:`${dir}/repeat-paused.png`});
  await page.getByRole('button',{name:'استئناف',exact:true}).click();await page.waitForFunction(()=>['playing','waiting'].includes(JSON.parse(window.Android.getNativeRepeatState()).status));
