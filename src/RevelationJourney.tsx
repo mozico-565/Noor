@@ -55,7 +55,7 @@ export function RevelationJourney({surahs,onOpen}:{surahs:FeatureSurah[];onOpen:
  return <div className="journey journey48 journey49" ref={root}>
   <div className="journeyMast"><div><h2>رحلة نزول القرآن</h2></div><Route aria-hidden="true"/></div>
   <div className="journeyModes" aria-label="أوضاع رحلة النزول">{[['journey','الرحلة'],['map','الخريطة'],['progress','تقدمي']].map(([v,label])=><button key={v} aria-pressed={mode===v} onClick={()=>switchMode(v as typeof mode)}>{v==='journey'?<Route size={17}/>:v==='map'?<Compass size={17}/>:<Check size={17}/>} {label}</button>)}</div>
-  <div className="journeyProgressLine"><span>استكشفت {ar(progress.visited.length)} من {ar(114)} سورة</span><progress max={114} value={progress.visited.length}/>{progress.last&&<button onClick={resume}>استئناف آخر موضع</button>}</div>
+  {mode!=='map'&&<div className="journeyProgressLine"><span>استكشفت {ar(progress.visited.length)} من {ar(114)} سورة</span><progress max={114} value={progress.visited.length}/>{progress.last&&<button onClick={resume}>استئناف آخر موضع</button>}</div>}
   {s&&m&&c&&topic?<section className="journeyDetail" aria-label={`تفاصيل سورة ${s.name_arabic}`}>
    <button className="journeyBack" onClick={back}><ArrowRight size={17}/>العودة إلى {mode==='progress'?'تقدمي':mode==='map'?'الخريطة':'الرحلة'}</button>
    <div className={`journeyDetailHero ${m.type}`}><Scene kind={sceneFor(s.number,m.type)}/><div className="journeyHeroCopy"><span className="journeyEyebrow">{m.type==='Meccan'?'الفترة المكية':'الفترة المدنية'} · تصنيف الجدول</span><h1>سورة {s.name_arabic}</h1><p>{topic.summary}</p></div><span className="artCaption">تصوّر فني · لا توثيق أثري</span></div>

@@ -765,7 +765,7 @@ export function App(){
       if(orderOpen){setOrderOpen(false);buildReviewSummary("ترتيب الآيات",reviewSessionCorrect,reviewSessionAssisted,reviewSessionCorrect+reviewSessionAssisted);return true;}
       if(journeyReturn&&tab==="quran"){setJourneyReturn(false);setTab("home");setToolPage("revelation");return true;}
       if(toolPage){if(toolPage==="revelation"&&!window.dispatchEvent(new Event("noor-journey-back",{cancelable:true})))return true;closeTool();return true;}
-      if(sirahPage){setSirahPage(false);return true;}
+      if(sirahPage){if(!window.dispatchEvent(new Event("noor-fiqh-back",{cancelable:true})))return true;setSirahPage(false);return true;}
       if(answer){setAnswer(null);return true;}
       if(tab!=="home"){setTab("home");return true;}
       return false;
@@ -1944,7 +1944,7 @@ export function App(){
     </div>;
   },[pages,readerPage,pageTurn,quran,bookmarks,currentSurahs,pageFontSize,pageScreen,pageScreens,playingVerse]);
 
-  if(sirahPage){return <OverlayTheme.Provider value={{dark,quranFont}}><main className={`${dark?"app dark":"app"} quran-font-${quranFont}`}><div className="aurora a1"/><section className="content fiqhStandalone"><FiqhLearning onBack={()=>{setSirahPage(false);setAnswer(null);setQ("")}}/></section></main></OverlayTheme.Provider>}
+  if(sirahPage){return <OverlayTheme.Provider value={{dark,quranFont}}><main className={`${dark?"app dark":"app"} quran-font-${quranFont}`} data-tab="fiqh"><div className="aurora a1"/><section className="content fiqhStandalone"><FiqhLearning onBack={()=>{setSirahPage(false);setAnswer(null);setQ("")}}/></section></main></OverlayTheme.Provider>}
 
   return <OverlayTheme.Provider value={{dark,quranFont}}><main className={`${dark?"app dark":"app"} quran-font-${quranFont}`} data-tab={tab}>
     <div className="aurora a1"/><div className="aurora a2"/>
