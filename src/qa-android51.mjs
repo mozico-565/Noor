@@ -7,8 +7,8 @@ try{
  await device.shell('am start -n com.noor.quran/.MainActivity');
  let page=await (await device.webView({pkg:'com.noor.quran'},{timeout:60000})).page();
  await page.waitForLoadState('domcontentloaded');
- await page.evaluate(()=>{localStorage.setItem('noor_guidance_seen','1');localStorage.setItem('noor_guidance_enabled','0');localStorage.setItem('noor_reciter','sudais');localStorage.setItem('noor_ab_settings',JSON.stringify({a:'1:1',b:'1:2',count:0,gap:1}));localStorage.setItem('noor_last_tab','quran');localStorage.setItem('noor_quran_font','amiri')});
- await page.reload();await page.locator('.continuousToolbar').waitFor();await page.getByLabel('تكرار مقطع التلاوة').click();await page.getByRole('button',{name:'بدء التكرار',exact:true}).click();
+ await page.evaluate(()=>{localStorage.setItem('noor_guidance_seen','1');localStorage.setItem('noor_guidance_enabled','0');localStorage.setItem('noor_reciter','sudais');localStorage.setItem('noor_ab_settings',JSON.stringify({a:'1:1',b:'1:2',count:0,gap:1}));localStorage.setItem('noor_last_tab','home');localStorage.setItem('noor_quran_font','amiri')});
+ await page.reload();await page.locator('.nav').getByRole('button',{name:'القرآن',exact:true}).click({force:true});await page.locator('.continuousToolbar .recitationOpen').waitFor();await page.locator('.continuousToolbar .recitationOpen').click();await page.getByRole('button',{name:'بدء التكرار',exact:true}).click();
  await page.waitForFunction(()=>JSON.parse(window.Android.getNativeRepeatState()).status==='playing',{},{timeout:30000});
  await device.screenshot({path:`${dir}/repeat-playing.png`});
  const initial=await page.evaluate(()=>JSON.parse(window.Android.getNativeRepeatState()));
