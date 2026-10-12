@@ -305,7 +305,7 @@ html:not(.dark-root) #root{
 .keyboard-open .nav{display:none!important}
 .keyboard-open .pageStepper{display:none!important}
 .keyboard-open .composer{
-  bottom:10px!important;
+  bottom:calc(10px + var(--keyboard-gap,0px))!important;
   height:68px!important;
 }
 .keyboard-open .composer button{
@@ -2233,3 +2233,11 @@ html.theme-crossfade #root{animation:noorThemeFallback .36s ease both}
 /* The light-theme WebKit text fill must also follow selected atlas contrast. */
 .historicalAtlas .atlasChips>button[aria-pressed=true],.dark .historicalAtlas .atlasChips>button[aria-pressed=true],.historicalMap .atlasPin[aria-pressed=true],.historicalMap .atlasPin[aria-pressed=true] span{background-color:#465e45!important;color:#fff!important;-webkit-text-fill-color:#fff!important}
 .historicalMap .atlasPin[aria-pressed=true] span{background:transparent!important}
+
+/* Noor 53: restrict long-press suppression to navigation cards. */
+.storyIndexCard,.storyIndexCard *{-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.storyIndexCard:focus-visible{outline:3px solid #80cfa9;outline-offset:3px}
+.fiqhQuizStart{display:flex;align-items:center;justify-content:center;width:100%;min-height:56px;margin-top:18px;border-radius:20px;text-align:center}
+.fiqhLesson ol,.fiqhLesson ul{padding-inline-start:1.6em;margin:14px 0;line-height:1.9}.fiqhLesson li{padding-inline-start:5px;margin-block:10px;overflow-wrap:anywhere}
+.dailyTadabbur{width:100%;max-width:650px;margin:18px 0;flex-shrink:0;padding:18px;line-height:1.85;overflow-wrap:anywhere;min-width:0}.dailyTadabburOpen{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;background:transparent;color:inherit;text-align:right;min-height:44px}.dailyTadabburOpen span{font-size:12px}.dailyTadabbur h3{font-size:15px;margin:12px 0 4px}.dailyTadabbur p{margin:8px 0}.dailyTadabbur small{opacity:.75}.dailyTadabbur .storyQuran{font-size:24px;line-height:2.2}.dailyTadabbur summary{cursor:pointer;min-height:44px}
+.composer input{caret-color:currentColor;font-size:16px}.composer button{flex-shrink:0}
