@@ -14,7 +14,28 @@ try{
  page=await (await device.webView({pkg:'com.noor.quran'},{timeout:60000})).page();
  await page.waitForLoadState('domcontentloaded');
  await page.evaluate(()=>{localStorage.setItem('noor_guidance_seen','1');localStorage.setItem('noor_guidance_enabled','0');localStorage.setItem('noor_reciter','sudais');localStorage.setItem('noor_ab_settings',JSON.stringify({a:'1:1',b:'1:2',count:0,gap:1}));localStorage.setItem('noor_last_tab','home');localStorage.setItem('noor_quran_font','amiri')});
- await page.reload();await page.locator('.toolTile').first().waitFor({timeout:60000});page=await (await device.webView({pkg:'com.noor.quran'},{timeout:60000})).page();await page.locator('.nav').getByRole('button',{name:'القرآن',exact:true}).click();await page.locator('.app[data-tab="quran"]').waitFor();page=await (await device.webView({pkg:'com.noor.quran'},{timeout:60000})).page();await page.locator('.readerShell[aria-hidden="false"] .recitationOpen').waitFor({state:'visible',timeout:60000});await page.locator('.readerShell[aria-hidden="false"] .recitationOpen').click();await page.getByRole('button',{name:'بدء التكرار',exact:true}).click();
+ await page.reload();await page.locator('.toolTile').first().waitFor({timeout:60000});
+ // Exercise the real soft keyboard, including hardware-keyboard emulator mode.
+ await device.shell('settings put secure show_ime_with_hard_keyboard 1');
+ const fullHeight=await page.evaluate(()=>innerHeight);
+ const input=page.getByLabel('اعرف عن القرآن',{exact:true}),inputBox=await input.boundingBox();assert(inputBox);
+ await device.shell('uiautomator dump /sdcard/noor-qa-window.xml');
+ const windowXml=(await device.shell('cat /sdcard/noor-qa-window.xml')).toString();
+ const webViewBounds=windowXml.match(/<node[^>]*class="android.webkit.WebView"[^>]*bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"/);assert(webViewBounds,'Native WebView bounds must be observable');
+ const scale=(Number(webViewBounds[3])-Number(webViewBounds[1]))/await page.evaluate(()=>innerWidth);
+ await device.shell(`input tap ${Math.round(Number(webViewBounds[1])+(inputBox.x+inputBox.width/2)*scale)} ${Math.round(Number(webViewBounds[2])+(inputBox.y+inputBox.height/2)*scale)}`);
+ await page.waitForFunction(h=>innerHeight<h-120,fullHeight,{timeout:15000});
+ await input.fill('ما معنى الصمد؟');
+ const inputState=await input.evaluate(e=>{const r=e.getBoundingClientRect(),v=visualViewport;return {value:e.value,top:r.top,bottom:r.bottom,visibleBottom:(v?.offsetTop||0)+(v?.height||innerHeight),color:getComputedStyle(e).color}});
+ assert.equal(inputState.value,'ما معنى الصمد؟');assert(inputState.top>=0&&inputState.bottom<=inputState.visibleBottom+1,'Arabic input must be above the real IME');
+ const sendBox=await page.locator('.composer button').boundingBox();assert(sendBox&&sendBox.y+sendBox.height<=inputState.visibleBottom+1,'Submit button must remain above IME');
+ await screenshot({path:`${dir}/arabic-keyboard.png`});result.checks.push({realImeInput:inputState});
+ await input.press('Enter');await page.locator('.answerCard').waitFor({timeout:60000});await screenshot({path:`${dir}/arabic-answer.png`});result.checks.push('native Arabic input and sourced answer');
+ if(await page.evaluate(h=>innerHeight<h-120,fullHeight))await device.shell('input keyevent 4');
+ await page.waitForFunction(h=>innerHeight>=h-40,fullHeight,{timeout:15000});
+ await page.evaluate(()=>localStorage.setItem('noor_last_tab','home'));await page.reload();await page.locator('.toolTile').first().waitFor({timeout:60000});
+ await page.locator('.dailyTadabbur').scrollIntoViewIfNeeded();await screenshot({path:`${dir}/daily-reflection.png`});
+ page=await (await device.webView({pkg:'com.noor.quran'},{timeout:60000})).page();await page.locator('.nav').getByRole('button',{name:'القرآن',exact:true}).click();await page.locator('.app[data-tab="quran"]').waitFor();page=await (await device.webView({pkg:'com.noor.quran'},{timeout:60000})).page();await page.locator('.readerShell[aria-hidden="false"] .recitationOpen').waitFor({state:'visible',timeout:60000});await page.locator('.readerShell[aria-hidden="false"] .recitationOpen').click();await page.getByRole('button',{name:'بدء التكرار',exact:true}).click();
  await page.waitForFunction(()=>JSON.parse(window.Android.getNativeRepeatState()).status==='playing',{},{timeout:30000});
  await screenshot({path:`${dir}/repeat-playing.png`});
  const initial=await page.evaluate(()=>JSON.parse(window.Android.getNativeRepeatState()));
@@ -31,11 +52,10 @@ try{
  await page.getByRole('button',{name:'استئناف',exact:true}).click();await page.waitForFunction(()=>['playing','waiting'].includes(JSON.parse(window.Android.getNativeRepeatState()).status));
  await page.locator('.sessionPanel').getByRole('button',{name:'إلغاء',exact:true}).click();await page.waitForFunction(()=>JSON.parse(window.Android.getNativeRepeatState()).status==='idle');result.checks.push('pause, resume, cancel');console.log('Native audio controls passed');
  await page.getByRole('button',{name:'إغلاق',exact:true}).click().catch(()=>{});
- await page.evaluate(()=>{localStorage.setItem('noor_last_tab','home')});await page.reload();await page.locator('.toolTile').first().waitFor();await page.getByLabel('اعرف عن القرآن',{exact:true}).click();await page.getByLabel('اعرف عن القرآن',{exact:true}).fill('ما معنى الصمد؟');await screenshot({path:`${dir}/arabic-keyboard.png`});await page.getByLabel('اعرف عن القرآن',{exact:true}).press('Enter');await page.locator('.answerCard').waitFor({timeout:60000});await screenshot({path:`${dir}/arabic-answer.png`});result.checks.push('native Arabic input and sourced answer');
  const home=async()=>{await page.evaluate(()=>localStorage.setItem('noor_last_tab','home'));await page.reload();await page.locator('.toolTile').first().waitFor({timeout:60000})};
- await device.shell('settings put system font_scale 1.3');page=await (await device.webView({pkg:'com.noor.quran'},{timeout:60000})).page();await home();await page.getByRole('button',{name:/تفقّه في الدين/}).first().click();await page.locator('.fiqhLearning').waitFor();
+ await device.shell('settings put system font_scale 1.3');page=await (await device.webView({pkg:'com.noor.quran'},{timeout:60000})).page();await home();await page.locator('.fiqhBanner').click();await page.locator('.fiqhLearning').waitFor();
  assert.equal(await page.locator('.fiqhLessons button').count(),16);await screenshot({path:`${dir}/fiqh-top-font130.png`});
- for(let i=0;i<16;i++){console.log('Opening fiqh lesson',i+1);const lesson=page.locator('.fiqhLessons button').nth(i),title=(await lesson.innerText()).replace('‹','').trim();await lesson.scrollIntoViewIfNeeded();await lesson.click();assert.equal(await page.locator('.fiqhLesson h2').innerText(),title);await page.locator('.fiqhLesson a').scrollIntoViewIfNeeded();assert(await page.locator('.fiqhLesson a').isVisible());await page.getByRole('button',{name:'رجوع',exact:true}).click()}
+ for(let i=0;i<16;i++){console.log('Opening fiqh lesson',i+1);const lesson=page.locator('.fiqhLessons button').nth(i),title=(await lesson.innerText()).replace('‹','').trim();await lesson.scrollIntoViewIfNeeded();await lesson.click();assert.equal(await page.locator('.fiqhLesson h2').innerText(),title);await page.locator('.fiqhLesson a').last().scrollIntoViewIfNeeded();assert(await page.locator('.fiqhLesson a').last().isVisible());await page.getByRole('button',{name:'رجوع',exact:true}).click()}
  await page.locator('.fiqhLessons button').last().scrollIntoViewIfNeeded();await screenshot({path:`${dir}/fiqh-bottom-font130.png`});
  await page.getByRole('button',{name:'اختبر نفسك',exact:true}).click();
  for(let i=0;i<10;i++){await page.locator('.fiqhOptions button').last().click();if(i===0){await device.shell('input keyevent 4');await page.getByRole('button',{name:'متابعة الاختبار',exact:true}).click();assert.equal(await page.locator('.fiqhOptions button[aria-pressed="true"]').count(),1)}await page.getByRole('button',{name:'تحقق',exact:true}).click();const next=page.getByRole('button',{name:i===9?'عرض النتيجة':'السؤال التالي',exact:true});await next.scrollIntoViewIfNeeded();assert(await next.isVisible());if([4,9].includes(i))await screenshot({path:`${dir}/quiz-${i+1}.png`});await next.click()}
