@@ -1,5 +1,5 @@
 import {FiqhLearning} from "./FiqhLearning";
-import {Tadabbur} from "./Tadabbur";
+import {Tadabbur,DailyTadabburCard} from "./Tadabbur";
 import {splitOpeningBasmala} from './QuranVerseText';
 import React, {useEffect, useLayoutEffect, useMemo, useRef, useState} from "react";
 import { createRoot } from "react-dom/client";
@@ -303,7 +303,9 @@ function useLiquidRuntime(){
       if(h>maxViewport-40)maxViewport=Math.max(maxViewport,h);
       const keyboardOpen=(maxViewport-h)>120;
       root.style.setProperty("--vvh",`${h}px`);
-      root.style.setProperty("--keyboard-gap",`${Math.max(0,maxViewport-h)}px`);
+      // Fixed elements use layout viewport coordinates. Only subtract occlusion
+      // not already handled by native adjustResize; include visual viewport pan.
+      root.style.setProperty("--keyboard-gap",`${Math.max(0,window.innerHeight-h-(window.visualViewport?.offsetTop||0))}px`);
       root.classList.toggle("keyboard-open",keyboardOpen);
     };
     const update=(el:HTMLElement,ev:PointerEvent)=>{
@@ -332,6 +334,8 @@ function useLiquidRuntime(){
     };
     setVH();
     window.visualViewport?.addEventListener("resize",setVH);
+    window.visualViewport?.addEventListener("scroll",setVH);
+    window.addEventListener("resize",setVH);
     window.addEventListener("orientationchange",setVH,{passive:true});
     document.addEventListener("pointerdown",down,{passive:true});
     document.addEventListener("pointermove",move,{passive:true});
@@ -340,6 +344,8 @@ function useLiquidRuntime(){
     return()=>{
       cancelAnimationFrame(raf); clearTimeout(timer);
       window.visualViewport?.removeEventListener("resize",setVH);
+      window.visualViewport?.removeEventListener("scroll",setVH);
+      window.removeEventListener("resize",setVH);
       window.removeEventListener("orientationchange",setVH);
       document.removeEventListener("pointerdown",down);
       document.removeEventListener("pointermove",move);
@@ -1996,6 +2002,7 @@ export function App(){
           </button>
           <h1 className="simpleTitle"><span>اعرف عن القرآن</span></h1>
           <button className="fiqhBanner glass" onClick={()=>setSirahPage(true)}><span><b>تفقّه في الدين</b><small>تعلّم العبادات والأحكام الأساسية</small></span><ChevronLeft size={18}/><span className="fiqhBannerTags">{['الصلاة','الوضوء','الصيام','اختبارات'].map(t=><span key={t}>{t}</span>)}</span></button>
+          <DailyTadabburCard surahs={quran?.surahs||[]} onOpen={()=>{setToolPage("tadabbur");setAnswer(null)}}/>
           <SortableItems ids={homeOrder} onChange={saveHomeOrder} className="noorTools" grid label="أدوات نور">{id=>({
               'revelation': (<button className="toolTile glass" onClick={()=>{setToolPage("revelation");setAnswer(null)}}><span><CalendarDays/></span><b>رحلة نزول القرآن</b><small>ترتيب ومصادر</small></button>),
               'stories': (<button className="toolTile glass" onClick={()=>{setToolPage("stories");setAnswer(null)}}><span><BookOpen/></span><b>قصص القرآن</b><small>فصول وآيات</small></button>),
@@ -2024,7 +2031,7 @@ export function App(){
             <button className="source" onClick={()=>setSources(true)}><Info/> المصادر <ChevronLeft/></button>
           </Glass>
         </div>}
-        <div className="composer glass"><Search/><input value={q} aria-label="اعرف عن القرآن" onFocus={()=>document.documentElement.classList.add("keyboard-open")} onBlur={()=>window.setTimeout(()=>{const h=window.visualViewport?.height??window.innerHeight;if(window.innerHeight-h<100)document.documentElement.classList.remove("keyboard-open")},120)} onChange={e=>setQ(e.target.value)} onKeyDown={e=>e.key==="Enter"&&!thinking&&submit()} placeholder={questionPlaceholder}/><button disabled={thinking} onClick={()=>submit()}>{thinking?<span className="miniSpinner"/>:<Send/>}</button></div>
+        <div className="composer glass"><Search/><input value={q} aria-label="اعرف عن القرآن" onFocus={()=>document.documentElement.classList.add("keyboard-open")} onBlur={()=>window.setTimeout(()=>{const h=window.visualViewport?.height??window.innerHeight;if(window.innerHeight-h<100)document.documentElement.classList.remove("keyboard-open")},120)} onChange={e=>setQ(e.target.value)} onKeyDown={e=>e.key==="Enter"&&!thinking&&submit()} placeholder={questionPlaceholder}/><button aria-label="إرسال البحث" disabled={thinking} onClick={()=>submit()}>{thinking?<span className="miniSpinner"/>:<Send/>}</button></div>
         </>}
       </>}
 

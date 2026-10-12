@@ -293,7 +293,10 @@ public class MainActivity extends Activity {
             androidx.core.graphics.Insets bars = insets.getInsets(
                 androidx.core.view.WindowInsetsCompat.Type.systemBars() |
                 androidx.core.view.WindowInsetsCompat.Type.displayCutout());
-            view.setPadding(bars.left, bars.top, bars.right, bars.bottom);
+            androidx.core.graphics.Insets ime = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.ime());
+            // API 35+ edge-to-edge windows consume system insets here; reserve
+            // the IME as well so the WebView viewport actually resizes.
+            view.setPadding(bars.left, bars.top, bars.right, Math.max(bars.bottom, ime.bottom));
             return androidx.core.view.WindowInsetsCompat.CONSUMED;
         });
         setContentView(safeFrame);
