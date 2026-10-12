@@ -53,6 +53,14 @@ try{
  await page.locator('.sessionPanel').getByRole('button',{name:'إلغاء',exact:true}).click();await page.waitForFunction(()=>JSON.parse(window.Android.getNativeRepeatState()).status==='idle');result.checks.push('pause, resume, cancel');console.log('Native audio controls passed');
  await page.getByRole('button',{name:'إغلاق',exact:true}).click().catch(()=>{});
  const home=async()=>{await page.evaluate(()=>localStorage.setItem('noor_last_tab','home'));await page.reload();await page.locator('.toolTile').first().waitFor({timeout:60000})};
+ const changeFontScale=async value=>{
+  // fontScale is not handled by Activity.configChanges: Android recreates the
+  // WebView. Wait for the old page to close before acquiring its replacement.
+  const closed=page.waitForEvent('close',{timeout:10000}).catch(()=>null);
+  await device.shell(`settings put system font_scale ${value}`);await closed;
+  page=await (await device.webView({pkg:'com.noor.quran'},{timeout:60000})).page();
+  await page.waitForLoadState('domcontentloaded');
+ };
  const nativeTap=async locator=>{
   const box=await locator.boundingBox();assert(box);assert(box.y>=0&&box.y+box.height<=await page.evaluate(()=>innerHeight),'Native tap target must be fully visible');
   await device.shell('uiautomator dump /sdcard/noor-qa-window.xml');
@@ -60,14 +68,14 @@ try{
   const scale=(Number(bounds[3])-Number(bounds[1]))/await page.evaluate(()=>innerWidth);
   await device.shell(`input tap ${Math.round(Number(bounds[1])+(box.x+box.width/2)*scale)} ${Math.round(Number(bounds[2])+(box.y+box.height/2)*scale)}`);
  };
- await device.shell('settings put system font_scale 1.3');page=await (await device.webView({pkg:'com.noor.quran'},{timeout:60000})).page();await home();await nativeTap(page.locator('.fiqhBanner'));await page.locator('.fiqhLearning').waitFor();
+ await changeFontScale(1.3);await home();await nativeTap(page.locator('.fiqhBanner'));await page.locator('.fiqhLearning').waitFor();
  assert.equal(await page.locator('.fiqhLessons button').count(),16);await screenshot({path:`${dir}/fiqh-top-font130.png`});
  for(let i=0;i<16;i++){console.log('Opening fiqh lesson',i+1);const lesson=page.locator('.fiqhLessons button').nth(i),title=(await lesson.innerText()).replace('‹','').trim();await lesson.scrollIntoViewIfNeeded();await lesson.click();assert.equal(await page.locator('.fiqhLesson h2').innerText(),title);if(title.includes('الواجب')){assert.equal(await page.locator('.fiqhLesson ol>li').count(),8);await screenshot({path:`${dir}/prayer-duties.png`})}await page.locator('.fiqhLesson a').last().scrollIntoViewIfNeeded();assert(await page.locator('.fiqhLesson a').last().isVisible());await page.getByRole('button',{name:'رجوع',exact:true}).click()}
  await page.locator('.fiqhLessons button').last().scrollIntoViewIfNeeded();await screenshot({path:`${dir}/fiqh-bottom-font130.png`});
  await page.getByRole('button',{name:'اختبر نفسك',exact:true}).click();
  for(let i=0;i<10;i++){await page.locator('.fiqhOptions button').last().click();if(i===0){await device.shell('input keyevent 4');await page.getByRole('button',{name:'متابعة الاختبار',exact:true}).click();assert.equal(await page.locator('.fiqhOptions button[aria-pressed="true"]').count(),1)}await page.getByRole('button',{name:'تحقق',exact:true}).click();const next=page.getByRole('button',{name:i===9?'عرض النتيجة':'السؤال التالي',exact:true});await next.scrollIntoViewIfNeeded();assert(await next.isVisible());if([4,9].includes(i))await screenshot({path:`${dir}/quiz-${i+1}.png`});await next.click()}
  assert(await page.locator('.fiqhResult').isVisible());await screenshot({path:`${dir}/quiz-score.png`});result.checks.push('all 16 lessons and 10 questions reachable with Android font_scale 1.3 (existing WebView textZoom 100)');
- await device.shell('settings put system font_scale 1.0');page=await (await device.webView({pkg:'com.noor.quran'},{timeout:60000})).page();await home();await page.locator('.toolTile').filter({hasText:'رحلة نزول القرآن'}).click();await page.getByRole('button',{name:'الخريطة',exact:true}).click();
+ await changeFontScale(1.0);await home();await page.locator('.toolTile').filter({hasText:'رحلة نزول القرآن'}).click();await page.getByRole('button',{name:'الخريطة',exact:true}).click();
  assert.equal(await page.locator('.atlasChips button').count(),8);await screenshot({path:`${dir}/historical-map.png`});await page.locator('.atlasChips').getByRole('button',{name:'مكة',exact:true}).click();
  assert.equal(await page.locator('.atlasPin[aria-pressed="true"] span').evaluate(e=>getComputedStyle(e).webkitTextFillColor),'rgb(255, 255, 255)');await screenshot({path:`${dir}/makkah-selected.png`});await page.locator('.atlasClose').click();assert.equal(await page.locator('.atlasContext').count(),0);result.checks.push('native atlas selection and close');result.status='passed';
 }catch(e){result.status='failed';result.error=e.stack;console.error('Original native QA failure',e);await adb(['shell','dumpsys activity activities; dumpsys media_session; logcat -d -t 200']).then(data=>writeFile(`${dir}/device-diagnostics.txt`,data.toString())).catch(error=>console.error('Diagnostics unavailable',error.message));console.error('Native UI on failure',page?await page.evaluate(()=>({url:location.href,nav:document.querySelector('.nav')?.className,reader:document.querySelector('.readerShell')?.outerHTML.slice(0,500),text:document.body.innerText.slice(0,500)})).catch(()=>null):null);await screenshot({path:`${dir}/FAILURE.png`}).catch(()=>{});throw e}
