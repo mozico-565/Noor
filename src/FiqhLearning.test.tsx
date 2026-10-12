@@ -45,9 +45,20 @@ it('renders the eight Hanbali duties separately from sunnahs and explanatory pro
  expect(screen.getByText(/ليست هذه التصنيفات محل إجماع/)).toBeTruthy();
  expect(LESSONS.find(l=>l.id==='duties')?.sourceUrl).toContain('risala.prh.gov.sa');
 });
-import {dailyTadabbur} from './Tadabbur';
+import {dailyTadabbur,Tadabbur} from './Tadabbur';
 it('keeps the daily reflection stable through a local day and advances across midnight',()=>{
  const morning=dailyTadabbur(new Date(2026,9,12,0,1));
  expect(dailyTadabbur(new Date(2026,9,12,23,59))).toEqual(morning);
  expect(dailyTadabbur(new Date(2026,9,13,0,1))[0]).not.toBe(morning[0]);
+});
+
+it('offers a different reflection when leaving the daily verse for another verse',()=>{
+ vi.useFakeTimers();vi.setSystemTime(new Date(2026,9,12,12));
+ const random=vi.spyOn(Math,'random').mockReturnValue(0.2);
+ const fetchMock=vi.spyOn(globalThis,'fetch').mockImplementation(async()=>new Response(JSON.stringify({ayahs:[]})));
+ try{
+  const question=dailyTadabbur()[1];render(<Tadabbur surahs={[]} onOpen={()=>{}} onSave={()=>{}} saved={[]}/>);
+  expect(screen.getByText(question)).toBeTruthy();fireEvent.click(screen.getByRole('button',{name:'آية أخرى'}));
+  expect(screen.queryByText(question)).toBeNull();
+ }finally{random.mockRestore();fetchMock.mockRestore()}
 });

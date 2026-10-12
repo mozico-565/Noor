@@ -52,14 +52,26 @@ try{
  await page.getByRole('button',{name:'استئناف',exact:true}).click();await page.waitForFunction(()=>['playing','waiting'].includes(JSON.parse(window.Android.getNativeRepeatState()).status));
  await page.locator('.sessionPanel').getByRole('button',{name:'إلغاء',exact:true}).click();await page.waitForFunction(()=>JSON.parse(window.Android.getNativeRepeatState()).status==='idle');result.checks.push('pause, resume, cancel');console.log('Native audio controls passed');
  await page.getByRole('button',{name:'إغلاق',exact:true}).click().catch(()=>{});
- const home=async()=>{await page.evaluate(()=>localStorage.setItem('noor_last_tab','home'));await page.reload();await page.locator('.toolTile').first().waitFor({timeout:60000})};
+ const activeWebView=async()=>{
+  const attached=await (await device.webView({pkg:'com.noor.quran'},{timeout:60000})).page();
+  const candidates=attached.context().pages().filter(p=>!p.isClosed()).reverse();
+  for(const candidate of candidates){
+   await candidate.waitForURL('**/assets/www/index.html',{timeout:15000}).catch(()=>{});
+   if(await candidate.evaluate(()=>document.visibilityState==='visible').catch(()=>false)){
+    page=candidate;await page.waitForLoadState('domcontentloaded');return;
+   }
+  }
+  throw Error('No visible active Noor WebView after Activity recreation');
+ };
+ const home=async()=>{
+  await activeWebView();await page.evaluate(()=>localStorage.setItem('noor_last_tab','home'));await page.reload();
+  await page.locator('.nav').getByRole('button',{name:'اعرف',exact:true}).click();
+  await page.locator('.app[data-tab="home"] .toolTile').first().waitFor({timeout:60000});
+ };
  const changeFontScale=async value=>{
-  // fontScale is not handled by Activity.configChanges: Android recreates the
-  // WebView. Wait for the old page to close before acquiring its replacement.
   const closed=page.waitForEvent('close',{timeout:10000}).catch(()=>null);
   await device.shell(`settings put system font_scale ${value}`);await closed;
-  page=await (await device.webView({pkg:'com.noor.quran'},{timeout:60000})).page();
-  await page.waitForLoadState('domcontentloaded');
+  await activeWebView();
  };
  const nativeTap=async locator=>{
   const box=await locator.boundingBox();assert(box);assert(box.y>=0&&box.y+box.height<=await page.evaluate(()=>innerHeight),'Native tap target must be fully visible');
